@@ -1,0 +1,17 @@
+{
+  "name": "csdd-opencode-adapter-v2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:dist": "node build/distribution.mjs",
+    "test": "node --test ../../common/tests/*.test.mjs tests/*.test.mjs",
+    "test:unit": "node --test ../../common/tests/*.test.mjs tests/approval-evidence.test.mjs tests/reviews.test.mjs tests/tools.test.mjs tests/transcript.test.mjs tests/recovery-approval.test.mjs tests/wait-session.test.mjs tests/install.test.mjs tests/focused-review.test.mjs tests/documents.test.mjs",
+    "smoke:focused": "node tests/run-focused-review.mjs",
+    "test:runtime": "node --test tests/distribution.test.mjs",
+    "smoke:genesis": "node tests/run-genesis-smoke.mjs"
+  },
+  "devDependencies": {
+    "@opencode/plugin": "2.0.22",
+    "esbuild": "0.25.12"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "version": "consolidation-1",
+  "description": "Specs y Roadmap se consolidan después de Mapping. Los tipos compartidos se resuelven desde genesis.contract.json; esta estructura no acredita autoridad ni implementación.",
+  "artifacts": {
+    "roadmap": {
+      "type": "object", "additionalProperties": false, "required": ["title", "metadata", "sections"],
+      "properties": {
+        "title": { "$ref": "scalar" },
+        "metadata": {
+          "type": "object", "additionalProperties": false, "required": ["lifecycle_state"],
+          "properties": {
+            "lifecycle_state": { "type": "string", "enum": ["genesis", "pre_fr", "post_fr"] },
+            "last_reviewed": { "$ref": "scalar" }
+          }
+        },
+        "sections": {
+          "type": "object", "additionalProperties": false, "required": ["direction", "first_release", "now", "evidence"],
+          "properties": {
+            "direction": { "$ref": "text", "heading": "Dirección", "description": "Resultado amplio aprobado." },
+            "first_release": { "$ref": "text", "heading": "Alcance De V1", "description": "Alcance confirmado al cierre de definición; no declaración de entrega." },
+            "now": { "$ref": "text", "heading": "Now", "description": "Incremento, resultado, criterio previsto y dependencias." },
+            "next": { "$ref": "text", "heading": "Next", "description": "Secuencia justificada; distinguir compromisos de posibilidades." },
+            "later": { "$ref": "text", "heading": "Later" },
+            "deferred": { "$ref": "text", "heading": "Deferred", "description": "Diferidos con razones y condiciones para reconsiderar." },
+            "review_triggers": { "$ref": "text", "heading": "Disparadores De Revisión" },
+            "evidence": { "$ref": "text", "heading": "Procedencia Y Evidencia", "description": "Decisiones confirmadas y fuentes; no copiar reportes completos de Genesis." }
+          }
+        }
+      }
+    },
+    "specs": {
+      "type": "object", "additionalProperties": false, "required": ["title", "sections"],
+      "properties": {
+        "title": { "$ref": "scalar" },
+        "sections": {
+          "type": "object", "additionalProperties": false,
+          "required": ["purpose", "scope", "actors_outcomes", "behaviors", "rules", "v1_scope", "architecture", "references"],
+          "properties": {
+            "purpose": { "$ref": "text", "heading": "Propósito" },
+            "scope": { "$ref": "text", "heading": "Alcance", "description": "Incluidos y excluidos aprobados." },
+            "actors_outcomes": { "$ref": "text", "heading": "Actores Y Outcomes" },
+            "behaviors": { "$ref": "text", "heading": "Comportamientos Observables" },
+            "rules": { "$ref": "text", "heading": "Reglas E Invariantes Vigentes", "description": "Síntesis y referencias; no duplicar reglas detalladas." },
+            "v1_scope": { "$ref": "text", "heading": "Alcance Acordado De V1" },
+            "architecture": { "$ref": "text", "heading": "Síntesis De Arquitectura" },
+            "references": { "$ref": "text", "heading": "Fuentes De Definición", "description": "Dominios, contratos, arquitectura, ADR y mappings pertinentes." },
+            "semantic_model": { "$ref": "text", "heading": "Modelo Semántico Y Relaciones" },
+            "constraints": { "$ref": "text", "heading": "Restricciones Y Calidad" },
+            "integrations": { "$ref": "text", "heading": "Integraciones Externas", "description": "Solo si pertenecen al alcance actual." }
+          }
+        }
+      }
+    }
+  }
+}

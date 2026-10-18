@@ -1,0 +1,111 @@
+{
+  "version": "genesis-structure-2",
+  "description": "Contrato estructural de Genesis. No demuestra conformidad semántica, autenticidad de aprobación ni autorización de transiciones.",
+  "definitions": {
+    "text": { "type": "string", "minLength": 1, "pattern": "\\S" },
+    "scalar": { "type": "string", "minLength": 1, "pattern": "^[^\\r\\n]+$" },
+    "reference": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "decision": {
+      "type": "object", "additionalProperties": false, "required": ["status"],
+      "properties": {
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "approved_by": { "$ref": "scalar" },
+        "approved_at": { "$ref": "scalar" },
+        "approved_content_reference": { "$ref": "reference" },
+        "approval_reference": { "$ref": "scalar" },
+        "rejected_by": { "$ref": "scalar" },
+        "rejected_at": { "$ref": "scalar" },
+        "rejection_reference": { "$ref": "scalar" },
+        "decision_notes": { "$ref": "text", "heading": "Notas De La Decisión" }
+      },
+      "conditions": [
+        { "field": "status", "equals": "approved", "required": ["approved_by", "approved_at", "approved_content_reference", "approval_reference"], "forbidden": ["rejected_by", "rejected_at", "rejection_reference"] },
+        { "field": "status", "equals": "rejected", "required": ["rejected_by", "rejected_at", "rejection_reference"], "forbidden": ["approved_by", "approved_at", "approved_content_reference", "approval_reference"] },
+        { "field": "status", "equals": "pending", "forbidden": ["approved_by", "approved_at", "approved_content_reference", "approval_reference", "rejected_by", "rejected_at", "rejection_reference"] }
+      ]
+    },
+    "materialization": {
+      "type": "object", "additionalProperties": false, "required": ["stage"],
+      "properties": {
+        "stage": { "type": "string", "enum": ["pending", "closed"] },
+        "disposition": { "type": "string", "enum": ["abandoned"] },
+        "genesis_reference": { "$ref": "reference" },
+        "glossary_reference": { "$ref": "reference" },
+        "review_reference": { "$ref": "scalar" },
+        "review_verdict": { "type": "string", "enum": ["conforming", "non_conforming", "insufficient_evidence"] },
+        "checks": { "$ref": "text", "heading": "Verificación" },
+        "limitations": { "$ref": "text", "heading": "Limitaciones" },
+        "notes": { "$ref": "text", "heading": "Notas De Materialización" }
+      },
+      "conditions": [
+        { "field": "stage", "equals": "closed", "required": ["genesis_reference", "glossary_reference", "review_reference", "review_verdict", "checks", "limitations"], "forbidden": ["disposition"] }
+      ]
+    },
+    "initial_sections": {
+      "type": "object", "additionalProperties": false,
+      "required": ["summary", "intent", "interpretation", "vocabulary", "first_slice", "uncertainties", "next_phase", "provenance", "readiness"],
+      "properties": {
+        "summary": { "$ref": "text", "heading": "Resumen Ejecutivo", "description": "Síntesis de intención, resultado y límites." },
+        "intent": { "$ref": "text", "heading": "Intención De Origen", "description": "Problema, resultado buscado e insumos humanos." },
+        "interpretation": { "$ref": "text", "heading": "Interpretación Del Producto", "description": "Propósito, actores, flujos, alcance, exclusiones e inferencias separadas." },
+        "vocabulary": { "$ref": "text", "heading": "Vocabulario Inicial", "description": "Términos y límites; no inventar significado." },
+        "first_slice": { "$ref": "text", "heading": "Primer Slice", "description": "Outcome, comportamientos, incluidos/excluidos, cierre y aprendizaje." },
+        "first_release": { "$ref": "text", "heading": "Visión De First Release", "description": "Solo si se discutió; no inventar FR." },
+        "research_decisions": { "$ref": "text", "heading": "Investigación Y Decisiones", "description": "Solo investigación o decisiones pertinentes, con procedencia." },
+        "uncertainties": { "$ref": "text", "heading": "Incertidumbres Y Riesgos", "description": "Bloqueantes, diferidos y riesgos; señalar ausencia cuando corresponda." },
+        "next_phase": { "$ref": "text", "heading": "Siguiente Fase", "description": "Alcance autorizado o ausencia de autorización; no iniciar Ontology." },
+        "provenance": { "$ref": "text", "heading": "Procedencia", "description": "Separar intención humana, inferencia, investigación, decisión y diferimiento." },
+        "readiness": { "$ref": "text", "heading": "Readiness De La IA", "description": "Suficiencia para el encargo y límites; no declarar autorización inexistente." }
+      }
+    }
+  },
+  "artifacts": {
+    "genesis": {
+      "type": "object", "additionalProperties": false, "required": ["title", "sections", "decision", "materialization"],
+      "properties": {
+        "title": { "$ref": "scalar" },
+        "sections": { "$ref": "initial_sections" },
+        "decision": { "$ref": "decision" },
+        "materialization": { "$ref": "materialization" }
+      }
+    },
+    "genesis_revision": {
+      "type": "object", "additionalProperties": false, "required": ["revision_id", "sections", "decision", "materialization"],
+      "properties": {
+        "revision_id": { "type": "string", "pattern": "^[A-Za-z0-9_-]+$" },
+        "sections": {
+          "type": "object", "additionalProperties": false, "required": ["reason_scope", "proposed_change", "impacts", "provenance_pending"],
+          "properties": {
+            "reason_scope": { "$ref": "text", "heading": "Motivo Y Alcance", "description": "Motivo fundamental y consulta histórica justificada." },
+            "proposed_change": { "$ref": "text", "heading": "Acuerdos Sustituidos Y Cambio Propuesto", "description": "Acuerdos sustituidos, cambio exacto y límites." },
+            "impacts": { "$ref": "text", "heading": "Impactos Y Reconciliación", "description": "Cambios autorizados sobre fuentes actuales; conservar evolución ajena." },
+            "provenance_pending": { "$ref": "text", "heading": "Pendientes Y Procedencia", "description": "Evidencia, decisiones y condiciones abiertas; no reiniciar lifecycle." }
+          }
+        },
+        "decision": { "$ref": "decision" },
+        "materialization": { "$ref": "materialization" }
+      }
+    },
+    "glossary": {
+      "type": "object", "additionalProperties": false, "required": ["title", "terms"],
+      "properties": {
+        "title": { "$ref": "scalar" },
+        "purpose": { "$ref": "text", "heading": "Propósito" },
+        "terms": {
+          "type": "array", "minItems": 1,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["term", "definition"],
+            "properties": {
+              "term": { "$ref": "scalar" },
+              "definition": { "$ref": "text", "heading": "Definición" },
+              "scope": { "$ref": "text", "heading": "Alcance" },
+              "category": { "$ref": "text", "heading": "Categoría" },
+              "limits": { "$ref": "text", "heading": "Límites, Alias O Contraste" }
+            }
+          }
+        },
+        "deprecated_terms": { "$ref": "text", "heading": "Términos Deprecados" }
+      }
+    }
+  }
+}
