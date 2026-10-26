@@ -29,22 +29,19 @@ Entradas: proyecto en blanco, nuevo con referencia anterior y ya trabajado (cont
 ## Estructura Fuente
 
 - framework/: metodología, protocolos y plantillas; se instala como .csdd/.
-- assistant-adapters/opencode/common/: núcleo determinista, prompts y pruebas.
-- assistant-adapters/opencode/v1/: integración conservada, no certificada por este ajuste.
-- assistant-adapters/opencode/v2/: integración activa, baseline OpenCode 2.0.22.
-- dist/: `CSDD-opencode2-v0.1.0.zip`, candidato Windows para OpenCode V2, preparado para instalación por copia con BAT. `0.1.0` es la versión de la distribución CSDD; la baseline de OpenCode permanece en 2.0.22.
+- La integración objetivo es un plugin de Claude Code, todavía no disponible; sus herramientas deterministas usarán Python 3 con biblioteca estándar.
 - AGENTS.md: colaboración; OPERATIONS.md: acuerdos técnicos.
 
 .csdd/ contiene exclusivamente framework; docs/ contiene producto. Antes de Ontology, Genesis y Glossary son las entradas pertinentes; no se exige Specs o Roadmap prematuramente. La historia se consulta selectivamente y con motivo.
 
 ## Operativa Y Validación
 
-La operativa agentic implementada cubre Genesis: Orchestrator conversa, Canon estructura/escribe, Reviewer revisa independientemente y Explorer investiga solo cuando aporta valor. Una revisión semántica del candidato y Glossary precede a la aprobación; el código comprueba administración y cierre, sin segunda revisión LLM obligatoria.
+No hay operativa agentic implementada: el adapter OpenCode fue retirado y la integración con Claude Code está por construir. Los roles se mantienen: Orchestrator conversa y coordina, Canon estructura y escribe, Reviewer revisa independientemente y Explorer investiga solo cuando aporta valor. Una revisión semántica del candidato y Glossary precede a la aprobación; el código comprueba administración y cierre, sin segunda revisión LLM obligatoria.
 
-Canon es responsable editorial de docs/. Explorer investiga para Orchestrator o Canon, en fuentes locales y web, con objetivo y límites. csdd_document permite informes consultivos nuevos y aportes pendientes a los demás documentos preservando contenido previo; no acredita aprobación/cierre de Ontology, Topology, Mapping o CONSOLIDATION, cuya operativa completa sigue pendiente. No se incorporan agentes adicionales.
+Canon es responsable editorial de docs/. Explorer investiga para Orchestrator o Canon, en fuentes locales y web, con objetivo y límites. No se incorporan agentes adicionales.
 
 La validación usa pruebas deterministas para controles y una conversación humana real para utilidad y fidelidad. No exige repetir siete simulaciones completas después de cada cambio. Resultados anteriores permanecen históricos y no certifican candidatos nuevos.
 
-Consultar el estado y evidencia actuales en [ROADMAP.md](ROADMAP.md) y [adapter V2](assistant-adapters/opencode/v2/README.md). La conversación humana real del flujo simplificado sigue pendiente; pruebas verdes no demuestran calidad semántica ni madurez global.
+Consultar el estado actual en [ROADMAP.md](ROADMAP.md). Pruebas verdes no demuestran calidad semántica ni madurez global.
 
-Instalación y construcción: [INSTALL.md](INSTALL.md). El receptor del ZIP no ejecuta npm ni transforma imports. La entrega es candidata; no se declara validación en máquina limpia con red físicamente bloqueada.
+Instalación del framework: [INSTALL.md](INSTALL.md).

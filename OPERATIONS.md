@@ -86,15 +86,16 @@ aprobación del usuario.
 
 ## Entrega y validación
 
-- Separar preparación e instalación: entrega preparada por copia mediante BAT,
-  sin transformar imports, componer perfiles ni ejecutar npm en destino.
-- Conservar fuentes `common/`, `v1/` y `v2/`. Baseline acordada: OpenCode V2 2.0.22;
-  no certificar V1 ni cambiarla silenciosamente.
+- La integración objetivo es un plugin de Claude Code. El adapter OpenCode, su ZIP
+  y su BAT fueron retirados; la historia de git los conserva y no se mantienen.
+- Las herramientas deterministas nuevas usan Python 3 con biblioteca estándar, sin
+  dependencias de terceros.
 - Usar fixtures y runtimes aislados, sin modificar instalaciones globales o proyectos
   adoptantes para facilitar pruebas. Consultar ampliaciones de permisos o cambios
   de condiciones del entorno.
-- Identificar candidatos por SHA-256. Si cambia producción, reconstruir el ZIP y
-  comprobar instalación y regresiones afectadas, sin heredar aprobaciones anteriores.
+- Identificar candidatos distribuibles por SHA-256. Si cambia producción, reconstruir
+  el candidato y comprobar instalación y regresiones afectadas, sin heredar
+  aprobaciones anteriores.
   No es obligatorio repetir siete recorridos con modelos. Repetir un recorrido
   completo solo si cambia sustancialmente su flujo; conservar evidencia histórica.
 
@@ -127,5 +128,5 @@ aprobación del usuario.
   persiste los informes relevantes sin mantenerlos como especificación paralela.
 - No incorporar Architect, Implementer, coordinador, MCP, ledger ni maquinaria
   Legacy sin cambio explícito de alcance aprobado.
-- No modificar CSDD Legacy, Lunes ni proyectos adoptantes. Python y optimización
-  de tokens quedan pospuestos.
+- No modificar CSDD Legacy, Lunes, Stalwart ni proyectos adoptantes. La
+  optimización de tokens queda pospuesta.
