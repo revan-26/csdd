@@ -25,9 +25,15 @@ aprobación del usuario.
 - Exigir exactitud administrativa y evaluar narrativa por significado: sin frases
   obligatorias ni clasificadores de palabras clave. No admitir aliases de claves
   administrativas; sí paráfrasis narrativas fieles.
-- `csdd_write` recibe exclusivamente `{artifact, operation, data}` estructurado;
-  generar Markdown, estructura y referencias por código. No añadir entrada Markdown
-  libre ni retrocompatibilidad para eludir el contrato.
+- La estructura de los documentos CSDD pertenece al código: los scripts crean el
+  esqueleto desde la plantilla; el LLM edita solo el contenido de las secciones y una
+  guarda rechaza, antes de escribir, cambios en títulos, IDs o cuerpos aprobados.
+  Glosario, decisiones y hallazgos se escriben mediante comandos con campos planos.
+  La administración la escriben solo los scripts.
+- Separar framework, herramientas e integración: el framework define qué se exige
+  sin depender de un CLI; las herramientas deterministas son scripts independientes
+  del CLI; la integración solo conecta esas piezas con el harness. No poner en la
+  integración lógica que pueda vivir en un script.
 - Canon es responsable editorial de toda salida en docs/. Los aportes entre
   componentes y los informes usan escritura controlada sin reinterpretar ni
   sobrescribir cuerpos o decisiones protegidos. Explorer solo investiga; no edita.

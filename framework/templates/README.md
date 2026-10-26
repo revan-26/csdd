@@ -2,13 +2,11 @@
 
 Estas plantillas describen la forma mínima de los artefactos de los componentes del núcleo. La disponibilidad de una plantilla no obliga a llenar secciones que no sean aplicables. El modelo estable de los componentes y pilares está en `../core/`.
 
-## Contrato Estructural De Genesis
+## Estructura De Los Documentos
 
-`genesis.contract.json` define Genesis, sus revisiones y Glossary. `consolidation.contract.json` define Specs y Roadmap para CONSOLIDATION, reutilizando tipos básicos del contrato de Genesis. El núcleo common/lib/structure.mjs valida y renderiza; common/build/template-reference.mjs genera referencias .template.md, no editables manualmente. Regenerar con `node common/build/generate-templates.mjs` desde assistant-adapters/opencode; --check comprueba consistencia y la construcción del ZIP la exige. csdd_write protege Genesis/Glossary; csdd_document registra aportes pendientes a otros documentos e informes consultivos. Ninguna escritura anticipada acredita cierre de otros componentes.
+La estructura de los documentos CSDD pertenece al código: los scripts de la integración crean cada documento desde su plantilla y protegen títulos, IDs y cuerpos aprobados; el agente redacta solo el contenido de las secciones. Glossary, decisiones y hallazgos se registran entrada por entrada mediante comandos. La administración (aprobaciones, huellas, fechas y referencias) la escribe exclusivamente el código. La validez estructural no acredita fidelidad semántica, autenticidad de aprobación ni autorización de transiciones. La integración debe conservar cuerpos y decisiones aprobados tal como fueron persistidos.
 
-Las tools reciben solo entrada estructurada artifact/operation/data; no hay entrada alternativa content ni mapeo de aliases. create crea, update parchea lo vigente preservando campos omitidos (null retira un campo opcional), append agrega revisión fundamental de Genesis. El Markdown del producto sigue siendo la salida legible. Las integraciones fuente reciben una copia preparada del contrato; el ZIP lo incorpora al bundle y conserva la referencia humana en .csdd/. No existe dependencia del repositorio fuente en destino.
-
-El contrato agrupa errores estructurales; no acredita fidelidad semántica, autenticidad de aprobación ni autorización de transiciones. Los nombres y encabezados estructurales los genera el código; las secciones reciben Markdown con subtítulos de nivel 3 o inferior. Ejemplos cercados y citas se preservan. La integración debe mantener cuerpos y decisiones aprobados desde su contenido persistido, no volver a renderizarlos.
+`genesis.template.md`, `genesis-revision.template.md`, `glossary.template.md`, `specs.template.md` y `roadmap.template.md` son todavía referencias generadas desde `genesis.contract.json` y `consolidation.contract.json` para la escritura estructurada del adapter retirado. Se reemplazarán por esqueletos Markdown junto con el verificador de la integración Claude Code; mientras tanto describen secciones y campos, no la interfaz de escritura vigente.
 
 ## Artefactos De Génesis
 
