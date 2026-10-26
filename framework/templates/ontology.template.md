@@ -78,14 +78,17 @@ Si no existen dominios activos, declarar por qué el alcance se explica con el m
 ## Readiness
 
 - [ ] Alcance del incremento o cambio activo cubierto; primer slice en la invocación inicial.
-- [ ] Candidatos y disposiciones explícitos.
-- [ ] Dominios activos justificados.
-- [ ] Reglas, invariantes y estados coherentes.
-- [ ] Relaciones y contratos aplicables descritos.
-- [ ] Restricciones para Topology están explícitas sin decisiones arquitectónicas prematuras.
-- [ ] Fuentes reconciliadas.
+- [ ] Candidatos con disposición explícita.
+- [ ] Cada dominio activo con evidencia semántica y fronteras positivas y negativas.
+- [ ] Clasificaciones estratégicas justificadas o diferidas.
+- [ ] Reglas, invariantes, estados y transiciones relevantes coherentes.
+- [ ] Relaciones entre dominios con significado y dirección cuando aplica.
+- [ ] Contratos aplicables con partes y obligaciones observables.
+- [ ] Restricciones transferidas a Topology explícitas, sin decisiones técnicas prematuras.
+- [ ] Glossary y el paquete sin contradicciones ni definiciones normativas duplicadas.
 - [ ] Incertidumbres bloqueantes resueltas.
-- [ ] No se definieron repositorios ni mappings.
+- [ ] Riesgos y asuntos diferidos visibles.
+- [ ] Sin repositorios, mappings ni decisiones técnicas prematuras.
 
 ## Manifiesto De Revisión
 

@@ -142,6 +142,7 @@ No toda obligación necesita enforcement. Una suite verde no demuestra que el cr
 | `ONTOLOGY` | Estructura significado | Autoriza fronteras y decisiones semánticas | Coordina candidatos y relaciones | Comprueba coherencia y procedencia |
 | `TOPOLOGY` | Deriva la realización mínima | Autoriza separaciones costosas y riesgos | Ordena fundación y dependencias | Comprueba que los destinos sean reales |
 | `MAPPING` | Define la trazabilidad necesaria | Asigna responsabilidades y acepta excepciones | Coordina aterrizajes distribuidos | Evalúa evidencia, cobertura y límites |
+| `CONSOLIDATION` | Integra alcance, prioridades y secuencia | Confirma alcance de V1 y prioridades | Reconcilia solo las fuentes afectadas | Comprueba coherencia, referencias y bloqueantes resueltos |
 | `IMPLEMENTATION` | Materializa y aprende | Protege decisiones y acepta el resultado | Secuencia ejecución y reconciliación | Verifica comportamiento y resultado |
 
 ## Suficiencia, Cierre Y Gate

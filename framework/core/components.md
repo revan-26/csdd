@@ -167,6 +167,8 @@ Consume IDs semánticos estables, revisiones de fuente, IDs topológicos y desti
 
 No redefine obligaciones, no sustituye Topology ni es backlog. El cierre inicial de asignación admite `assigned` con destino topológico real y verificación prevista, sin símbolos ni pruebas todavía inexistentes. El cierre posterior de realización exige destinos y evidencia materiales. Cada obligación tiene disposición explícita; las desviaciones tienen decisión o deuda.
 
+Reentra si cambia la fuente, Topology, destino, verificación, entorno o evidencia. La invalidación debe ser selectiva y referenciada.
+
 ## CONSOLIDATION
 
 Transforma definiciones parciales y decisiones vigentes en alcance, prioridades y secuencia coherentes y confirmados. Consume Genesis, Glossary, dominios, contratos, arquitectura, ADR, mappings y evidencia pertinentes. Produce `docs/specs.md` y `docs/roadmap.md` según protocols/consolidation.md; los aportes anticipados a esos archivos no sustituyen esta transformación.
@@ -174,8 +176,6 @@ Transforma definiciones parciales y decisiones vigentes en alcance, prioridades 
 Specs ofrece definición global y alcance de V1 con referencias a detalle; Roadmap secuencia, dependencias y diferidos. Cierra con contradicciones bloqueantes resueltas, confirmación humana trazable del alcance/prioridades y fuentes consistentes. No añade requisitos por inferencia ni exige definir exhaustivamente el futuro. No necesita un registro base adicional, un agente nuevo ni demuestra First Release. La implementación del siguiente incremento requiere autorización explícita.
 
 Reentra ante cambios de alcance, dependencias, prioridades o secuencia; preserva historia y reconcilia solo documentos afectados. Los informes de exploración quedan como antecedentes: ninguna decisión o justificación indispensable reside exclusivamente en support/ al cerrar.
-
-Reentra si cambia la fuente, Topology, destino, verificación, entorno o evidencia. La invalidación debe ser selectiva y referenciada.
 
 ## IMPLEMENTATION
 
