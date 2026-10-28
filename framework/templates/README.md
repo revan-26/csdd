@@ -6,7 +6,36 @@ Estas plantillas describen la forma mínima de los artefactos de los componentes
 
 La estructura de los documentos CSDD pertenece al código: los scripts de la integración crean cada documento desde su plantilla y protegen títulos, IDs y cuerpos aprobados; el agente redacta solo el contenido de las secciones. Glossary, decisiones y hallazgos se registran entrada por entrada mediante comandos. La administración (aprobaciones, huellas, fechas y referencias) la escribe exclusivamente el código. La validez estructural no acredita fidelidad semántica, autenticidad de aprobación ni autorización de transiciones. La integración debe conservar cuerpos y decisiones aprobados tal como fueron persistidos.
 
-`genesis.template.md`, `genesis-revision.template.md`, `glossary.template.md`, `specs.template.md` y `roadmap.template.md` son todavía referencias generadas desde `genesis.contract.json` y `consolidation.contract.json` para la escritura estructurada del adapter retirado. Se reemplazarán por esqueletos Markdown junto con el verificador de la integración Claude Code; mientras tanto describen secciones y campos, no la interfaz de escritura vigente.
+## Convenciones
+
+- El texto entre `< >` es guía de la plantilla: el documento se crea con los títulos y sin esa guía.
+- `<Opcional. …>` marca una sección que solo existe cuando tiene contenido aplicable.
+- Las líneas `clave: valor` y `[ … ]` son administración: solo las escribe el código.
+- Las referencias de contenido tienen la forma `sha256:<64 caracteres hexadecimales>`.
+
+### Decisión Humana
+
+`status` admite `pending`, `approved` o `rejected`:
+
+- `approved` exige `approved_by`, `approved_at`, `approved_content_reference` y `approval_reference`, y prohíbe los campos de rechazo;
+- `rejected` exige `rejected_by`, `rejected_at` y `rejection_reference`, y prohíbe los campos de aprobación;
+- `pending` prohíbe ambos grupos.
+
+### Materialización
+
+`stage` admite `pending` o `closed`. `closed` exige `genesis_reference`, `glossary_reference`, `review_reference`, `review_verdict`, Verificación y Limitaciones, y prohíbe `disposition`. `disposition` admite solo `abandoned`; `review_verdict`, `conforming`, `non_conforming` o `insufficient_evidence`.
+
+Una revisión de Genesis usa los mismos campos y condiciones en sus bloques de Decisión Humana y Materialización.
+
+### Glosario
+
+Cada término es una entrada con título, una línea administrativa `[<ID> · <fuerza> · <categoría>]`, la definición como primer párrafo y, solo cuando aportan contraste, `Alcance` y `Límites`.
+
+- El ID tiene la forma `G-NNN`, lo asigna el código, sobrevive a cambios de nombre y nunca se reutiliza.
+- La fuerza indica la firmeza del término: `acordado` (confirmado por la persona), `propuesto` (aporte pendiente de decisión), `supuesto` (hipótesis de trabajo que requiere validación) o `diferido` (decisión humana de no resolverlo ahora).
+- Un término se registra como `propuesto`. La aprobación del componente pasa a `acordado` los términos propuestos en esa revisión, salvo los marcados `supuesto` o `diferido`; ninguna edición puede hacerlo.
+- La categoría es texto libre e indica qué tipo de concepto es, no su firmeza.
+- Un término deprecado se traslada a `Términos Deprecados` con su ID, indicando qué lo reemplaza y por qué dejó de usarse.
 
 ## Artefactos De Génesis
 

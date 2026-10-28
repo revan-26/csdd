@@ -42,8 +42,6 @@ El resultado inicial es:
     │   └── implementation.md
     └── templates/
         ├── README.md
-        ├── genesis.contract.json
-        ├── consolidation.contract.json
         ├── genesis.template.md
         ├── genesis-revision.template.md
         ├── specs.template.md

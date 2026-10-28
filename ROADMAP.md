@@ -7,7 +7,7 @@ Documento del framework fuente, no Roadmap de un proyecto adoptante ni parte del
 | Área | Estado | Pendiente |
 | --- | --- | --- |
 | Macrofases | Definición: GENESIS → ONTOLOGY → TOPOLOGY → MAPPING → CONSOLIDATION; Implementación: IMPLEMENTATION ↔ MAPPING | Ejercitar componentes posteriores incrementalmente |
-| Integración Claude Code | Plugin no iniciado. Decidido: Orchestrator como rol de la sesión principal con skills, subagentes y hooks; estructura de documentos a cargo del código; herramientas en Python 3 con biblioteca estándar. El framework ya describe esa escritura, sin implementación todavía | Prototipo mínimo; plantillas como esqueletos junto con el verificador |
+| Integración Claude Code | Plugin no iniciado. Decidido: Orchestrator como rol de la sesión principal con skills, subagentes y hooks; estructura de documentos a cargo del código; herramientas en Python 3 con biblioteca estándar. El framework ya describe esa escritura, sin implementación todavía | Prototipo mínimo con el verificador de los esqueletos |
 | Contratos | Carpetas contract.md + archivos asociados; alcance semántico/técnico distinguido | Uso en un caso material |
 | Entradas y exploración | En blanco, con referencia anterior y trabajado; Explorer local/web para Orchestrator o Canon | Validación humana en caso real |
 | Escritura y Support | Canon persiste informes consultivos nuevos y aportes pendientes con preservación; support apoya toda Definición | Aprobación/reconciliación operativa de documentos posteriores a Genesis |

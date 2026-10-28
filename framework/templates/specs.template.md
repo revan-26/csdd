@@ -1,156 +1,45 @@
-# Referencia Estructural: specs
-
-Generada desde consolidation.contract.json (consolidation-1). No editar esta referencia ni copiar placeholders al producto. La validez estructural no demuestra fidelidad semántica o autoridad.
-
-## Entrada Mínima De Ejemplo
-
-```json
-{
-  "title": "<title>",
-  "sections": {
-    "purpose": "<purpose>",
-    "scope": "Incluidos y excluidos aprobados.",
-    "actors_outcomes": "<actors_outcomes>",
-    "behaviors": "<behaviors>",
-    "rules": "Síntesis y referencias; no duplicar reglas detalladas.",
-    "v1_scope": "<v1_scope>",
-    "architecture": "<architecture>",
-    "references": "Dominios, contratos, arquitectura, ADR y mappings pertinentes."
-  }
-}
-```
-
-## Contrato Completo
-
-Incluye campos opcionales y condiciones. Solo añadir contenido aplicable y autorizado.
-
-```json
-{
-  "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "title",
-    "sections"
-  ],
-  "properties": {
-    "title": {
-      "type": "string",
-      "minLength": 1,
-      "pattern": "^[^\\r\\n]+$"
-    },
-    "sections": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "purpose",
-        "scope",
-        "actors_outcomes",
-        "behaviors",
-        "rules",
-        "v1_scope",
-        "architecture",
-        "references"
-      ],
-      "properties": {
-        "purpose": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
-        },
-        "scope": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "description": "Incluidos y excluidos aprobados."
-        },
-        "actors_outcomes": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
-        },
-        "behaviors": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
-        },
-        "rules": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "description": "Síntesis y referencias; no duplicar reglas detalladas."
-        },
-        "v1_scope": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
-        },
-        "architecture": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
-        },
-        "references": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "description": "Dominios, contratos, arquitectura, ADR y mappings pertinentes."
-        },
-        "semantic_model": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
-        },
-        "constraints": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S"
-        },
-        "integrations": {
-          "type": "string",
-          "minLength": 1,
-          "pattern": "\\S",
-          "description": "Solo si pertenecen al alcance actual."
-        }
-      }
-    }
-  }
-}
-```
-
-## Markdown Derivado De Ejemplo
-
-```markdown
-# <title>
+# Specs De <project-name>
 
 ## Propósito
 
-<purpose>
+<Para qué existe el producto.>
 
 ## Alcance
 
-Incluidos y excluidos aprobados.
+<Incluidos y excluidos aprobados.>
 
 ## Actores Y Outcomes
 
-<actors_outcomes>
+<Quién lo usa y qué resultado obtiene.>
 
 ## Comportamientos Observables
 
-<behaviors>
+<Comportamientos verificables desde fuera.>
 
 ## Reglas E Invariantes Vigentes
 
-Síntesis y referencias; no duplicar reglas detalladas.
+<Síntesis y referencias; no duplicar reglas detalladas.>
+
+## Modelo Semántico Y Relaciones
+
+<Opcional.>
 
 ## Alcance Acordado De V1
 
-<v1_scope>
+<Alcance confirmado por la persona.>
 
 ## Síntesis De Arquitectura
 
-<architecture>
+<Organización física con referencia a architecture.md.>
+
+## Restricciones Y Calidad
+
+<Opcional.>
+
+## Integraciones Externas
+
+<Opcional. Solo si pertenecen al alcance actual.>
 
 ## Fuentes De Definición
 
-Dominios, contratos, arquitectura, ADR y mappings pertinentes.
-```
+<Dominios, contratos, arquitectura, ADR y mappings pertinentes.>
