@@ -12,6 +12,8 @@ import json
 import pathlib
 import sys
 
+sys.dont_write_bytecode = True
+
 from csdd_hash import GLOSSARY, genesis_body, sha
 
 STATE = pathlib.Path(".claude/state/review")

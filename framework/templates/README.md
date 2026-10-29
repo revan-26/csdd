@@ -31,6 +31,8 @@ Una revisión de Genesis usa los mismos campos y condiciones en sus bloques de D
 
 Cada término es una entrada con título, una línea administrativa `[<ID> · <fuerza> · <categoría>]`, la definición como primer párrafo y, solo cuando aportan contraste, `Alcance` y `Límites`.
 
+- El glosario registra vocabulario del producto y de su dominio. Decisiones, alcance y conceptos de CSDD residen en sus fuentes, no en el glosario.
+
 - El ID tiene la forma `G-NNN`, lo asigna el código, sobrevive a cambios de nombre y nunca se reutiliza.
 - La fuerza indica la firmeza del término: `acordado` (confirmado por la persona), `propuesto` (aporte pendiente de decisión), `supuesto` (hipótesis de trabajo que requiere validación) o `diferido` (decisión humana de no resolverlo ahora).
 - Un término se registra como `propuesto`. La aprobación del componente pasa a `acordado` los términos propuestos en esa revisión, salvo los marcados `supuesto` o `diferido`; ninguna edición puede hacerlo.

@@ -28,7 +28,7 @@ Preparar Genesis con síntesis, intención, interpretación, vocabulario inicial
 
 Lo que no lleva marca lo dijo o decidió la persona. Se marcan en línea solo las excepciones: inferencia, supuesto, propuesta del asistente o investigación con referencia a su informe. Cada decisión figura en la sección a la que afecta y cada contenido en una sola sección; el resumen sintetiza sin añadir. El detalle técnico de una exploración permanece en su informe: Genesis registra su consecuencia para el producto y la referencia.
 
-Genesis y Glossary describen el producto y su vocabulario, no el estado del proceso: el cuerpo se congela al aprobar y no debe quedar escrito como candidato, pendiente o en revisión.
+Genesis y Glossary describen el producto y su vocabulario, no el estado del proceso ni la conversación: el cuerpo se congela al aprobar y no debe quedar escrito como candidato, pendiente o en revisión, ni depender de etiquetas de la conversación.
 
 Preparar Glossary como candidato: términos y definiciones presentes en Genesis, sin ampliación por inferencia. Mientras Genesis esté pendiente, el glosario candidato no constituye aprobación de significado. Antes de modificar un glosario vigente, conservar su versión previa para poder abandonar únicamente el cambio candidato.
 
