@@ -4,6 +4,13 @@ Trabajo del proyecto fuente CSDD, no Backlog de un proyecto adoptante ni parte d
 
 ## Ítems
 
+### Prueba del método Genesis
+[B-010 · aceptado · fr]
+
+Conversación real de Genesis sin plugin, siguiendo `framework/protocols/genesis.md`, con revisión semántica independiente y aprobación anotada por la persona. Evalúa utilidad y fidelidad, no la operativa mecánica. Cierra con el registro de observaciones y los ajustes de método que resulten.
+
+- Fuentes: `framework/protocols/genesis.md`
+
 ### Verificador de esqueletos
 [B-001 · aceptado · fr]
 
@@ -11,10 +18,10 @@ Script en Python 3 con biblioteca estándar que comprueba los documentos contra 
 
 - Fuentes: `framework/templates/README.md`
 
-### Prototipo mínimo de la integración Claude Code
+### Prototipo mínimo de la integración Claude Code: Genesis
 [B-002 · aceptado · fr]
 
-Plugin con la guarda de escritura, `/csdd:aprobar`, `/csdd:doctor`, el hook SessionStart y los subagentes Canon, Reviewer y Explorer. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
+Primer corte limitado a Genesis: creación del esqueleto, guarda de escritura, `/csdd:aprobar`, comprobación de cierre y Materialización, y subagente Reviewer. `/csdd:doctor`, el hook SessionStart, Canon, Explorer y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
 
 - Fuentes: `OPERATIONS.md`, `framework/protocols/genesis.md`
 - Depende de: B-001

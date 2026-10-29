@@ -34,9 +34,11 @@ Los informes de exploración local/web pueden mantenerse en docs/support/ como i
 
 Una revisión semántica independiente contrasta el candidato y Glossary con la intención y decisiones humanas: fidelidad, reglas preservadas, alcance, inferencias explícitas y ausencia de contradicciones bloqueantes. No requiere documentos futuros ni aprobación previa del candidato.
 
-Corregir hallazgos concretos; revisar de nuevo únicamente cuando cambie el significado examinado. Un gusto editorial no bloquea. La revisión no sustituye autoridad humana ni demuestra implementación.
+Corregir hallazgos concretos. Un gusto editorial no bloquea. La revisión no sustituye autoridad humana ni demuestra implementación.
 
-Presentar Genesis y Glossary para aprobar, corregir o rechazar. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no reutilizar conformidad ni presentar la aprobación anterior como aceptación del cambio.
+La conformidad se vincula al contenido exacto examinado, acotado al bloque activo y Glossary; Reviewer registra únicamente juicio semántico. Un cambio posterior de ese contenido invalida la conformidad; la nueva revisión se limita al cambio.
+
+Presentar Genesis y Glossary para aprobar, corregir o rechazar. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no presentar la aprobación anterior como aceptación del cambio.
 
 El cuerpo comprende título y secciones anteriores a Decisión Humana. Metadatos de decisión y materialización quedan fuera de esa huella. La aprobación no autoriza automáticamente Ontology, decisiones técnicas o implementación.
 
@@ -44,9 +46,9 @@ La aprobación debe provenir de una intervención humana registrada mediante un 
 
 ## Escritura y cierre
 
-La estructura del documento pertenece al código: el esqueleto se crea desde la plantilla y el agente redacta solo el contenido de las secciones. Títulos, IDs, fechas, procedencia y referencias los genera y protege la integración; un cambio que los altere se rechaza antes de escribirse. Las entradas de Glossary se registran una a una, sin afectar las no mencionadas. Una revisión fundamental se añade como bloque nuevo, sin reescribir los anteriores.
+La estructura del documento pertenece al código: el esqueleto se crea desde la plantilla y el agente redacta solo el contenido de las secciones. Títulos, IDs, fechas, procedencia administrativa (sesión, mensaje y aprobación) y referencias los genera y protege la integración; un cambio que los altere se rechaza antes de escribirse. Las entradas de Glossary se registran una a una, sin afectar las no mencionadas. Una revisión fundamental se añade como bloque nuevo, sin reescribir los anteriores.
 
-Tras aprobación comprobable y revisión semantic conforme de las versiones actuales, código completa Materialización con referencias de Genesis/Glossary, reporte real y límites. La escritura de administración no obliga a otra revisión LLM. Si cambió significado, la conformidad previa deja de servir.
+Tras aprobación comprobable y revisión semántica conforme de las versiones actuales, el código completa Materialización con referencias de Genesis/Glossary, reporte real y límites. La escritura de administración no obliga a otra revisión LLM.
 
 El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, decisiones bloqueantes resueltas y persistencia comprobada. Se registra stage closed. No se crea Backlog para señalarlo; no se declara V1 implementada ni First Release.
 
@@ -74,8 +76,6 @@ Un paso interrumpido entre aprobación y cierre queda señalado de forma persist
 | Contenido cambiado o revisión insuficiente | Revisar el cambio; no inferir conformidad. |
 | Cierre vigente | No reiniciar ni regenerar. |
 | Fuente evolucionada ajena al cambio | Preservar y consultar ante conflicto. |
-
-La revisión semántica se vincula al contenido exacto examinado, acotado al bloque activo y Glossary; Reviewer registra únicamente juicio semántico. Si las fuentes cambian después, la conformidad no se reutiliza.
 
 ## Siguiente componente
 
