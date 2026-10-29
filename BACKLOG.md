@@ -4,13 +4,6 @@ Trabajo del proyecto fuente CSDD, no Backlog de un proyecto adoptante ni parte d
 
 ## Ítems
 
-### Prueba del método Genesis
-[B-010 · aceptado · fr]
-
-Conversación real de Genesis sin plugin, siguiendo `framework/protocols/genesis.md`, con revisión semántica independiente y aprobación anotada por la persona. Evalúa utilidad y fidelidad, no la operativa mecánica. Cierra con el registro de observaciones y los ajustes de método que resulten.
-
-- Fuentes: `framework/protocols/genesis.md`
-
 ### Verificador de esqueletos
 [B-001 · aceptado · fr]
 
@@ -81,3 +74,10 @@ Reducir el contexto que reciben los agentes, por ejemplo entregando solo los té
 - Razón: OPERATIONS la pospone; se reconsidera con el consumo observado en B-005.
 
 ## Cerrados Y Descartados
+
+### Prueba del método Genesis
+[B-010 · cerrado]
+
+Conversación real de Genesis sin plugin, siguiendo `framework/protocols/genesis.md`, con revisión semántica independiente y aprobación anotada por la persona. Evalúa utilidad y fidelidad, no la operativa mecánica. Cierra con el registro de observaciones y los ajustes de método que resulten.
+
+- Cierre: investigación «Prueba del método Genesis» (2026-10-29), dos conversaciones con el prototipo de etapa 1; ajustes en `e486803`, `c2c115a` y `docs(genesis): precisa glosario y verificacion de informes`.
