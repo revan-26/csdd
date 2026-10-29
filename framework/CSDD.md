@@ -95,7 +95,7 @@ La ejecución concreta de cada componente está definida en `protocols/`. Los pi
 
 | Documento | Responsabilidad |
 | --- | --- |
-| `CSDD.md` | Constitución: propósito, principios, composición del núcleo, lifecycle y autoridad global. |
+| `CSDD.md` | Constitución: propósito, principios, composición del núcleo, modos de implementación y autoridad global. |
 | `core/components.md` | Contrato de los seis componentes, sus fronteras, reentrada y cierre. |
 | `core/pillars.md` | Responsabilidades transversales, proporcionalidad, evidencia y gobierno de los pilares. |
 | `protocols/*.md` | Procedimientos para ejecutar invocaciones conforme al contrato del componente. |
@@ -105,32 +105,29 @@ La ejecución concreta de cada componente está definida en `protocols/`. Los pi
 
 Una contradicción entre documentos normativos es un defecto del framework. Debe reconciliarse y no resolverse mediante una precedencia implícita del documento más específico.
 
-## Lifecycle
+## Implementación Y First Release
 
-El lifecycle inicial es:
+El producto no tiene un lifecycle de estados. Las macrofases indican qué trabajo se realiza; un único hecho, la declaración de First Release, determina el modo en que se implementa:
 
-```text
-genesis -> pre_fr -> post_fr
-```
+- `construction`: desde la autorización del primer incremento hasta la declaración de First Release. Dentro del incremento autorizado se admiten reconstrucción y refactorización amplia, sin obligación de compatibilidad hacia atrás. Los cuerpos y decisiones aprobados de los documentos se preservan igualmente.
+- `evolution`: después de la declaración. Cada cambio se aísla y se revisa antes de integrarse, y se evalúa su compatibilidad con los activos protegidos. Un cambio incompatible requiere decisión humana explícita, migración de los consumidores y deprecación previa del activo afectado.
 
-- `genesis`: se está construyendo y discutiendo el informe; todavía no existe aprobación.
-- `pre_fr`: Génesis fue aprobada. El diseño semántico posterior puede comenzar una vez completadas y verificadas sus proyecciones. El modelo vivo puede evolucionar dentro de su autorización; una revisión fundamental conserva el acuerdo inicial y requiere una nueva aprobación.
-- `post_fr`: una persona declaró formalmente First Release. El comportamiento, datos, contratos, consumidores y otros activos identificados en esa declaración quedan protegidos por defecto.
+La declaración de First Release es una intervención humana registrada en la sección First Release de `docs/specs.md`. Identifica los activos protegidos, preferentemente por referencia a contratos de `docs/contracts/`, y los datos, comportamientos o consumidores no cubiertos por un contrato. Los activos identificados quedan protegidos por defecto. La preparación para First Release es una evaluación, no un estado.
 
-No existe `fr_ready`. La preparación para FR es una evaluación, no un estado durable.
+Definición no tiene modos: sus reentradas posteriores a First Release evalúan compatibilidad según «Registros Base Y Lectura Selectiva».
 
-Antes de CONSOLIDATION, aprobación y cierres se registran en los artefactos competentes; Roadmap puede recibir aportes pendientes, sin representar alcance consolidado ni aprobación. Después, `docs/roadmap.md` conserva el lifecycle y la dirección actual. Una revisión fundamental no reinicia el lifecycle ni reescribe decisiones anteriores.
+Antes de CONSOLIDATION, aprobación y cierres se registran en los artefactos competentes; Specs y Backlog pueden recibir aportes pendientes, sin representar alcance consolidado ni aprobación. Una revisión fundamental no reescribe decisiones anteriores ni revierte la declaración de First Release.
 
-Genesis cierra con Genesis y Glossary aprobados y verificados. La ausencia de Specs o Roadmap es normal antes del cierre posterior a Mapping; no invalida ninguna aprobación ni obliga a recuperación.
+Genesis cierra con Genesis y Glossary aprobados y verificados. La ausencia de Specs o Backlog es normal antes del cierre posterior a Mapping; no invalida ninguna aprobación ni obliga a recuperación.
 
 ## Autoridad Documental
 
 | Documento | Autoridad |
 | --- | --- |
 | `docs/base/GENESIS.md` | Procedencia, decisiones, aprobación, resultados y cierre de la definición inicial y sus revisiones fundamentales. |
-| `docs/specs.md` | Definición global consolidada y alcance acordado de V1, después de Mapping. |
+| `docs/specs.md` | Definición global consolidada, alcance acordado de V1 y declaración de First Release, después de Mapping. |
 | `docs/glossary.md` | Significado y nombre preferido de términos compartidos. |
-| `docs/roadmap.md` | Secuencia hacia V1, lifecycle, posibilidades posteriores y diferidos con razones; después de Mapping. |
+| `docs/backlog.md` | Trabajo priorizado que la persona decide o necesita ver, con estado de decisión y referencia de cierre; después de Mapping. |
 | `docs/base/ONTOLOGY.md` | Registro de invocaciones, evaluaciones, manifiestos aprobados, resultados y cierres semánticos. |
 | `docs/domains/*` | Significado, reglas, invariantes y estados dentro de una frontera semántica. |
 | `docs/contracts/<nombre>/contract.md` | Acuerdos semánticos o técnicos según su alcance, con archivos asociados opcionales en la misma carpeta. |
@@ -145,7 +142,7 @@ Genesis cierra con Genesis y Glossary aprobados y verificados. La ausencia de Sp
 
 Cada regla tiene una única ubicación normativa vigente. Inicialmente Genesis expresa la intención; Ontology formaliza reglas en dominios y contratos, sin copiar su catálogo en el registro base. Specs consolida después una síntesis con referencias, no una especificación paralela. Los registros base conservan procedencia y decisiones; no duplican los artefactos especializados.
 
-El recorrido de Definición es GENESIS → ONTOLOGY → TOPOLOGY → MAPPING → CONSOLIDATION con Specs y Roadmap. Este cierre confirma con la persona alcance de V1 y prioridades, no acredita implementación ni First Release. Ver protocols/consolidation.md. Glossary evoluciona con los componentes. Reentradas posteriores afectan únicamente el alcance necesario. GENESIS y los demás documentos informan cualquier componente pertinente, no solo al siguiente.
+El recorrido de Definición es GENESIS → ONTOLOGY → TOPOLOGY → MAPPING → CONSOLIDATION con Specs y Backlog. Este cierre confirma con la persona alcance de V1 y prioridades, no acredita implementación ni First Release. Ver protocols/consolidation.md. Glossary evoluciona con los componentes. Reentradas posteriores afectan únicamente el alcance necesario. GENESIS y los demás documentos informan cualquier componente pertinente, no solo al siguiente.
 
 support/ admite informes de exploración del proyecto anterior o del repositorio actual además de consulta externa. Son insumos para toda Definición, no decisiones ni requisitos vigentes. Canon incorpora lo confirmado y su justificación suficiente a las fuentes competentes; al cerrar CONSOLIDATION, retirarlo debe dejar completa la definición y su justificación necesaria. Conserva lo observado como antecedente histórico, no como documento sincronizado con el producto. No aloja diferidos propios ni soportes normativos de contratos; se consulta selectivamente.
 
@@ -153,7 +150,7 @@ support/ admite informes de exploración del proyecto anterior o del repositorio
 
 Un cierre corresponde a una invocación, alcance y revisión, no es permanente para el componente. Los registros base pueden incorporar revisiones sucesivas con identidad, motivo, decisiones sustituidas, aprobación y resultados exactos. Se preservan los cuerpos y decisiones aprobados anteriores. Las correcciones editoriales no alteran su significado; los metadatos de materialización pueden completarse durante recuperación.
 
-El trabajo consume las fuentes pertinentes que ya existen en su punto del ciclo. Ontology inicialmente consume Genesis y Glossary; después se usan dominios, contratos, arquitectura y mappings. Specs y Roadmap solo se exigen después del cierre de definición. Una feature compatible posterior no obliga a releer Genesis. La historia restante se consulta durante elaboración, aprobación, recuperación, cambio fundamental o procedencia justificada.
+El trabajo consume las fuentes pertinentes que ya existen en su punto del ciclo. Ontology inicialmente consume Genesis y Glossary; después se usan dominios, contratos, arquitectura y mappings. Specs y Backlog solo se exigen después del cierre de definición. Una feature compatible posterior no obliga a releer Genesis. La historia restante se consulta durante elaboración, aprobación, recuperación, cambio fundamental o procedencia justificada.
 
 La consulta identifica pregunta, fuente pertinente, alcance y motivo. Orchestrator o Canon pueden encargar a Explorer investigación local o web. Canon mantiene la interpretación y es responsable editorial de docs/, incluidos los informes de Explorer. Reviewer verifica independientemente cuando se le encarga. Si falta significado, se solicita reconciliación, no se reconstruye el producto desde toda la historia. Esta es una política de contexto, no un bloqueo técnico de lectura.
 

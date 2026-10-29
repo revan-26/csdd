@@ -25,9 +25,15 @@ aprobación del usuario.
 - Exigir exactitud administrativa y evaluar narrativa por significado: sin frases
   obligatorias ni clasificadores de palabras clave. No admitir aliases de claves
   administrativas; sí paráfrasis narrativas fieles.
-- `csdd_write` recibe exclusivamente `{artifact, operation, data}` estructurado;
-  generar Markdown, estructura y referencias por código. No añadir entrada Markdown
-  libre ni retrocompatibilidad para eludir el contrato.
+- La estructura de los documentos CSDD pertenece al código: los scripts crean el
+  esqueleto desde la plantilla; el LLM edita solo el contenido de las secciones y una
+  guarda rechaza, antes de escribir, cambios en títulos, IDs o cuerpos aprobados.
+  Glosario, decisiones y hallazgos se escriben mediante comandos con campos planos.
+  La administración la escriben solo los scripts.
+- Separar framework, herramientas e integración: el framework define qué se exige
+  sin depender de un CLI; las herramientas deterministas son scripts independientes
+  del CLI; la integración solo conecta esas piezas con el harness. No poner en la
+  integración lógica que pueda vivir en un script.
 - Canon es responsable editorial de toda salida en docs/. Los aportes entre
   componentes y los informes usan escritura controlada sin reinterpretar ni
   sobrescribir cuerpos o decisiones protegidos. Explorer solo investiga; no edita.
@@ -39,8 +45,7 @@ aprobación del usuario.
 - Conservar exactamente cuerpos, decisiones e historia protegidos. La libertad de
   paráfrasis de una proyección no autoriza reescribir contenido aprobado.
 - Recuperar solo el paso incompleto tras inspeccionar las fuentes existentes;
-  preservar evolución ajena al cambio, sin regenerar el proyecto ni reiniciar su
-  lifecycle desde la historia.
+  preservar evolución ajena al cambio, sin regenerar el proyecto desde la historia.
 - La procedencia de aprobación debe provenir de una intervención realmente
   registrada; no inventar aprobaciones ni transcripts.
 - Permitir una entrega inicial y hasta cuatro reparaciones; detenerse por repetición,
@@ -86,15 +91,16 @@ aprobación del usuario.
 
 ## Entrega y validación
 
-- Separar preparación e instalación: entrega preparada por copia mediante BAT,
-  sin transformar imports, componer perfiles ni ejecutar npm en destino.
-- Conservar fuentes `common/`, `v1/` y `v2/`. Baseline acordada: OpenCode V2 2.0.22;
-  no certificar V1 ni cambiarla silenciosamente.
+- La integración objetivo es un plugin de Claude Code. El adapter OpenCode, su ZIP
+  y su BAT fueron retirados; la historia de git los conserva y no se mantienen.
+- Las herramientas deterministas nuevas usan Python 3 con biblioteca estándar, sin
+  dependencias de terceros.
 - Usar fixtures y runtimes aislados, sin modificar instalaciones globales o proyectos
   adoptantes para facilitar pruebas. Consultar ampliaciones de permisos o cambios
   de condiciones del entorno.
-- Identificar candidatos por SHA-256. Si cambia producción, reconstruir el ZIP y
-  comprobar instalación y regresiones afectadas, sin heredar aprobaciones anteriores.
+- Identificar candidatos distribuibles por SHA-256. Si cambia producción, reconstruir
+  el candidato y comprobar instalación y regresiones afectadas, sin heredar
+  aprobaciones anteriores.
   No es obligatorio repetir siete recorridos con modelos. Repetir un recorrido
   completo solo si cambia sustancialmente su flujo; conservar evidencia histórica.
 
@@ -105,7 +111,7 @@ aprobación del usuario.
 - Macrofases: Definición e Implementación. Recorrido de referencia: Genesis (base/GENESIS.md y glossary.md), Ontology
   (base/ONTOLOGY.md, domains/ y contratos semánticos), Topology
   (base/TOPOLOGY.md, architecture.md, adrs/ y contratos técnicos), Mapping
-  (docs/mapping/ en cada repo), CONSOLIDATION (specs.md y roadmap.md).
+  (docs/mapping/ en cada repo), CONSOLIDATION (specs.md y backlog.md).
   Las rutas son relativas a docs/ salvo mapping local. V1 y prioridades requieren
   confirmación humana; cierre de definición no acredita implementación o entrega.
 - Los seis componentes son GENESIS, ONTOLOGY, TOPOLOGY, MAPPING,
@@ -127,5 +133,5 @@ aprobación del usuario.
   persiste los informes relevantes sin mantenerlos como especificación paralela.
 - No incorporar Architect, Implementer, coordinador, MCP, ledger ni maquinaria
   Legacy sin cambio explícito de alcance aprobado.
-- No modificar CSDD Legacy, Lunes ni proyectos adoptantes. Python y optimización
-  de tokens quedan pospuestos.
+- No modificar CSDD Legacy, Lunes, Stalwart ni proyectos adoptantes. La
+  optimización de tokens queda pospuesta.

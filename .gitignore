@@ -5,8 +5,5 @@ Thumbs.db
 .env
 .env.*
 
-# Evidencia de ejecuciones: transcripciones, logs y candidatos anteriores
-tests/evidence/
-
 # Notas de trabajo locales
 util/

@@ -8,7 +8,7 @@ Aplicar ../CSDD.md, ../core/components.md y los pilares transversales pertinente
 
 Transformar ideas, problemas, ejemplos, deseos y restricciones en una interpretación comprensible y aprobable. No exigir terminología técnica, modelo de dominio o arquitectura previa.
 
-Resultados propios del cierre de Genesis: docs/base/GENESIS.md y docs/glossary.md. No son prerrequisitos Specs ni Roadmap. La conversación puede originar aportes pendientes a cualquier documento pertinente mediante Canon, sin ejecutar ni cerrar el componente destinatario. Specs y Roadmap se consolidan en CONSOLIDATION.
+Resultados propios del cierre de Genesis: docs/base/GENESIS.md y docs/glossary.md. No son prerrequisitos Specs ni Backlog. La conversación puede originar aportes pendientes a cualquier documento pertinente mediante Canon, sin ejecutar ni cerrar el componente destinatario. Specs y Backlog se consolidan en CONSOLIDATION.
 
 ## Conversación
 
@@ -36,19 +36,19 @@ Una revisión semántica independiente contrasta el candidato y Glossary con la 
 
 Corregir hallazgos concretos; revisar de nuevo únicamente cuando cambie el significado examinado. Un gusto editorial no bloquea. La revisión no sustituye autoridad humana ni demuestra implementación.
 
-Presentar Genesis y Glossary para aprobar, corregir o rechazar. La aprobación identifica persona declarada, intervención y revisión exacta del cuerpo de Genesis. En V2 la declaración es Apruebo sha256:<digest>; el vocabulario presentado se vincula a ese cuerpo y al reporte de sus versiones. Si cambia el candidato o el glosario, no reutilizar conformidad ni presentar la aprobación anterior como aceptación del cambio.
+Presentar Genesis y Glossary para aprobar, corregir o rechazar. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no reutilizar conformidad ni presentar la aprobación anterior como aceptación del cambio.
 
 El cuerpo comprende título y secciones anteriores a Decisión Humana. Metadatos de decisión y materialización quedan fuera de esa huella. La aprobación no autoriza automáticamente Ontology, decisiones técnicas o implementación.
 
-En la integración V2 instalada, una aprobación nueva exige esa declaración exacta como primera línea de la última intervención humana de la sesión raíz. La identidad declarada puede indicarse antes o en la segunda línea. Registrar la decisión antes de pedir otra intervención; si llega una corrección o mensaje posterior antes del registro, inspeccionar el estado y aclarar lo necesario sin atribuirle una aprobación que no contiene. Una constancia ya registrada permite recuperar el paso incompleto sin pedir aprobación de nuevo.
+La aprobación debe provenir de una intervención humana registrada mediante un mecanismo que el modelo no pueda ejecutar por sí mismo; una afirmación del agente no la acredita. Registrar la decisión antes de pedir otra intervención; si llega una corrección o mensaje posterior antes del registro, inspeccionar el estado y aclarar lo necesario sin atribuirle una aprobación que no contiene. Una constancia ya registrada permite completar el paso pendiente sin pedir aprobación de nuevo.
 
 ## Escritura y cierre
 
-La interfaz recibe exclusivamente {artifact, operation, data}. Código renderiza, valida y obtiene del runtime IDs, fechas y procedencia. create crea; update parchea preservando lo omitido; append añade una revisión fundamental. No acepta content ni Markdown completo.
+La estructura del documento pertenece al código: el esqueleto se crea desde la plantilla y el agente redacta solo el contenido de las secciones. Títulos, IDs, fechas, procedencia y referencias los genera y protege la integración; un cambio que los altere se rechaza antes de escribirse. Las entradas de Glossary se registran una a una, sin afectar las no mencionadas. Una revisión fundamental se añade como bloque nuevo, sin reescribir los anteriores.
 
 Tras aprobación comprobable y revisión semantic conforme de las versiones actuales, código completa Materialización con referencias de Genesis/Glossary, reporte real y límites. La escritura de administración no obliga a otra revisión LLM. Si cambió significado, la conformidad previa deja de servir.
 
-El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, decisiones bloqueantes resueltas y persistencia comprobada. Se registra stage closed. No se crea Roadmap para señalarlo; no se declara V1 implementada ni First Release.
+El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, decisiones bloqueantes resueltas y persistencia comprobada. Se registra stage closed. No se crea Backlog para señalarlo; no se declara V1 implementada ni First Release.
 
 La reparación admite una entrega inicial y hasta cuatro correcciones agrupadas; repetición inválida, agotamiento o modificación protegida detienen la operación. No se elude el límite mediante otra sesión.
 
@@ -56,15 +56,15 @@ La reparación admite una entrega inicial y hasta cuatro correcciones agrupadas;
 
 Contrastar primero las fuentes vigentes disponibles. Antes de Ontology, Genesis es la fuente pertinente de intención; después se consultan dominios, contratos y otras fuentes actuales. Una feature compatible no obliga a releer historia.
 
-Cambios de propósito, destinatarios o límites fundamentales requieren nueva propuesta y aprobación propia. Añadir un bloque Revisión de GENESIS con identidad generada desde el runtime, después de un bloque cerrado o rechazado y abandonado. Preservar completos cuerpo y decisión anteriores. No regenerar fuentes posteriores ni reiniciar lifecycle.
+Cambios de propósito, destinatarios o límites fundamentales requieren nueva propuesta y aprobación propia. Añadir un bloque Revisión de GENESIS con identidad generada desde el runtime, después de un bloque cerrado o rechazado y abandonado. Preservar completos cuerpo y decisión anteriores. No regenerar fuentes posteriores ni reiniciar el proyecto.
 
 El rechazo registra intervención real y disposition abandoned sin aprobar. Conserva el bloque, restaura exclusivamente el candidato de Glossary cuando corresponda y no altera canon vigente. Una propuesta posterior tiene identidad propia. Si hay evolución ajena que impide restauración segura, detenerse y consultar.
 
-## Recuperación V2
+## Recuperación
 
-La constancia docs/base/.approval-<digest>.json conserva la intervención original y permite comprobar procedencia entre sesiones. No autentica identidad humana ni resiste manipulación hostil. Constancia ausente, corrupta o discordante bloquea el cierre; no se reconstruye desde una afirmación del agente.
+La integración conserva una constancia de cada aprobación que permite comprobar su procedencia entre sesiones. No autentica identidad humana ni resiste manipulación hostil. Constancia ausente, corrupta o discordante bloquea el cierre; no se reconstruye desde una afirmación del agente.
 
-La marca docs/base/.genesis-recovery-pending obliga a inspeccionar el paso incompleto. Código la retira tras comprobar cierre y referencias o abandono completado; no se borra manualmente. No depende de Roadmap.
+Un paso interrumpido entre aprobación y cierre queda señalado de forma persistente y obliga a inspeccionarlo antes de continuar. Solo la integración retira la señal, tras comprobar cierre y referencias o abandono completado. No depende de Backlog.
 
 | Situación | Acción |
 | --- | --- |
@@ -75,8 +75,8 @@ La marca docs/base/.genesis-recovery-pending obliga a inspeccionar el paso incom
 | Cierre vigente | No reiniciar ni regenerar. |
 | Fuente evolucionada ajena al cambio | Preservar y consultar ante conflicto. |
 
-Reviewer usa begin para obtener rutas de snapshots locales acotados al bloque activo y Glossary; complete registra únicamente juicio semántico y comprueba que no cambiaron fuentes ni snapshots. latest entrega el reporte real. La respuesta de begin no transporta toda la historia ni depende de acceso a tool-output externo.
+La revisión semántica se vincula al contenido exacto examinado, acotado al bloque activo y Glossary; Reviewer registra únicamente juicio semántico. Si las fuentes cambian después, la conformidad no se reutiliza.
 
 ## Siguiente componente
 
-Ontology consume Genesis aprobado y Glossary para formalizar dominios y obligaciones. La lectura inicial de Genesis es necesaria, no una excepción histórica artificial. El alcance de V1 se confirma al cierre posterior a Mapping con Specs y Roadmap.
+Ontology consume Genesis aprobado y Glossary para formalizar dominios y obligaciones. La lectura inicial de Genesis es necesaria, no una excepción histórica artificial. El alcance de V1 se confirma al cierre posterior a Mapping con Specs y Backlog.

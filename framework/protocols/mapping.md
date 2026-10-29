@@ -2,7 +2,7 @@
 
 ## Dependencias Normativas
 
-- `../CSDD.md`: principios, autoridad y lifecycle.
+- `../CSDD.md`: principios, autoridad y modos de implementación.
 - `../core/components.md`: contrato del componente `MAPPING`.
 - `../core/pillars.md`: responsabilidades transversales aplicables.
 
@@ -53,7 +53,7 @@ Los documentos locales pueden agrupar mappings por superficie o tipo cuando el t
 
 ## Cierre
 
-El cierre de asignación permite consolidar Specs y Roadmap mediante consolidation.md. Exige obligaciones asignadas a repositorios reales o diferidas explícitamente, y verificación prevista; no exige símbolos ni pruebas de una implementación futura.
+El cierre de asignación permite consolidar Specs y Backlog mediante consolidation.md. Exige obligaciones asignadas a repositorios reales o diferidas explícitamente, y verificación prevista; no exige símbolos ni pruebas de una implementación futura.
 
 El cierre posterior de realización de un incremento está completo cuando:
 

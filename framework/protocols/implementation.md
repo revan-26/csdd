@@ -2,7 +2,7 @@
 
 ## Dependencias Normativas
 
-- `../CSDD.md`: principios, autoridad y lifecycle.
+- `../CSDD.md`: principios, autoridad y modos de implementación.
 - `../core/components.md`: contrato del componente `IMPLEMENTATION`.
 - `../core/pillars.md`: responsabilidades transversales aplicables.
 
@@ -12,7 +12,7 @@ Materializar en repositorios reales las responsabilidades asignadas por `MAPPING
 
 ## Entradas
 
-- Incremento de valor aprobado.
+- Ítem autorizado de `docs/backlog.md`.
 - Canon y Ontology vigentes.
 - `docs/architecture.md` y repositorios disponibles. Los registros base no se cargan por defecto; una insuficiencia de significado se devuelve a Canon para reconciliación.
 - Mappings asignados.
@@ -21,7 +21,7 @@ Materializar en repositorios reales las responsabilidades asignadas por `MAPPING
 
 ## Procedimiento
 
-1. Seleccionar el siguiente trabajo según las dependencias de Topology y el alcance del incremento.
+1. Seleccionar el siguiente ítem autorizado del Backlog según su orden, sus dependencias y las de Topology. Identificar el modo vigente y, en `evolution`, los activos protegidos afectados.
 2. Leer el mapping y el playbook del repositorio antes de modificarlo.
 3. Implementar la responsabilidad usando las convenciones locales apropiadas.
 4. Crear o actualizar pruebas, schemas, configuración y documentación local necesarios.
@@ -44,7 +44,8 @@ Un incremento de implementación está cerrado cuando:
 - las pruebas o verificaciones relevantes aportan evidencia;
 - el mapping localiza la realidad implementada;
 - las desviaciones, limitaciones y riesgos están explícitos;
-- los contratos afectados son compatibles o fueron reconciliados;
+- los contratos afectados son compatibles o fueron reconciliados según el modo vigente;
+- el ítem del Backlog registra su referencia de cierre;
 - la persona responsable acepta el resultado cuando la autoridad humana sea necesaria.
 
 La ausencia de un playbook especializado no impide implementar. En ese caso se utiliza el protocolo general y se registra el conocimiento que podría justificar un playbook posterior.

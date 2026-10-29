@@ -2,13 +2,53 @@
 
 Estas plantillas describen la forma mínima de los artefactos de los componentes del núcleo. La disponibilidad de una plantilla no obliga a llenar secciones que no sean aplicables. El modelo estable de los componentes y pilares está en `../core/`.
 
-## Contrato Estructural De Genesis
+## Estructura De Los Documentos
 
-`genesis.contract.json` define Genesis, sus revisiones y Glossary. `consolidation.contract.json` define Specs y Roadmap para CONSOLIDATION, reutilizando tipos básicos del contrato de Genesis. El núcleo common/lib/structure.mjs valida y renderiza; common/build/template-reference.mjs genera referencias .template.md, no editables manualmente. Regenerar con `node common/build/generate-templates.mjs` desde assistant-adapters/opencode; --check comprueba consistencia y la construcción del ZIP la exige. csdd_write protege Genesis/Glossary; csdd_document registra aportes pendientes a otros documentos e informes consultivos. Ninguna escritura anticipada acredita cierre de otros componentes.
+La estructura de los documentos CSDD pertenece al código: los scripts de la integración crean cada documento desde su plantilla y protegen títulos, IDs y cuerpos aprobados; el agente redacta solo el contenido de las secciones. Glossary, decisiones y hallazgos se registran entrada por entrada mediante comandos. La administración (aprobaciones, huellas, fechas y referencias) la escribe exclusivamente el código. La validez estructural no acredita fidelidad semántica, autenticidad de aprobación ni autorización de transiciones. La integración debe conservar cuerpos y decisiones aprobados tal como fueron persistidos.
 
-Las tools reciben solo entrada estructurada artifact/operation/data; no hay entrada alternativa content ni mapeo de aliases. create crea, update parchea lo vigente preservando campos omitidos (null retira un campo opcional), append agrega revisión fundamental de Genesis. El Markdown del producto sigue siendo la salida legible. Las integraciones fuente reciben una copia preparada del contrato; el ZIP lo incorpora al bundle y conserva la referencia humana en .csdd/. No existe dependencia del repositorio fuente en destino.
+## Convenciones
 
-El contrato agrupa errores estructurales; no acredita fidelidad semántica, autenticidad de aprobación ni autorización de transiciones. Los nombres y encabezados estructurales los genera el código; las secciones reciben Markdown con subtítulos de nivel 3 o inferior. Ejemplos cercados y citas se preservan. La integración debe mantener cuerpos y decisiones aprobados desde su contenido persistido, no volver a renderizarlos.
+- El texto entre `< >` es guía de la plantilla: el documento se crea con los títulos y sin esa guía.
+- `<Opcional. …>` marca una sección que solo existe cuando tiene contenido aplicable.
+- Las líneas `clave: valor` y `[ … ]` son administración: solo las escribe el código.
+- Las referencias de contenido tienen la forma `sha256:<64 caracteres hexadecimales>`.
+
+### Decisión Humana
+
+`status` admite `pending`, `approved` o `rejected`:
+
+- `approved` exige `approved_by`, `approved_at`, `approved_content_reference` y `approval_reference`, y prohíbe los campos de rechazo;
+- `rejected` exige `rejected_by`, `rejected_at` y `rejection_reference`, y prohíbe los campos de aprobación;
+- `pending` prohíbe ambos grupos.
+
+### Materialización
+
+`stage` admite `pending` o `closed`. `closed` exige `genesis_reference`, `glossary_reference`, `review_reference`, `review_verdict`, Verificación y Limitaciones, y prohíbe `disposition`. `disposition` admite solo `abandoned`; `review_verdict`, `conforming`, `non_conforming` o `insufficient_evidence`.
+
+Una revisión de Genesis usa los mismos campos y condiciones en sus bloques de Decisión Humana y Materialización.
+
+### Glosario
+
+Cada término es una entrada con título, una línea administrativa `[<ID> · <fuerza> · <categoría>]`, la definición como primer párrafo y, solo cuando aportan contraste, `Alcance` y `Límites`.
+
+- El ID tiene la forma `G-NNN`, lo asigna el código, sobrevive a cambios de nombre y nunca se reutiliza.
+- La fuerza indica la firmeza del término: `acordado` (confirmado por la persona), `propuesto` (aporte pendiente de decisión), `supuesto` (hipótesis de trabajo que requiere validación) o `diferido` (decisión humana de no resolverlo ahora).
+- Un término se registra como `propuesto`. La aprobación del componente pasa a `acordado` los términos propuestos en esa revisión, salvo los marcados `supuesto` o `diferido`; ninguna edición puede hacerlo.
+- La categoría es texto libre e indica qué tipo de concepto es, no su firmeza.
+- Un término deprecado se traslada a `Términos Deprecados` con su ID, indicando qué lo reemplaza y por qué dejó de usarse.
+
+### Backlog
+
+Cada ítem es una entrada con título, una línea administrativa `[<ID> · <estado> · <horizonte>]`, el resultado esperado con su criterio de cierre y las referencias que apliquen.
+
+- El ID tiene la forma `B-NNN`, lo asigna el código y nunca se reutiliza.
+- El estado es `propuesto` (aporte de un agente), `aceptado` (la persona lo quiere), `autorizado` (puede ejecutarse), `cerrado`, `diferido` o `descartado`. Solo la persona acepta, autoriza, difiere o descarta; `cerrado` lo escribe el código junto con la referencia de cierre. Diferidos y descartados indican su razón.
+- El horizonte es `fr` o `posterior` y solo se exige antes de First Release.
+- El orden de `Ítems` es la prioridad. Los ítems cerrados y descartados se trasladan a su sección conservando el ID.
+
+### First Release
+
+`declared_by`, `declared_at` y `declaration_reference` son obligatorios cuando la sección existe. Activos Protegidos referencia contratos y describe los datos, comportamientos o consumidores no cubiertos por un contrato.
 
 ## Artefactos De Génesis
 
@@ -24,8 +64,8 @@ La persona recibe Genesis y Glossary candidatos, revisados por significado, y de
 
 | Plantilla | Instancia | Naturaleza |
 | --- | --- | --- |
-| `specs.template.md` | `docs/specs.md` | Definición global, alcance de V1 y síntesis con referencias. |
-| `roadmap.template.md` | `docs/roadmap.md` | Secuencia hacia V1, lifecycle, posibilidades y diferidos con razones. |
+| `specs.template.md` | `docs/specs.md` | Definición global, alcance de V1, síntesis con referencias y declaración de First Release. |
+| `backlog.template.md` | `docs/backlog.md` | Trabajo priorizado, estado de decisión y referencia de cierre. |
 
 Ver ../protocols/consolidation.md. El cierre de definición no equivale a First Release implementada.
 
