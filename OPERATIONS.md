@@ -36,7 +36,8 @@ aprobación del usuario.
   integración lógica que pueda vivir en un script.
 - Canon es responsable editorial de toda salida en docs/. Los aportes entre
   componentes y los informes usan escritura controlada sin reinterpretar ni
-  sobrescribir cuerpos o decisiones protegidos. Explorer solo investiga; no edita.
+  sobrescribir cuerpos o decisiones protegidos. Explorer investiga y solo escribe
+  su propio informe en docs/support/.
 - Reconciliar contratos, validadores, guardas y evaluadores antes de ejecutar: todas
   las capas deben aplicar el mismo contrato, incluido el cierre.
 
@@ -129,8 +130,9 @@ aprobación del usuario.
   justificación indispensable puede residir exclusivamente allí al cerrar.
 - Mantener cuatro agentes: Orchestrator conversa/coordina, Canon interpreta/escribe,
   Reviewer verifica independientemente y Explorer investiga para Orchestrator
-  o Canon. Encargos acotados, fuentes autorizadas y lectura local/web; Canon
-  persiste los informes relevantes sin mantenerlos como especificación paralela.
+  o Canon. Encargos acotados, fuentes autorizadas y lectura local/web; Explorer
+  persiste los informes relevantes, bajo responsabilidad editorial de Canon, sin
+  mantenerlos como especificación paralela.
 - No incorporar Architect, Implementer, coordinador, MCP, ledger ni maquinaria
   Legacy sin cambio explícito de alcance aprobado.
 - No modificar CSDD Legacy, Lunes, Stalwart ni proyectos adoptantes. La
