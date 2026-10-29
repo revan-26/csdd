@@ -2,7 +2,7 @@
 
 ## Alcance
 
-Esta guía instala la baseline metodológica. La integración con Claude Code, que aportará la operativa agentic, todavía no está disponible. La instalación no crea documentos del producto ni carpetas de implementación.
+Esta guía instala la baseline metodológica. La integración con Claude Code, que aportará la operativa agentic, todavía no está disponible; existe un prototipo de etapa 1 para pruebas (ver «Prototipo De Integración»). La instalación no crea documentos del producto ni carpetas de implementación.
 
 `.csdd/` contiene solo framework. Los resultados pertenecen a docs/. Genesis produce Genesis y Glossary; Specs y Backlog se escriben al cierre posterior a Mapping.
 
@@ -101,6 +101,10 @@ Ontology explicita siempre el dominio del problema, pero no exige múltiples div
 Antes de iniciar Ontology se comprueba el cierre de Genesis. Si la ejecución se interrumpió, se inspeccionan la aprobación y los archivos existentes para recuperar la proyección según el protocolo. No se regeneran fuentes que ya evolucionaron ni se reinicia un Genesis cerrado. La instalación no realiza esa recuperación ni sobrescribe documentos.
 
 `core/foundations.md` es consultivo y está destinado principalmente a la comprensión humana de la metodología. Los agentes no deben cargarlo durante la operación ordinaria.
+
+## Prototipo De Integración
+
+`integration/claude-code/` contiene un prototipo de etapa 1 para probar Genesis con Claude Code. Para usarlo, copiar su contenido a `<workspace>/.claude/` junto con `.csdd/`. No tiene guarda de escritura ni crea esqueletos por código, y su constancia de revisión no resiste edición manual: no usarlo en proyectos reales.
 
 ## Actualización Manual
 
