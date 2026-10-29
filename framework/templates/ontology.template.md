@@ -67,7 +67,7 @@ Si no existen dominios activos, declarar por qué el alcance se explica con el m
 
 ## Reconciliación
 
-<Formalización de la intención aprobada y cambios de Glossary, dominios y contratos. Identificar ubicación vigente de reglas y obligaciones; no duplicar catálogos en el registro base ni exigir Specs/Roadmap prematuros.>
+<Formalización de la intención aprobada y cambios de Glossary, dominios y contratos. Identificar ubicación vigente de reglas y obligaciones; no duplicar catálogos en el registro base ni exigir Specs/Backlog prematuros.>
 
 ## Riesgos Y Asuntos Diferidos
 

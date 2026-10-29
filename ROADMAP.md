@@ -12,7 +12,7 @@ Documento del framework fuente, no Roadmap de un proyecto adoptante ni parte del
 | Entradas y exploración | En blanco, con referencia anterior y trabajado; Explorer local/web para Orchestrator o Canon | Validación humana en caso real |
 | Escritura y Support | Canon persiste informes consultivos nuevos y aportes pendientes con preservación; support apoya toda Definición | Aprobación/reconciliación operativa de documentos posteriores a Genesis |
 | Ontology/Topology/Mapping/CONSOLIDATION | Contratos y protocolos; aportes documentales pendientes disponibles | Operativa de aprobación/cierre completa |
-| Implementation | Protocolo metodológico existente | Caso real con código, evidencia y reconciliación |
+| Implementation | Protocolo metodológico existente; modos `construction` y `evolution` definidos por la declaración de First Release | Caso real con código, evidencia y reconciliación; diseñar el flujo de `evolution` (unidad de cambio, revisión previa a la integración, deprecación) |
 
 ## Prioridad
 

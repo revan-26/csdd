@@ -8,7 +8,7 @@ Aplicar ../CSDD.md, ../core/components.md y los pilares transversales pertinente
 
 Transformar ideas, problemas, ejemplos, deseos y restricciones en una interpretación comprensible y aprobable. No exigir terminología técnica, modelo de dominio o arquitectura previa.
 
-Resultados propios del cierre de Genesis: docs/base/GENESIS.md y docs/glossary.md. No son prerrequisitos Specs ni Roadmap. La conversación puede originar aportes pendientes a cualquier documento pertinente mediante Canon, sin ejecutar ni cerrar el componente destinatario. Specs y Roadmap se consolidan en CONSOLIDATION.
+Resultados propios del cierre de Genesis: docs/base/GENESIS.md y docs/glossary.md. No son prerrequisitos Specs ni Backlog. La conversación puede originar aportes pendientes a cualquier documento pertinente mediante Canon, sin ejecutar ni cerrar el componente destinatario. Specs y Backlog se consolidan en CONSOLIDATION.
 
 ## Conversación
 
@@ -48,7 +48,7 @@ La estructura del documento pertenece al código: el esqueleto se crea desde la 
 
 Tras aprobación comprobable y revisión semantic conforme de las versiones actuales, código completa Materialización con referencias de Genesis/Glossary, reporte real y límites. La escritura de administración no obliga a otra revisión LLM. Si cambió significado, la conformidad previa deja de servir.
 
-El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, decisiones bloqueantes resueltas y persistencia comprobada. Se registra stage closed. No se crea Roadmap para señalarlo; no se declara V1 implementada ni First Release.
+El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, decisiones bloqueantes resueltas y persistencia comprobada. Se registra stage closed. No se crea Backlog para señalarlo; no se declara V1 implementada ni First Release.
 
 La reparación admite una entrega inicial y hasta cuatro correcciones agrupadas; repetición inválida, agotamiento o modificación protegida detienen la operación. No se elude el límite mediante otra sesión.
 
@@ -56,7 +56,7 @@ La reparación admite una entrega inicial y hasta cuatro correcciones agrupadas;
 
 Contrastar primero las fuentes vigentes disponibles. Antes de Ontology, Genesis es la fuente pertinente de intención; después se consultan dominios, contratos y otras fuentes actuales. Una feature compatible no obliga a releer historia.
 
-Cambios de propósito, destinatarios o límites fundamentales requieren nueva propuesta y aprobación propia. Añadir un bloque Revisión de GENESIS con identidad generada desde el runtime, después de un bloque cerrado o rechazado y abandonado. Preservar completos cuerpo y decisión anteriores. No regenerar fuentes posteriores ni reiniciar lifecycle.
+Cambios de propósito, destinatarios o límites fundamentales requieren nueva propuesta y aprobación propia. Añadir un bloque Revisión de GENESIS con identidad generada desde el runtime, después de un bloque cerrado o rechazado y abandonado. Preservar completos cuerpo y decisión anteriores. No regenerar fuentes posteriores ni reiniciar el proyecto.
 
 El rechazo registra intervención real y disposition abandoned sin aprobar. Conserva el bloque, restaura exclusivamente el candidato de Glossary cuando corresponda y no altera canon vigente. Una propuesta posterior tiene identidad propia. Si hay evolución ajena que impide restauración segura, detenerse y consultar.
 
@@ -64,7 +64,7 @@ El rechazo registra intervención real y disposition abandoned sin aprobar. Cons
 
 La integración conserva una constancia de cada aprobación que permite comprobar su procedencia entre sesiones. No autentica identidad humana ni resiste manipulación hostil. Constancia ausente, corrupta o discordante bloquea el cierre; no se reconstruye desde una afirmación del agente.
 
-Un paso interrumpido entre aprobación y cierre queda señalado de forma persistente y obliga a inspeccionarlo antes de continuar. Solo la integración retira la señal, tras comprobar cierre y referencias o abandono completado. No depende de Roadmap.
+Un paso interrumpido entre aprobación y cierre queda señalado de forma persistente y obliga a inspeccionarlo antes de continuar. Solo la integración retira la señal, tras comprobar cierre y referencias o abandono completado. No depende de Backlog.
 
 | Situación | Acción |
 | --- | --- |
@@ -79,4 +79,4 @@ La revisión semántica se vincula al contenido exacto examinado, acotado al blo
 
 ## Siguiente componente
 
-Ontology consume Genesis aprobado y Glossary para formalizar dominios y obligaciones. La lectura inicial de Genesis es necesaria, no una excepción histórica artificial. El alcance de V1 se confirma al cierre posterior a Mapping con Specs y Roadmap.
+Ontology consume Genesis aprobado y Glossary para formalizar dominios y obligaciones. La lectura inicial de Genesis es necesaria, no una excepción histórica artificial. El alcance de V1 se confirma al cierre posterior a Mapping con Specs y Backlog.

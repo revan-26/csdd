@@ -17,11 +17,11 @@ GENESIS
    -> ONTOLOGY
    -> TOPOLOGY
    -> MAPPING
-   -> CONSOLIDATION (Specs + Roadmap)
+   -> CONSOLIDATION (Specs + Backlog)
    -> IMPLEMENTATION <-> MAPPING (realización y evidencia)
 ```
 
-El lifecycle del producto (`genesis -> pre_fr -> post_fr`) no es el lifecycle de los componentes. Un componente puede invocarse varias veces, y distintos componentes pueden estar activos simultáneamente sobre alcances diferentes.
+Los modos de implementación (`construction` y `evolution`, ver `../CSDD.md`) no son estados de los componentes. Un componente puede invocarse varias veces, y distintos componentes pueden estar activos simultáneamente sobre alcances diferentes.
 
 Definición comprende GENESIS, ONTOLOGY, TOPOLOGY, MAPPING y CONSOLIDATION. Implementación comprende IMPLEMENTATION en relación con MAPPING y reentradas selectivas. El recorrido expresa responsabilidades, no un orden rígido de escritura: desde cualquier componente pueden registrarse aportes pertinentes en otros documentos como pendientes. Ningún aporte equivale a aprobación, cierre o prueba ejecutada. Consultar protocols/entry.md para proyectos en blanco, referencias anteriores y continuidad/adopción de proyectos trabajados.
 
@@ -76,7 +76,7 @@ Admite ideas, problemas, ejemplos, restricciones, documentos existentes, comport
 
 ### Salidas Y Garantías
 
-Produce `docs/base/GENESIS.md` aprobado y `docs/glossary.md` fiel al vocabulario inicial. Specs y Roadmap pertenecen al cierre posterior a Mapping. Una revisión fundamental preserva historia y reconcilia solo el alcance autorizado, sin regenerar el proyecto.
+Produce `docs/base/GENESIS.md` aprobado y `docs/glossary.md` fiel al vocabulario inicial. Specs y Backlog pertenecen al cierre posterior a Mapping. Una revisión fundamental preserva historia y reconcilia solo el alcance autorizado, sin regenerar el proyecto.
 
 Dentro del alcance aprobado garantiza comprensión suficiente, límites visibles y ausencia de contradicciones materiales conocidas. No garantiza viabilidad técnica total, completitud semántica, product-market fit ni autorización de implementación.
 
@@ -84,7 +84,7 @@ Dentro del alcance aprobado garantiza comprensión suficiente, límites visibles
 
 No aprueba dominios, repositorios, APIs, tablas, frameworks ni tecnología. Cierra con aprobación humana identificable del contenido exacto, incremento inicial observable, Genesis/Glossary revisados por significado, bloqueantes resueltos y diferidos explícitos. Una revisión semántica independiente del candidato basta; administración y escritura se comprueban por código.
 
-La aprobación congela el cuerpo de esa revisión, no el archivo para siempre. Los cambios fundamentales generan propuesta y aprobación propias. Aprobación, materialización y cierre son hechos distintos; Materialización registra cierre y evidencia sin depender de Roadmap.
+La aprobación congela el cuerpo de esa revisión, no el archivo para siempre. Los cambios fundamentales generan propuesta y aprobación propias. Aprobación, materialización y cierre son hechos distintos; Materialización registra cierre y evidencia sin depender de Backlog.
 
 ## ONTOLOGY
 
@@ -105,7 +105,7 @@ Consume inicialmente Genesis aprobado y Glossary, alcance, riesgos y heurística
 
 ### Salidas Y Garantías
 
-Produce `docs/base/ONTOLOGY.md`, `docs/domains/`, contratos semánticos aplicables en `docs/contracts/<nombre>/contract.md` y actualización de Glossary. El registro base referencia el paquete aprobado sin duplicarlo. ADR arquitectónicos pertenecen a Topology; no se exige Specs o Roadmap todavía.
+Produce `docs/base/ONTOLOGY.md`, `docs/domains/`, contratos semánticos aplicables en `docs/contracts/<nombre>/contract.md` y actualización de Glossary. El registro base referencia el paquete aprobado sin duplicarlo. ADR arquitectónicos pertenecen a Topology; no se exige Specs o Backlog todavía.
 
 No garantiza una realización técnica correcta, una frontera de despliegue, una API, una tabla, un repositorio ni una verificación ejecutada.
 
@@ -171,9 +171,9 @@ Reentra si cambia la fuente, Topology, destino, verificación, entorno o evidenc
 
 ## CONSOLIDATION
 
-Transforma definiciones parciales y decisiones vigentes en alcance, prioridades y secuencia coherentes y confirmados. Consume Genesis, Glossary, dominios, contratos, arquitectura, ADR, mappings y evidencia pertinentes. Produce `docs/specs.md` y `docs/roadmap.md` según protocols/consolidation.md; los aportes anticipados a esos archivos no sustituyen esta transformación.
+Transforma definiciones parciales y decisiones vigentes en alcance, prioridades y secuencia coherentes y confirmados. Consume Genesis, Glossary, dominios, contratos, arquitectura, ADR, mappings y evidencia pertinentes. Produce `docs/specs.md` y `docs/backlog.md` según protocols/consolidation.md; los aportes anticipados a esos archivos no sustituyen esta transformación.
 
-Specs ofrece definición global y alcance de V1 con referencias a detalle; Roadmap secuencia, dependencias y diferidos. Cierra con contradicciones bloqueantes resueltas, confirmación humana trazable del alcance/prioridades y fuentes consistentes. No añade requisitos por inferencia ni exige definir exhaustivamente el futuro. No necesita un registro base adicional, un agente nuevo ni demuestra First Release. La implementación del siguiente incremento requiere autorización explícita.
+Specs ofrece definición global y alcance de V1 con referencias a detalle; Backlog prioriza el trabajo, sus dependencias y diferidos. Cierra con contradicciones bloqueantes resueltas, confirmación humana trazable del alcance/prioridades y fuentes consistentes. No añade requisitos por inferencia ni exige definir exhaustivamente el futuro. No necesita un registro base adicional, un agente nuevo ni demuestra First Release. La implementación del siguiente incremento requiere autorización explícita.
 
 Reentra ante cambios de alcance, dependencias, prioridades o secuencia; preserva historia y reconcilia solo documentos afectados. Los informes de exploración quedan como antecedentes: ninguna decisión o justificación indispensable reside exclusivamente en support/ al cerrar.
 
@@ -200,7 +200,7 @@ No requiere que todo el mapping del incremento esté terminado para comenzar, pe
 
 No redefine significado silenciosamente, no convierte compilación o una suite verde en conformidad y no declara First Release por sí sola. Cierra cuando existe el comportamiento acordado, la evidencia pertinente, los mappings localizados, las desviaciones visibles, los consumidores reconciliados y las decisiones humanas necesarias.
 
-Implementation puede provocar reentrada selectiva en componentes anteriores. Las fuentes vigentes reciben el cambio aprobado; una revisión fundamental se registra sin reescribir acuerdos anteriores. En `post_fr`, los cambios sobre activos protegidos requieren evaluación proporcional de compatibilidad, migración y autoridad.
+Implementation puede provocar reentrada selectiva en componentes anteriores. Las fuentes vigentes reciben el cambio aprobado; una revisión fundamental se registra sin reescribir acuerdos anteriores. En modo `evolution`, los cambios sobre activos protegidos requieren evaluación proporcional de compatibilidad, migración y autoridad.
 
 ## Dependencias E Impacto
 
@@ -219,7 +219,7 @@ Las consultas y revisiones de registros base se rigen por `../CSDD.md`: primero 
 
 ## Validación Del Método
 
-La madurez del componente no es un estado del lifecycle ni una puntuación global. Puede afirmarse, con alcance y limitaciones explícitos, que un componente está:
+La madurez del componente no es un estado del producto ni una puntuación global. Puede afirmarse, con alcance y limitaciones explícitos, que un componente está:
 
 - `defined`: contrato y protocolo coherentes;
 - `exercised`: una invocación real fue cerrada;

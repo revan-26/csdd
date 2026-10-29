@@ -37,6 +37,19 @@ Cada término es una entrada con título, una línea administrativa `[<ID> · <f
 - La categoría es texto libre e indica qué tipo de concepto es, no su firmeza.
 - Un término deprecado se traslada a `Términos Deprecados` con su ID, indicando qué lo reemplaza y por qué dejó de usarse.
 
+### Backlog
+
+Cada ítem es una entrada con título, una línea administrativa `[<ID> · <estado> · <horizonte>]`, el resultado esperado con su criterio de cierre y las referencias que apliquen.
+
+- El ID tiene la forma `B-NNN`, lo asigna el código y nunca se reutiliza.
+- El estado es `propuesto` (aporte de un agente), `aceptado` (la persona lo quiere), `autorizado` (puede ejecutarse), `cerrado`, `diferido` o `descartado`. Solo la persona acepta, autoriza, difiere o descarta; `cerrado` lo escribe el código junto con la referencia de cierre. Diferidos y descartados indican su razón.
+- El horizonte es `fr` o `posterior` y solo se exige antes de First Release.
+- El orden de `Ítems` es la prioridad. Los ítems cerrados y descartados se trasladan a su sección conservando el ID.
+
+### First Release
+
+`declared_by`, `declared_at` y `declaration_reference` son obligatorios cuando la sección existe. Activos Protegidos referencia contratos y describe los datos, comportamientos o consumidores no cubiertos por un contrato.
+
 ## Artefactos De Génesis
 
 | Plantilla | Instancia | Naturaleza |
@@ -51,8 +64,8 @@ La persona recibe Genesis y Glossary candidatos, revisados por significado, y de
 
 | Plantilla | Instancia | Naturaleza |
 | --- | --- | --- |
-| `specs.template.md` | `docs/specs.md` | Definición global, alcance de V1 y síntesis con referencias. |
-| `roadmap.template.md` | `docs/roadmap.md` | Secuencia hacia V1, lifecycle, posibilidades y diferidos con razones. |
+| `specs.template.md` | `docs/specs.md` | Definición global, alcance de V1, síntesis con referencias y declaración de First Release. |
+| `backlog.template.md` | `docs/backlog.md` | Trabajo priorizado, estado de decisión y referencia de cierre. |
 
 Ver ../protocols/consolidation.md. El cierre de definición no equivale a First Release implementada.
 

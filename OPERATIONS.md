@@ -45,8 +45,7 @@ aprobación del usuario.
 - Conservar exactamente cuerpos, decisiones e historia protegidos. La libertad de
   paráfrasis de una proyección no autoriza reescribir contenido aprobado.
 - Recuperar solo el paso incompleto tras inspeccionar las fuentes existentes;
-  preservar evolución ajena al cambio, sin regenerar el proyecto ni reiniciar su
-  lifecycle desde la historia.
+  preservar evolución ajena al cambio, sin regenerar el proyecto desde la historia.
 - La procedencia de aprobación debe provenir de una intervención realmente
   registrada; no inventar aprobaciones ni transcripts.
 - Permitir una entrega inicial y hasta cuatro reparaciones; detenerse por repetición,
@@ -112,7 +111,7 @@ aprobación del usuario.
 - Macrofases: Definición e Implementación. Recorrido de referencia: Genesis (base/GENESIS.md y glossary.md), Ontology
   (base/ONTOLOGY.md, domains/ y contratos semánticos), Topology
   (base/TOPOLOGY.md, architecture.md, adrs/ y contratos técnicos), Mapping
-  (docs/mapping/ en cada repo), CONSOLIDATION (specs.md y roadmap.md).
+  (docs/mapping/ en cada repo), CONSOLIDATION (specs.md y backlog.md).
   Las rutas son relativas a docs/ salvo mapping local. V1 y prioridades requieren
   confirmación humana; cierre de definición no acredita implementación o entrega.
 - Los seis componentes son GENESIS, ONTOLOGY, TOPOLOGY, MAPPING,

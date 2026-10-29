@@ -15,12 +15,12 @@ puede registrar aportes pendientes donde correspondan desde cualquier componente
 | ONTOLOGY | docs/base/ONTOLOGY.md, docs/domains/ y contratos semánticos aplicables |
 | TOPOLOGY | docs/base/TOPOLOGY.md, docs/architecture.md, docs/adrs/ y contratos técnicos aplicables |
 | MAPPING | docs/mapping/ en cada repositorio, inicialmente con asignaciones |
-| CONSOLIDATION | docs/specs.md y docs/roadmap.md, con alcance de V1 y prioridades confirmados |
+| CONSOLIDATION | docs/specs.md y docs/backlog.md, con alcance de V1 y prioridades confirmados |
 | IMPLEMENTATION | Comportamiento materializado, verificaciones y aprendizaje reconciliado |
 
 El cierre de definición no demuestra implementación ni entrega de First Release. Implementation materializa después y devuelve aprendizaje; la reentrada afecta solo las fuentes necesarias.
 
-Cada contrato ocupa docs/contracts/<nombre>/contract.md y puede incluir YAML, JSON, XML u otros archivos asociados. Glossary evoluciona con los componentes. Specs sintetiza y referencia, sin duplicar reglas; Roadmap conserva secuencia, posibilidades posteriores y diferidos con razones.
+Cada contrato ocupa docs/contracts/<nombre>/contract.md y puede incluir YAML, JSON, XML u otros archivos asociados. Glossary evoluciona con los componentes. Specs sintetiza y referencia, sin duplicar reglas; Backlog ordena el trabajo que la persona decide, con diferidos y sus razones. La implementación opera en modo `construction` hasta que la persona declara First Release y en modo `evolution` después.
 
 docs/support/ admite consulta externa e informes de exploración local/web del proyecto anterior o actual. Apoyan toda Definición y quedan como antecedentes tras CONSOLIDATION: entonces ninguna decisión o justificación indispensable reside exclusivamente allí. No se sincronizan con el producto ni aprueban alcance.
 
@@ -32,7 +32,7 @@ Entradas: proyecto en blanco, nuevo con referencia anterior y ya trabajado (cont
 - La integración objetivo es un plugin de Claude Code, todavía no disponible; sus herramientas deterministas usarán Python 3 con biblioteca estándar.
 - AGENTS.md: colaboración; OPERATIONS.md: acuerdos técnicos.
 
-.csdd/ contiene exclusivamente framework; docs/ contiene producto. Antes de Ontology, Genesis y Glossary son las entradas pertinentes; no se exige Specs o Roadmap prematuramente. La historia se consulta selectivamente y con motivo.
+.csdd/ contiene exclusivamente framework; docs/ contiene producto. Antes de Ontology, Genesis y Glossary son las entradas pertinentes; no se exige Specs o Backlog prematuramente. La historia se consulta selectivamente y con motivo.
 
 ## Operativa Y Validación
 

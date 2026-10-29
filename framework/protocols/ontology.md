@@ -2,7 +2,7 @@
 
 ## Dependencias Normativas
 
-- `../CSDD.md`: principios, autoridad y lifecycle.
+- `../CSDD.md`: principios, autoridad y modos de implementación.
 - `../core/components.md`: contrato del componente `ONTOLOGY`.
 - `../core/pillars.md`: responsabilidades transversales aplicables.
 
@@ -10,7 +10,7 @@
 
 Guiar la transformación del baseline aprobado de Génesis en un modelo semántico explícito, proporcional y aprobable, antes de decidir repositorios o realización técnica.
 
-Ontología es un componente del núcleo que puede invocarse en `pre_fr` o `post_fr`. No es una ontología formal exhaustiva ni una fase de arquitectura. En `post_fr` respeta los activos protegidos y las decisiones de compatibilidad requeridas.
+Ontología es un componente del núcleo que puede invocarse antes o después de First Release. No es una ontología formal exhaustiva ni una fase de arquitectura. Después de First Release respeta los activos protegidos y las decisiones de compatibilidad requeridas.
 
 ## Entrada
 
@@ -19,9 +19,9 @@ La invocación requiere:
 - `docs/base/GENESIS.md` aprobado y `docs/glossary.md` vigente en la primera invocación; dominios y contratos vigentes en reentradas;
 - cierre de Genesis respaldado por su revisión semántica y materialización;
 - incremento o cambio activo, alcance, riesgos y asuntos diferidos identificados; en la primera invocación corresponden al primer slice;
-- contexto de lifecycle y decisiones vigentes: `pre_fr` después de aprobar Genesis, o `post_fr` tras declaración humana de First Release. Specs y Roadmap no se exigen antes del cierre de definición.
+- decisiones vigentes y, si existe, declaración de First Release con sus activos protegidos. Specs y Backlog no se exigen antes del cierre de definición.
 
-Si estas condiciones no se cumplen, la IA debe identificar qué falta. Un borrador vuelve a la conversación de Genesis; una aprobación comprobable con proyección pendiente requiere recuperación según `genesis.md`, no reapertura semántica del snapshot. `pre_fr` por sí solo no acredita el cierre.
+Si estas condiciones no se cumplen, la IA debe identificar qué falta. Un borrador vuelve a la conversación de Genesis; una aprobación comprobable con proyección pendiente requiere recuperación según `genesis.md`, no reapertura semántica del snapshot.
 
 ## Responsabilidades
 
@@ -143,7 +143,7 @@ Ontología está lista para aprobación cuando:
 11. Los riesgos y asuntos diferidos son visibles.
 12. No se han definido repositorios, mappings ni decisiones técnicas prematuras.
 
-Readiness no es un nuevo estado del lifecycle.
+Readiness no es un estado del producto.
 
 ## Aprobación
 
@@ -153,9 +153,9 @@ Una solicitud de modificación mantiene el paquete en `proposed`. La aprobación
 
 ## Materialización Y Versionado
 
-La aprobación no cambia el lifecycle vigente. `ONTOLOGY.md` conserva el manifiesto de la revisión aprobada. Una modificación semántica crea una nueva propuesta y conserva la aprobación anterior hasta que la nueva sea aceptada.
+La aprobación no declara First Release. `ONTOLOGY.md` conserva el manifiesto de la revisión aprobada. Una modificación semántica crea una nueva propuesta y conserva la aprobación anterior hasta que la nueva sea aceptada.
 
-La materialización reconcilia dominios, contratos y Glossary. Relaciones y reglas vigentes no quedan exclusivamente en el registro base: ONTOLOGY.md conserva manifiesto aprobado, resultados y pendientes sin duplicar el paquete. Pueden registrarse aportes pendientes pertinentes a Specs o Roadmap, sin confundirlos con CONSOLIDATION aprobada. Revisiones preservan aprobaciones anteriores y actualizan solo consumidores existentes afectados.
+La materialización reconcilia dominios, contratos y Glossary. Relaciones y reglas vigentes no quedan exclusivamente en el registro base: ONTOLOGY.md conserva manifiesto aprobado, resultados y pendientes sin duplicar el paquete. Pueden registrarse aportes pendientes pertinentes a Specs o Backlog, sin confundirlos con CONSOLIDATION aprobada. Revisiones preservan aprobaciones anteriores y actualizan solo consumidores existentes afectados.
 
 Las actualizaciones del framework pueden modificar protocolos, heurísticas y plantillas, pero no sobrescriben instancias ontológicas de un proyecto adoptante.
 

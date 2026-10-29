@@ -43,3 +43,15 @@
 ## Fuentes De Definición
 
 <Dominios, contratos, arquitectura, ADR y mappings pertinentes.>
+
+## First Release
+
+<Opcional. Solo tras la declaración humana.>
+
+declared_by:
+declared_at:
+declaration_reference:
+
+### Activos Protegidos
+
+<Contratos referenciados y datos, comportamientos o consumidores no cubiertos por un contrato.>

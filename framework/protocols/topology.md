@@ -2,7 +2,7 @@
 
 ## Dependencias Normativas
 
-- `../CSDD.md`: principios, autoridad y lifecycle.
+- `../CSDD.md`: principios, autoridad y modos de implementación.
 - `../core/components.md`: contrato del componente `TOPOLOGY`.
 - `../core/pillars.md`: responsabilidades transversales aplicables.
 
@@ -12,7 +12,7 @@ Transformar el modelo semántico aprobado en la organización física mínima ne
 
 ## Entradas
 
-- Dominios, Glossary y contratos semánticos aprobados aplicables; alcance y restricciones acordados en Ontology. No exigir Specs o Roadmap antes del cierre de definición.
+- Dominios, Glossary y contratos semánticos aprobados aplicables; alcance y restricciones acordados en Ontology. No exigir Specs o Backlog antes del cierre de definición.
 - `docs/architecture.md` vigente cuando exista, y ADR aplicables según estado.
 - Primer incremento o alcance de trabajo aprobado.
 - Repositorios existentes y restricciones del workspace.
@@ -31,7 +31,7 @@ No se crean repositorios futuros solo porque aparezcan como posibilidad en una p
 7. Solicitar aprobación humana cuando la decisión implique costo relevante, lock-in, separación irreversible, datos persistentes o riesgo operativo.
 8. Vincular o fundar los repositorios aprobados con su estructura mínima.
 9. Marcar como disponibles los destinos que `MAPPING` puede asignar.
-10. Registrar alcance, fuentes, decisiones, revisiones de resultados, verificación, pendientes y cierre en `docs/base/TOPOLOGY.md`. Aportes pertinentes a Roadmap se registran como pendientes, sin declarar alcance consolidado ni cerrar CONSOLIDATION.
+10. Registrar alcance, fuentes, decisiones, revisiones de resultados, verificación, pendientes y cierre en `docs/base/TOPOLOGY.md`. Aportes pertinentes a Backlog se registran como pendientes, sin declarar alcance consolidado ni cerrar CONSOLIDATION.
 
 ## Salida Mínima
 

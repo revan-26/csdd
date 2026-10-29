@@ -14,7 +14,7 @@
 
 ### Pendientes Y Procedencia
 
-<Evidencia, decisiones y condiciones abiertas; no reiniciar lifecycle.>
+<Evidencia, decisiones y condiciones abiertas; no reiniciar el proyecto.>
 
 ### Decisión Humana
 
