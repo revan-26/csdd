@@ -31,6 +31,7 @@ Entradas: proyecto en blanco, nuevo con referencia anterior y ya trabajado (cont
 - framework/: metodología, protocolos y plantillas; se instala como .csdd/.
 - La integración objetivo es un plugin de Claude Code, todavía no disponible; sus herramientas deterministas usarán Python 3 con biblioteca estándar.
 - integration/claude-code/: prototipo de etapa 1 para probar Genesis; se instala como .claude/.
+- tools/: herramientas deterministas independientes del CLI, con sus pruebas (`python3 -m unittest discover -s tools/tests`).
 - AGENTS.md: colaboración; OPERATIONS.md: acuerdos técnicos.
 
 .csdd/ contiene exclusivamente framework; docs/ contiene producto. Antes de Ontology, Genesis y Glossary son las entradas pertinentes; no se exige Specs o Backlog prematuramente. La historia se consulta selectivamente y con motivo.
@@ -52,6 +53,6 @@ La validación usa pruebas deterministas para controles y una conversación huma
 | Integración Claude Code | Prototipo de etapa 1 para Genesis, sin guarda ni esqueletos por código: Orchestrator como rol de la sesión principal con skills y subagentes; herramientas en Python 3 con biblioteca estándar |
 | Implementation | Protocolo existente; modos `construction` y `evolution` definidos por la declaración de First Release |
 
-El trabajo pendiente está en [BACKLOG.md](BACKLOG.md). Pruebas verdes no demuestran calidad semántica ni madurez global.
+El trabajo pendiente está en [BACKLOG.md](BACKLOG.md): es el Backlog del proyecto fuente, no de un adoptante ni parte del payload instalable, y sigue la plantilla del framework; `fr` designa la primera versión usable de la integración Claude Code. Pruebas verdes no demuestran calidad semántica ni madurez global.
 
 Instalación del framework: [INSTALL.md](INSTALL.md).
