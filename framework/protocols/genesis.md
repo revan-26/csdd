@@ -24,7 +24,11 @@ Escuchar → interpretar → proponer → preguntar cuando cambie una decisión 
 
 ## Candidato
 
-Preparar Genesis con síntesis, intención, interpretación, vocabulario inicial, incremento, riesgos, procedencia y límites de la siguiente fase. El registro distingue borrador, aprobación y materialización. Los campos opcionales solo se completan si aportan información real.
+Preparar Genesis con síntesis, intención, interpretación, vocabulario inicial, incremento, riesgos y límites de la siguiente fase. El registro distingue borrador, aprobación y materialización. Los campos opcionales solo se completan si aportan información real.
+
+Lo que no lleva marca lo dijo o decidió la persona. Se marcan en línea solo las excepciones: inferencia, supuesto, propuesta del asistente o investigación con referencia a su informe. Cada decisión figura en la sección a la que afecta y cada contenido en una sola sección; el resumen sintetiza sin añadir. El detalle técnico de una exploración permanece en su informe: Genesis registra su consecuencia para el producto y la referencia.
+
+Genesis y Glossary describen el producto y su vocabulario, no el estado del proceso: el cuerpo se congela al aprobar y no debe quedar escrito como candidato, pendiente o en revisión.
 
 Preparar Glossary como candidato: términos y definiciones presentes en Genesis, sin ampliación por inferencia. Mientras Genesis esté pendiente, el glosario candidato no constituye aprobación de significado. Antes de modificar un glosario vigente, conservar su versión previa para poder abandonar únicamente el cambio candidato.
 
@@ -34,11 +38,11 @@ Los informes de exploración local/web pueden mantenerse en docs/support/ como i
 
 Una revisión semántica independiente contrasta el candidato y Glossary con la intención y decisiones humanas: fidelidad, reglas preservadas, alcance, inferencias explícitas y ausencia de contradicciones bloqueantes. No requiere documentos futuros ni aprobación previa del candidato.
 
-Corregir hallazgos concretos. Un gusto editorial no bloquea. La revisión no sustituye autoridad humana ni demuestra implementación.
+Corregir en una sola tanda los hallazgos concretos de una revisión. Las observaciones no bloqueantes se presentan a la persona con el candidato, sin abrir otra ronda; un gusto editorial no bloquea. La revisión no sustituye autoridad humana ni demuestra implementación.
 
 La conformidad se vincula al contenido exacto examinado, acotado al bloque activo y Glossary; Reviewer registra únicamente juicio semántico. Un cambio posterior de ese contenido invalida la conformidad; la nueva revisión se limita al cambio.
 
-Presentar Genesis y Glossary para aprobar, corregir o rechazar. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no presentar la aprobación anterior como aceptación del cambio.
+Presentar Genesis y Glossary para aprobar, corregir o rechazar. La persona puede no leer el documento completo, por lo que la presentación indica las decisiones registradas, las inferencias y términos que la aprobación convierte en acordados, las observaciones de la revisión y lo cambiado desde la presentación anterior. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no presentar la aprobación anterior como aceptación del cambio.
 
 El cuerpo comprende título y secciones anteriores a Decisión Humana. Metadatos de decisión y materialización quedan fuera de esa huella. La aprobación no autoriza automáticamente Ontology, decisiones técnicas o implementación.
 

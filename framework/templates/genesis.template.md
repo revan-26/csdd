@@ -2,7 +2,7 @@
 
 ## Resumen Ejecutivo
 
-<Síntesis de intención, resultado y límites.>
+<Síntesis de intención, resultado y límites para quien no lea el resto; no añade contenido.>
 
 ## Intención De Origen
 
@@ -10,7 +10,7 @@
 
 ## Interpretación Del Producto
 
-<Propósito, actores, flujos, alcance, exclusiones e inferencias separadas.>
+<Propósito, actores, flujos, alcance y exclusiones.>
 
 ## Vocabulario Inicial
 
@@ -24,9 +24,9 @@
 
 <Opcional. Solo si se discutió; no inventar FR.>
 
-## Investigación Y Decisiones
+## Investigación
 
-<Opcional. Solo investigación o decisiones pertinentes, con procedencia.>
+<Opcional. Exploraciones realizadas, su consecuencia para el producto y la referencia a su informe en docs/support/; el detalle permanece en el informe.>
 
 ## Incertidumbres Y Riesgos
 
@@ -36,13 +36,9 @@
 
 <Alcance autorizado o ausencia de autorización; no iniciar Ontology.>
 
-## Procedencia
-
-<Separar intención humana, inferencia, investigación, decisión y diferimiento.>
-
 ## Readiness De La IA
 
-<Suficiencia para el encargo y límites; no declarar autorización inexistente.>
+<Suficiencia de la información para la siguiente fase y sus límites; no declarar autorización inexistente.>
 
 ## Decisión Humana
 

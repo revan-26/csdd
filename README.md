@@ -38,7 +38,7 @@ Entradas: proyecto en blanco, nuevo con referencia anterior y ya trabajado (cont
 
 No hay operativa agentic implementada: el adapter OpenCode fue retirado y la integración con Claude Code está por construir. Los roles se mantienen: Orchestrator conversa y coordina, Canon estructura y escribe, Reviewer revisa independientemente y Explorer investiga solo cuando aporta valor. Una revisión semántica del candidato y Glossary precede a la aprobación; el código comprueba administración y cierre, sin segunda revisión LLM obligatoria.
 
-Canon es responsable editorial de docs/. Explorer investiga para Orchestrator o Canon, en fuentes locales y web, con objetivo y límites. No se incorporan agentes adicionales.
+Canon es responsable editorial de docs/. Explorer investiga para Orchestrator o Canon, en fuentes locales y web, con objetivo y límites, y guarda sus informes en docs/support/. No se incorporan agentes adicionales.
 
 La validación usa pruebas deterministas para controles y una conversación humana real para utilidad y fidelidad. No exige repetir siete simulaciones completas después de cada cambio. Resultados anteriores permanecen históricos y no certifican candidatos nuevos.
 
