@@ -42,6 +42,15 @@ Canon es responsable editorial de docs/. Explorer investiga para Orchestrator o 
 
 La validación usa pruebas deterministas para controles y una conversación humana real para utilidad y fidelidad. No exige repetir siete simulaciones completas después de cada cambio. Resultados anteriores permanecen históricos y no certifican candidatos nuevos.
 
-Consultar el estado actual en [ROADMAP.md](ROADMAP.md). Pruebas verdes no demuestran calidad semántica ni madurez global.
+## Estado
+
+| Área | Estado |
+| --- | --- |
+| Macrofases y componentes | Definidos con contratos y protocolos; los posteriores a Genesis, sin operativa de aprobación y cierre ejercitada |
+| Plantillas | Esqueletos Markdown; estructura a cargo del código |
+| Integración Claude Code | Decidida, sin implementación: Orchestrator como rol de la sesión principal con skills, subagentes y hooks; herramientas en Python 3 con biblioteca estándar |
+| Implementation | Protocolo existente; modos `construction` y `evolution` definidos por la declaración de First Release |
+
+El trabajo pendiente está en [BACKLOG.md](BACKLOG.md). Pruebas verdes no demuestran calidad semántica ni madurez global.
 
 Instalación del framework: [INSTALL.md](INSTALL.md).
