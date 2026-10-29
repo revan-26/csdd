@@ -21,7 +21,7 @@ Script en Python 3 con biblioteca estándar que comprueba los documentos contra 
 ### Prototipo mínimo de la integración Claude Code: Genesis
 [B-002 · aceptado · fr]
 
-Primer corte limitado a Genesis: creación del esqueleto, guarda de escritura, `/csdd:aprobar`, comprobación de cierre y Materialización, y subagente Reviewer. `/csdd:doctor`, el hook SessionStart, Canon, Explorer y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
+Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/claude-code/` (skills `csdd-genesis` y `csdd-aprobar`, subagentes Canon, Reviewer y Explorer, scripts de huella, mensajes y constancia de revisión) y añade creación del esqueleto, guarda de escritura, comprobación de cierre y Materialización por código, y el empaquetado como plugin con `/csdd:aprobar`. `/csdd:doctor`, el hook SessionStart y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
 
 - Fuentes: `OPERATIONS.md`, `framework/protocols/genesis.md`
 - Depende de: B-001
