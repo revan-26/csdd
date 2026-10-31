@@ -6,7 +6,7 @@ Esta guía instala en un proyecto la baseline metodológica (`.csdd/`) y la inte
 
 `.csdd/` contiene solo framework. Los resultados pertenecen a docs/. Genesis produce Genesis y Glossary; Specs y Backlog se escriben al cierre posterior a Mapping.
 
-La integración está en construcción: los hooks ya rigen la escritura y las decisiones, pero las skills y los agentes todavía no están adaptados a ellos. No usarla en proyectos reales hasta completar ese corte.
+La integración cubre Genesis; los componentes posteriores todavía no tienen operativa.
 
 ## Requisitos
 
@@ -67,7 +67,7 @@ Durante la discusión puede aparecer:
 <workspace>/docs/base/GENESIS.md
 ```
 
-Ese archivo permanece como propuesta hasta que el humano lo lee y lo aprueba formalmente. La decisión identifica tanto el contenido exacto presentado como la intervención humana de aprobación; la ruta del archivo o un `status` aislado no bastan.
+Ese archivo permanece como propuesta hasta que la persona decide con `/csdd-approve <nombre>` o `/csdd-reject <nombre>: <motivo>`. Un hook registra la decisión sin pasar por el modelo; identifica tanto el contenido exacto presentado como la intervención humana, y la aprobación además cierra Genesis por código. Un Genesis rechazado o cerrado todavía no puede continuar con una propuesta nueva (B-011).
 
 ## Cierre De Génesis
 
@@ -86,7 +86,7 @@ El cierre de Genesis se comprueba en su registro y evidencia local, sin depender
 
 Ontology explicita siempre el dominio del problema, pero no exige múltiples divisiones ni documentos separados. `docs/domains/` y `docs/contracts/` (Ontology) y `docs/adrs/` (Topology) aparecen solo con contenido aplicable. La aprobación de Ontology no define repositorios ni mappings. La historia no se carga durante trabajo ordinario: Canon la consulta para cambios fundamentales o procedencia necesaria; Reviewer puede consultarla para revisar ese encargo.
 
-Antes de iniciar Ontology se comprueba el cierre de Genesis. Si la ejecución se interrumpió, se inspeccionan la aprobación y los archivos existentes para recuperar la proyección según el protocolo. No se regeneran fuentes que ya evolucionaron ni se reinicia un Genesis cerrado. La instalación no realiza esa recuperación ni sobrescribe documentos.
+Antes de iniciar Ontology se comprueba el cierre de Genesis. Si la ejecución se interrumpió, el siguiente mensaje de la persona completa la decisión desde su constancia, o avisa si los archivos ya no concuerdan. No se regeneran fuentes que ya evolucionaron ni se reinicia un Genesis cerrado. La instalación no realiza esa recuperación ni sobrescribe documentos.
 
 `core/foundations.md` es consultivo y está destinado principalmente a la comprensión humana de la metodología. Los agentes no deben cargarlo durante la operación ordinaria.
 

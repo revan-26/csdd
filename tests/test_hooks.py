@@ -385,6 +385,41 @@ class HookTest(unittest.TestCase):
         self.assertIn("No continúes", output["hookSpecificOutput"]["additionalContext"])
         self.assertTrue((self.state / "pending").exists())
 
+    # Flujo completo
+
+    def apply_edit(self, relative, old, new):
+        """Pasa la edición por la guarda como Canon, la aplica y ejecuta PostToolUse."""
+        self.assert_allowed(self.edit(relative, old, new))
+        self.put(relative, self.text(relative).replace(old, new))
+        self.assertEqual(self.post_tool(relative).returncode, 0)
+
+    def review(self, verdict):
+        command = f"python3 .claude/csdd/scripts/csdd_review.py record {verdict}"
+        self.assert_allowed(self.bash(command, REVIEWER))
+        self.cli("csdd_review.py", "record", verdict)
+
+    def test_full_genesis_flow(self):
+        self.prompt("Quiero un sistema de créditos")
+        self.assert_allowed(self.bash('python3 .claude/csdd/scripts/csdd_doc.py new "Demo"'))
+        self.skeleton()
+        for line in self.text(GENESIS).partition("\n## Decisión Humana")[0].split("\n"):
+            if line.startswith("## "):
+                self.apply_edit(GENESIS, line + "\n", f"{line}\n\nContenido de {line[3:]}.\n")
+        self.apply_edit(GLOSSARY, "## Términos Deprecados", TERM + "## Términos Deprecados")
+        self.assertIn("[G-001 · propuesto · dominio]", self.text(GLOSSARY))
+        self.review("non_conforming")
+        self.assertIn("non_conforming", self.prompt("/csdd-approve Ana")["reason"])
+        self.review("conforming")
+        self.apply_edit(GENESIS, "Contenido de Primer Slice.", "Ciclo de crédito.")
+        self.assertIn("cambió después", self.prompt("/csdd-approve Ana")["reason"])
+        self.review("conforming")
+        self.assertIn("aprobado por Ana", self.prompt("/csdd-approve Ana")["reason"])
+        self.assertIn("[G-001 · acordado · dominio]", self.text(GLOSSARY))
+        self.cli("csdd_check.py", "docs")
+        self.cli("csdd_doc.py", "status")
+        self.assertEqual(self.prompt("/csdd-approve Ana")["decision"], "block")
+        self.assert_denied(self.edit(GENESIS, "Ciclo de crédito.", "Otro."), "ya tiene una decisión")
+
     # Registro de mensajes
 
     def test_messages_are_logged(self):

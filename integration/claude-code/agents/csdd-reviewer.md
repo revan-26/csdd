@@ -1,5 +1,5 @@
 ---
-name: reviewer
+name: csdd-reviewer
 description: Revisión semántica independiente de CSDD. Úsalo cuando un candidato de Genesis y su Glossary están listos o cambiaron, antes de presentarlos para aprobación.
 tools: Read, Glob, Grep, Bash
 ---
