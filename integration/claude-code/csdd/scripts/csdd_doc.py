@@ -29,6 +29,9 @@ STATE = pathlib.Path(".claude/csdd/state")
 TEMPLATES = pathlib.Path(".csdd/templates")
 GENESIS_TITLE = re.compile(r"^Genesis De (.+)$")
 DECISION, MATERIALIZATION = "Decisión Humana", "Materialización"
+UNASSIGNED_ENTRY = re.compile(r"^\[G-NNN · (.+\])$", re.MULTILINE)
+ASSIGNED_ID = re.compile(r"^\[G-(\d{3}) · ", re.MULTILINE)
+IDS_STATE = STATE / "glossary_ids.json"
 
 
 class DocError(Exception):
@@ -47,6 +50,18 @@ def template(project, name):
     if not path.exists():
         raise DocError(f"No existe {TEMPLATES / name}: instala CSDD en este proyecto.")
     return path.read_text(encoding="utf-8")
+
+
+def project_relative(project, raw, cwd=None):
+    """Ruta relativa al proyecto en formato POSIX, o None si queda fuera de él."""
+    root = pathlib.Path(project).resolve()
+    path = pathlib.Path(raw)
+    if not path.is_absolute():
+        path = pathlib.Path(cwd or root) / path
+    try:
+        return path.resolve().relative_to(root).as_posix()
+    except ValueError:
+        return None
 
 
 def one_line(value):
@@ -135,6 +150,38 @@ def promote_terms(text):
 def restored_glossary(project, genesis):
     name = GENESIS_TITLE.match(document(genesis).title).group(1)
     return csdd_check.skeleton(template(project, csdd_check.TEMPLATES["glossary"]), name)
+
+
+# IDs del glosario
+
+def number_terms(text, last):
+    """Numera las entradas [G-NNN · …] desde el mayor ID conocido. Devuelve (texto, IDs nuevos)."""
+    used = [int(found) for found in ASSIGNED_ID.findall(text)]
+    counter = [max([last, *used])]
+    assigned = []
+
+    def assign(match):
+        counter[0] += 1
+        assigned.append(f"G-{counter[0]:03d}")
+        return f"[{assigned[-1]} · {match.group(1)}"
+    return UNASSIGNED_ENTRY.sub(assign, text), assigned
+
+
+def last_assigned_id(project):
+    try:
+        return int(json.loads((project / IDS_STATE).read_text(encoding="utf-8"))["last"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return 0
+
+
+def assign_ids(project):
+    """Asigna IDs a las entradas nuevas del glosario; un ID asignado no se reutiliza."""
+    text = (project / GLOSSARY).read_text(encoding="utf-8")
+    numbered, assigned = number_terms(text, last_assigned_id(project))
+    if assigned:
+        write_atomic(project / IDS_STATE, json.dumps({"last": int(assigned[-1][2:])}) + "\n")
+        write_atomic(project / GLOSSARY, numbered)
+    return assigned
 
 
 # Estado

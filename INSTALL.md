@@ -6,7 +6,7 @@ Esta guía instala en un proyecto la baseline metodológica (`.csdd/`) y la inte
 
 `.csdd/` contiene solo framework. Los resultados pertenecen a docs/. Genesis produce Genesis y Glossary; Specs y Backlog se escriben al cierre posterior a Mapping.
 
-La integración está en construcción: todavía no tiene guarda de escritura ni cierre por código. No usarla en proyectos reales hasta completar ese corte.
+La integración está en construcción: los hooks ya rigen la escritura y las decisiones, pero las skills y los agentes todavía no están adaptados a ellos. No usarla en proyectos reales hasta completar ese corte.
 
 ## Requisitos
 
@@ -35,7 +35,7 @@ python3 <CSDD>/install.py <workspace>
         └── scripts/            verificador y scripts de la integración
 ```
 
-El estado que la integración genera durante el trabajo (constancias y registros) se guarda en `.claude/csdd/state/`.
+El estado que la integración genera durante el trabajo (constancias y registros) se guarda en `.claude/csdd/state/`. `messages.jsonl` conserva el texto de la conversación: decidir si esa carpeta se versiona según lo que el proyecto pueda publicar.
 
 ## Reglas De Instalación
 
@@ -47,6 +47,15 @@ El estado que la integración genera durante el trabajo (constancias y registros
 - No modifica el README existente del workspace ni copia el `README.md` o el `INSTALL.md` del proyecto fuente.
 
 La instalación y la adopción del proyecto son operaciones distintas. La primera solo copia el payload; la segunda comienza cuando se inicia Génesis.
+
+## Límites De La Guarda
+
+La guarda protege contra errores del agente, no contra manipulación deliberada:
+
+- En Bash busca rutas protegidas en el texto del comando; no detecta una ruta construida de otra forma.
+- También protege `.claude/settings.json` y `.claude/settings.local.json`, para que el agente no retire los hooks: esos archivos se editan a mano.
+- Si `python3` no está disponible, Claude Code no bloquea la herramienta y la guarda no actúa.
+- Las constancias no autentican a la persona ni resisten edición manual.
 
 ## Iniciar Génesis
 
