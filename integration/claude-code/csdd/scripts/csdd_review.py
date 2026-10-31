@@ -4,7 +4,7 @@ record <veredicto>  guarda el veredicto, las huellas y una copia del contenido r
 status              indica si el contenido actual es el que recibió el último veredicto.
 diff                muestra lo cambiado desde la última revisión registrada.
 
-La constancia vive en .claude/state/review/, fuera de docs/.
+La constancia vive en .claude/csdd/state/review/, fuera de docs/.
 """
 import datetime
 import difflib
@@ -16,7 +16,7 @@ sys.dont_write_bytecode = True
 
 from csdd_hash import GLOSSARY, genesis_body, sha
 
-STATE = pathlib.Path(".claude/state/review")
+STATE = pathlib.Path(".claude/csdd/state/review")
 VERDICTS = ("conforming", "non_conforming", "insufficient_evidence")
 
 
