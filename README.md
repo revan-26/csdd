@@ -29,7 +29,7 @@ Entradas: proyecto en blanco, nuevo con referencia anterior y ya trabajado (cont
 ## Estructura Fuente
 
 - framework/: metodología, protocolos y plantillas; se instala como .csdd/.
-- integration/claude-code/: integración con Claude Code, en construcción; se instala en el .claude/ del proyecto, sin componentes globales.
+- integration/claude-code/: integración con Claude Code para Genesis; se instala en el .claude/ del proyecto, sin componentes globales.
 - tools/: herramientas deterministas independientes del CLI, en Python 3 con biblioteca estándar.
 - install.py: instala y actualiza framework e integración en un proyecto.
 - tests/: pruebas sin modelos (`python3 -m unittest discover -s tests`).
@@ -39,7 +39,7 @@ Entradas: proyecto en blanco, nuevo con referencia anterior y ya trabajado (cont
 
 ## Operativa Y Validación
 
-La operativa agentic con Claude Code está en construcción; el adapter OpenCode fue retirado. Los roles se mantienen: Orchestrator conversa y coordina, Canon estructura y escribe, Reviewer revisa independientemente y Explorer investiga solo cuando aporta valor. Una revisión semántica del candidato y Glossary precede a la aprobación; el código comprueba administración y cierre, sin segunda revisión LLM obligatoria.
+La operativa agentic con Claude Code cubre Genesis; el adapter OpenCode fue retirado. Los roles se mantienen: Orchestrator conversa y coordina, Canon estructura y escribe, Reviewer revisa independientemente y Explorer investiga solo cuando aporta valor. Una revisión semántica del candidato y Glossary precede a la aprobación; el código comprueba administración y cierre, sin segunda revisión LLM obligatoria.
 
 Canon es responsable editorial de docs/. Explorer investiga para Orchestrator o Canon, en fuentes locales y web, con objetivo y límites, y guarda sus informes en docs/support/. No se incorporan agentes adicionales.
 
@@ -51,7 +51,7 @@ La validación usa pruebas deterministas para controles y una conversación huma
 | --- | --- |
 | Macrofases y componentes | Definidos con contratos y protocolos; los posteriores a Genesis, sin operativa de aprobación y cierre ejercitada |
 | Plantillas | Esqueletos Markdown; estructura a cargo del código |
-| Integración Claude Code | En construcción para Genesis, dentro del `.claude/` del proyecto: Orchestrator como rol de la sesión principal con skills, subagentes y hooks; todavía sin guarda ni cierre por código |
+| Integración Claude Code | Primer corte para Genesis, dentro del `.claude/` del proyecto: Orchestrator como rol de la sesión principal con skills, subagentes y hooks; guarda, decisión y cierre por código con pruebas deterministas, pendiente de observación con Claude Code real (B-003) |
 | Implementation | Protocolo existente; modos `construction` y `evolution` definidos por la declaración de First Release |
 
 El trabajo pendiente está en [BACKLOG.md](BACKLOG.md): es el Backlog del proyecto fuente, no de un adoptante ni parte del payload instalable, y sigue la plantilla del framework; `fr` designa la primera versión usable de la integración Claude Code. Pruebas verdes no demuestran calidad semántica ni madurez global.

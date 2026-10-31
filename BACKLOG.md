@@ -2,18 +2,10 @@
 
 ## Ítems
 
-### Prototipo mínimo de la integración Claude Code: Genesis
-[B-002 · aceptado · fr]
-
-Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/claude-code/` (skills `csdd-genesis` y `csdd-aprobar`, subagentes Canon, Reviewer y Explorer, scripts de huella, mensajes y constancia de revisión) y añade el instalador en el `.claude/` del proyecto, creación del esqueleto, guarda de escritura, decisión humana por hook con `/csdd-approve` y `/csdd-reject`, comprobación de cierre y Materialización por código, asignación de IDs del glosario y registro de mensajes por hooks, con el transcript como respaldo. `/csdd:doctor`, el hook SessionStart, las revisiones fundamentales (B-011) y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
-
-- Fuentes: `OPERATIONS.md`, `framework/protocols/genesis.md`
-- Depende de: B-001
-
 ### Hechos de Claude Code no verificados
 [B-003 · propuesto · fr]
 
-Comprobar en el prototipo si los hooks reciben `agent_id` y `agent_type`, si una skill con `disable-model-invocation` puede precargarse en un subagente y qué límite de longitud tienen las descripciones de skills. Comprobar también si `UserPromptSubmit` entrega el texto de la persona y si algún hook (por ejemplo `Stop`) permite obtener el último texto del asistente, para registrar los mensajes humanos con su pregunta en un archivo del proyecto en lugar de leer el transcript: `human_messages.py` depende de un formato interno, solo ve la sesión más reciente y pierde lo dicho antes de un `/clear` o en sesiones anteriores. Cierra con el resultado observado de cada uno.
+Comprobar en el prototipo si los hooks reciben `agent_id` y `agent_type`, si una skill con `disable-model-invocation` puede precargarse en un subagente y qué límite de longitud tienen las descripciones de skills. Comprobar también si `UserPromptSubmit` entrega el texto de la persona y si algún hook (por ejemplo `Stop`) permite obtener el último texto del asistente, para registrar los mensajes humanos con su pregunta en un archivo del proyecto en lugar de leer el transcript: `human_messages.py` depende de un formato interno, solo ve la sesión más reciente y pierde lo dicho antes de un `/clear` o en sesiones anteriores. Observar también en una prueba manual si la persona ve el mensaje cuando un hook bloquea un comando, si `/csdd-approve` llega al hook antes que su skill, si `MultiEdit` existe como herramienta y si la asignación de IDs obliga a Canon a releer sin fricción. Cierra con el resultado observado de cada uno.
 
 - Fuentes: B-002
 - Depende de: B-002
@@ -80,6 +72,13 @@ Reducir el contexto que reciben los agentes, por ejemplo entregando solo los té
 Script en Python 3 con biblioteca estándar que comprueba los documentos contra sus plantillas: títulos, secciones obligatorias, líneas administrativas, condiciones de Decisión Humana y Materialización, y entradas de Glosario y Backlog. Cierra con pruebas unitarias sobre casos válidos e inválidos preparados.
 
 - Cierre: `tools/csdd_check.py` con 34 pruebas sin modelos en `tools/tests/`, commit `feat(tools): agrega verificador de esqueletos con pruebas`. Las plantillas posteriores a Genesis solo se verifican en estructura hasta normalizar sus convenciones (B-006).
+
+### Prototipo mínimo de la integración Claude Code: Genesis
+[B-002 · cerrado]
+
+Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/claude-code/` (skills `csdd-genesis` y `csdd-aprobar`, subagentes Canon, Reviewer y Explorer, scripts de huella, mensajes y constancia de revisión) y añade el instalador en el `.claude/` del proyecto, creación del esqueleto, guarda de escritura, decisión humana por hook con `/csdd-approve` y `/csdd-reject`, comprobación de cierre y Materialización por código, asignación de IDs del glosario y registro de mensajes por hooks, con el transcript como respaldo. `/csdd:doctor`, el hook SessionStart, las revisiones fundamentales (B-011) y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
+
+- Cierre: `install.py`, `csdd_doc.py`, `csdd_guard.py` y `csdd_hook.py` con pruebas sin modelos en `tests/`, ramas `feat/instalador-proyecto`, `feat/operaciones-documento`, `feat/hooks-genesis` y `feat/integracion-adaptada`. La observación con Claude Code real queda en B-003; las revisiones fundamentales, en B-011.
 
 ### Prueba del método Genesis
 [B-010 · cerrado]
