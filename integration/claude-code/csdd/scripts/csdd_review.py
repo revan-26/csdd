@@ -24,8 +24,8 @@ def current():
     return {"genesis_body": genesis_body(), "glossary": GLOSSARY.read_text(encoding="utf-8")}
 
 
-def load():
-    path = STATE / "review.json"
+def load(root=pathlib.Path(".")):
+    path = root / STATE / "review.json"
     if not path.exists():
         return None
     return json.loads(path.read_text(encoding="utf-8"))
