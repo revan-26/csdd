@@ -535,17 +535,21 @@ def first_release_declared(specs_path):
     return bool(title) and title[0].child("First Release") is not None
 
 
-def check_file(path, doc_type, templates_dir, specs_path=None):
-    """Verifica un archivo y devuelve la lista de errores (ruta, línea, mensaje)."""
+def check_text(label, text, doc_type, templates_dir, specs_path=None):
+    """Verifica un texto y devuelve la lista de errores (etiqueta, línea, mensaje)."""
     template_text = (templates_dir / TEMPLATES[doc_type]).read_text(encoding="utf-8")
     revision_text = None
     if doc_type == "genesis":
         revision_text = (templates_dir / REVISION_TEMPLATE).read_text(encoding="utf-8")
-    checker = Checker(str(path), path.read_text(encoding="utf-8"), template_text,
-                      revision_text, first_release_declared(specs_path),
-                      conventions=doc_type in SPECIFIC)
+    checker = Checker(label, text, template_text, revision_text,
+                      first_release_declared(specs_path), conventions=doc_type in SPECIFIC)
     SPECIFIC.get(doc_type, lambda c: c.check_structure())(checker)
     return checker.errors
+
+
+def check_file(path, doc_type, templates_dir, specs_path=None):
+    """Verifica un archivo y devuelve la lista de errores (ruta, línea, mensaje)."""
+    return check_text(str(path), path.read_text(encoding="utf-8"), doc_type, templates_dir, specs_path)
 
 
 def documents(docs_dir):

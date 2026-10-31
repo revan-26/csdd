@@ -13,12 +13,15 @@ def sha(text):
     return "sha256:" + hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def genesis_body():
-    genesis = GENESIS.read_text(encoding="utf-8")
+def body_of(genesis):
     body, marker, _ = genesis.partition("\n## Decisión Humana")
     if not marker:
         raise SystemExit("GENESIS.md no tiene la sección Decisión Humana")
     return body
+
+
+def genesis_body(root=pathlib.Path(".")):
+    return body_of((root / GENESIS).read_text(encoding="utf-8"))
 
 
 def main():

@@ -5,7 +5,7 @@
 ### Prototipo mínimo de la integración Claude Code: Genesis
 [B-002 · aceptado · fr]
 
-Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/claude-code/` (skills `csdd-genesis` y `csdd-aprobar`, subagentes Canon, Reviewer y Explorer, scripts de huella, mensajes y constancia de revisión) y añade el instalador en el `.claude/` del proyecto, creación del esqueleto, guarda de escritura, decisión humana por hook con `/csdd-approve` y `/csdd-reject`, comprobación de cierre y Materialización por código, asignación de IDs del glosario y registro de mensajes por hooks, con el transcript como respaldo. `/csdd:doctor`, el hook SessionStart y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
+Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/claude-code/` (skills `csdd-genesis` y `csdd-aprobar`, subagentes Canon, Reviewer y Explorer, scripts de huella, mensajes y constancia de revisión) y añade el instalador en el `.claude/` del proyecto, creación del esqueleto, guarda de escritura, decisión humana por hook con `/csdd-approve` y `/csdd-reject`, comprobación de cierre y Materialización por código, asignación de IDs del glosario y registro de mensajes por hooks, con el transcript como respaldo. `/csdd:doctor`, el hook SessionStart, las revisiones fundamentales (B-011) y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
 
 - Fuentes: `OPERATIONS.md`, `framework/protocols/genesis.md`
 - Depende de: B-001
@@ -32,6 +32,14 @@ Resolver cómo invocan los hooks y el instalador los scripts cuando el sistema e
 Ejecutar el prototipo sobre una copia de un proyecto existente, sin modificar el original, con límites de llamadas y tiempo fijados antes. Cierra con evidencia de utilidad, fidelidad y consumo observado.
 
 - Fuentes: `OPERATIONS.md`
+- Depende de: B-002
+
+### Revisión fundamental de Genesis
+[B-011 · propuesto · fr]
+
+Operativa por código para añadir un bloque de revisión después de uno cerrado o rechazado, con huella, decisión y cierre acotados al bloque activo y restauración del glosario vigente. Mientras no exista, un Genesis rechazado o cerrado no puede continuar con una propuesta nueva. Cierra cuando sus pruebas deterministas pasan.
+
+- Fuentes: `framework/protocols/genesis.md`
 - Depende de: B-002
 
 ### Aprobación y cierre de los componentes posteriores a Genesis
