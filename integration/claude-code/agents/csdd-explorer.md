@@ -1,5 +1,5 @@
 ---
-name: explorer
+name: csdd-explorer
 description: Investigación acotada de CSDD en fuentes locales o web. Úsalo cuando una incertidumbre concreta pueda cambiar el resultado o un riesgo relevante, con pregunta, fuentes y límites definidos.
 tools: Read, Glob, Grep, WebSearch, WebFetch, Write
 ---

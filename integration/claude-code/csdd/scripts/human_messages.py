@@ -1,14 +1,21 @@
-"""Imprime los mensajes de la persona en la sesión más reciente de este proyecto.
+"""Imprime los mensajes de la persona en este proyecto.
 
-Busca en ~/.claude/projects el transcript .jsonl más reciente cuyo cwd es el directorio actual.
+La fuente principal es .claude/csdd/state/messages.jsonl, que escriben los hooks. Si falta o
+no trae el texto del asistente, usa como respaldo el transcript .jsonl más reciente de
+~/.claude/projects cuyo cwd es el directorio actual, y lo indica: su formato es interno de
+Claude Code y solo cubre la sesión más reciente.
+
 Cada mensaje va precedido del último texto del asistente al que responde, para que respuestas
 como «A» o «justo lo que describes» puedan interpretarse.
 """
 import json
 import os
 import pathlib
+import re
 
+LOG = pathlib.Path(".claude/csdd/state/messages.jsonl")
 CONTEXT_LIMIT = 4000
+NOT_INTENT = re.compile(r"^/(csdd-approve|csdd-reject)\b|^/\S+$")
 SKIPPED_PREFIXES = ("<command-", "<local-command", "<task-notification")
 
 
@@ -31,7 +38,7 @@ def latest_transcript(cwd):
     for path in candidates:
         if belongs_here(path, cwd):
             return path
-    raise SystemExit("No se encontró un transcript de este proyecto")
+    return None
 
 
 def assistant_text(content):
@@ -58,10 +65,38 @@ def human_messages(path):
             context = ""
 
 
+def logged_messages(path):
+    """Devuelve los mensajes del registro y si trae el texto del asistente que necesitan."""
+    messages, context, complete = [], "", True
+    for entry in entries(path):
+        text = (entry.get("text") or "").strip()
+        if entry.get("role") == "assistant":
+            context = text or context
+        elif entry.get("role") == "human" and text and not NOT_INTENT.match(text):
+            complete = complete and (bool(context) or not messages)
+            messages.append((entry.get("at", ""), context, text))
+            context = ""
+    return messages, complete
+
+
+def select_messages(log, cwd):
+    """Elige la fuente. Devuelve (descripción de la fuente, mensajes)."""
+    logged, complete = logged_messages(log) if log.exists() else ([], False)
+    if logged and complete:
+        return "registro de hooks", logged
+    transcript = latest_transcript(cwd)
+    if transcript is not None:
+        return (f"transcript {transcript.name} (respaldo: formato interno de Claude Code, "
+                "solo la sesión más reciente)"), list(human_messages(transcript))
+    if logged:
+        return "registro de hooks, sin el texto del asistente de algunos mensajes", logged
+    raise SystemExit("No hay registro de mensajes ni transcript de este proyecto")
+
+
 def main():
-    path = latest_transcript(os.getcwd())
-    print(f"Transcript: {path.name}\n")
-    for n, (stamp, context, text) in enumerate(human_messages(path), 1):
+    source, messages = select_messages(LOG, os.getcwd())
+    print(f"Fuente: {source}\n")
+    for n, (stamp, context, text) in enumerate(messages, 1):
         print(f"## Mensaje {n} ({stamp})\n")
         if context:
             if len(context) > CONTEXT_LIMIT:
