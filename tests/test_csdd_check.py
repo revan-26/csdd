@@ -7,11 +7,11 @@ import tempfile
 import unittest
 
 sys.dont_write_bytecode = True
-sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / "tools"))
 
 import csdd_check  # noqa: E402
 
-TEMPLATES = pathlib.Path(__file__).resolve().parents[2] / "framework" / "templates"
+TEMPLATES = pathlib.Path(__file__).resolve().parents[1] / "framework" / "templates"
 SHA_A = "sha256:" + "a" * 64
 SHA_B = "sha256:" + "b" * 64
 WHEN = "2026-10-29T18:09:07Z"

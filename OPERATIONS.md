@@ -92,8 +92,10 @@ aprobación del usuario.
 
 ## Entrega y validación
 
-- La integración objetivo es un plugin de Claude Code. El adapter OpenCode, su ZIP
-  y su BAT fueron retirados; la historia de git los conserva y no se mantienen.
+- La integración con Claude Code vive en el `.claude/` del proyecto que adopta CSDD,
+  sin componentes globales del usuario; `install.py` instala y actualiza framework
+  e integración. El adapter OpenCode, su ZIP y su BAT fueron retirados; la historia
+  de git los conserva y no se mantienen.
 - Las herramientas deterministas nuevas usan Python 3 con biblioteca estándar, sin
   dependencias de terceros.
 - Usar fixtures y runtimes aislados, sin modificar instalaciones globales o proyectos

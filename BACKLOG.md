@@ -5,7 +5,7 @@
 ### Prototipo mínimo de la integración Claude Code: Genesis
 [B-002 · aceptado · fr]
 
-Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/claude-code/` (skills `csdd-genesis` y `csdd-aprobar`, subagentes Canon, Reviewer y Explorer, scripts de huella, mensajes y constancia de revisión) y añade creación del esqueleto, guarda de escritura, comprobación de cierre y Materialización por código, y el empaquetado como plugin con `/csdd:aprobar`. `/csdd:doctor`, el hook SessionStart y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
+Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/claude-code/` (skills `csdd-genesis` y `csdd-aprobar`, subagentes Canon, Reviewer y Explorer, scripts de huella, mensajes y constancia de revisión) y añade el instalador en el `.claude/` del proyecto, creación del esqueleto, guarda de escritura, decisión humana por hook con `/csdd-approve` y `/csdd-reject`, comprobación de cierre y Materialización por código, asignación de IDs del glosario y registro de mensajes por hooks, con el transcript como respaldo. `/csdd:doctor`, el hook SessionStart y los componentes posteriores quedan para cortes siguientes. Cierra cuando las pruebas deterministas de hooks y scripts pasan sin modelos.
 
 - Fuentes: `OPERATIONS.md`, `framework/protocols/genesis.md`
 - Depende de: B-001
@@ -21,7 +21,7 @@ Comprobar en el prototipo si los hooks reciben `agent_id` y `agent_type`, si una
 ### Lanzador de Python en Windows
 [B-004 · propuesto · fr]
 
-Resolver cómo invocan los hooks los scripts cuando el sistema expone `py` en lugar de `python3`. Cierra con una invocación comprobada o una limitación documentada.
+Resolver cómo invocan los hooks y el instalador los scripts cuando el sistema expone `py` en lugar de `python3`. Cierra con una invocación comprobada o una limitación documentada.
 
 - Fuentes: `OPERATIONS.md`
 - Depende de: B-002

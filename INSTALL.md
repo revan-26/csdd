@@ -2,76 +2,55 @@
 
 ## Alcance
 
-Esta guía instala la baseline metodológica. La integración con Claude Code, que aportará la operativa agentic, todavía no está disponible; existe un prototipo de etapa 1 para pruebas (ver «Prototipo De Integración»). La instalación no crea documentos del producto ni carpetas de implementación.
+Esta guía instala en un proyecto la baseline metodológica (`.csdd/`) y la integración con Claude Code (`.claude/`). Todo queda dentro del proyecto: no se instala nada en la configuración global del usuario. La instalación no crea documentos del producto ni carpetas de implementación.
 
 `.csdd/` contiene solo framework. Los resultados pertenecen a docs/. Genesis produce Genesis y Glossary; Specs y Backlog se escriben al cierre posterior a Mapping.
+
+La integración está en construcción: todavía no tiene guarda de escritura ni cierre por código. No usarla en proyectos reales hasta completar ese corte.
 
 ## Requisitos
 
 - Un workspace existente o nuevo.
 - Acceso a este proyecto fuente CSDD.
-- Permiso para crear `.csdd/` en el workspace adoptante.
+- Python 3.8 o posterior, que también usan los hooks y scripts de la integración. En Windows el lanzador de Python aún no está resuelto.
+- Claude Code.
 
-## Instalar El Framework
-
-Copiar el contenido de `framework/` directamente a `.csdd/`:
+## Instalar
 
 ```text
-<CSDD>/framework/* -> <workspace>/.csdd/
+python3 <CSDD>/install.py <workspace>
 ```
 
-El resultado inicial es:
+`--dry-run` muestra las acciones sin escribir. El resultado inicial es:
 
 ```text
 <workspace>/
-└── .csdd/
-    ├── CSDD.md
-    ├── core/
-    │   ├── components.md
-    │   ├── pillars.md
-    │   └── foundations.md
-    ├── heuristics/
-    │   └── domain-modeling.md
-    ├── protocols/
-    │   ├── genesis.md
-    │   ├── ontology.md
-    │   ├── topology.md
-    │   ├── mapping.md
-    │   ├── consolidation.md
-    │   ├── entry.md
-    │   └── implementation.md
-    └── templates/
-        ├── README.md
-        ├── genesis.template.md
-        ├── genesis-revision.template.md
-        ├── specs.template.md
-        ├── backlog.template.md
-        ├── glossary.template.md
-        ├── ontology.template.md
-        ├── domain.template.md
-        ├── contract.template.md
-        ├── adr.template.md
-        ├── topology.template.md
-        ├── architecture.template.md
-        └── mapping.template.md
+├── .csdd/                      framework: CSDD.md, core/, heuristics/, protocols/, templates/
+└── .claude/
+    ├── skills/                 skills csdd-*
+    ├── agents/                 subagentes de CSDD
+    ├── settings.json           hooks de CSDD, agregados a la configuración existente
+    └── csdd/
+        ├── install.json        manifiesto de la instalación
+        └── scripts/            verificador y scripts de la integración
 ```
 
-No copiar el `README.md` ni el `INSTALL.md` de la raíz del proyecto fuente dentro de `.csdd/`.
+El estado que la integración genera durante el trabajo (constancias y registros) se guarda en `.claude/csdd/state/`.
 
 ## Reglas De Instalación
 
 - Confirmar que `<workspace>` es la raíz del proyecto que adoptará CSDD.
-- Si `.csdd/` o alguno de sus archivos ya existe, detenerse y revisar la situación manualmente.
-- No sobrescribir documentos existentes.
-- No crear documentos del producto ni `docs/` vacía durante la instalación.
-- No crear domains/, contracts/, adrs/, support/, repos.md, mappings ni coordinación vacía.
-- No modificar el README existente del workspace.
+- El instalador registra en `.claude/csdd/install.json` la huella de cada archivo instalado. Un archivo existente idéntico al de CSDD se adopta; uno distinto que CSDD no instaló, o uno instalado que se modificó en el proyecto, detiene la instalación sin escribir nada para revisarlo manualmente.
+- En `.claude/settings.json` solo agrega o reemplaza los hooks de CSDD y conserva el resto de la configuración; si el archivo no es JSON válido, se detiene.
+- No crea documentos del producto ni `docs/` vacía, y nunca toca `docs/` ni `.claude/csdd/state/`.
+- No crea domains/, contracts/, adrs/, support/, repos.md, mappings ni coordinación vacía.
+- No modifica el README existente del workspace ni copia el `README.md` o el `INSTALL.md` del proyecto fuente.
 
-La instalación del framework y la adopción del proyecto son operaciones distintas. La primera solo copia el payload; la segunda comienza cuando se inicia Génesis.
+La instalación y la adopción del proyecto son operaciones distintas. La primera solo copia el payload; la segunda comienza cuando se inicia Génesis.
 
 ## Iniciar Génesis
 
-Una vez instalado el framework, iniciar la conversación de Génesis con la persona responsable del producto. La IA debe construir `GENESIS.md` usando [`protocols/genesis.md`](framework/protocols/genesis.md) como guía.
+Una vez instalado CSDD, abrir Claude Code en el workspace e iniciar la conversación de Génesis con la persona responsable del producto. La skill `csdd-genesis` la conduce usando [`protocols/genesis.md`](framework/protocols/genesis.md) como guía.
 
 Durante la discusión puede aparecer:
 
@@ -102,21 +81,9 @@ Antes de iniciar Ontology se comprueba el cierre de Genesis. Si la ejecución se
 
 `core/foundations.md` es consultivo y está destinado principalmente a la comprensión humana de la metodología. Los agentes no deben cargarlo durante la operación ordinaria.
 
-## Prototipo De Integración
+## Actualización
 
-`integration/claude-code/` contiene un prototipo de etapa 1 para probar Genesis con Claude Code. Para usarlo, copiar su contenido a `<workspace>/.claude/` junto con `.csdd/`. No tiene guarda de escritura ni crea esqueletos por código, y su constancia de revisión no resiste edición manual: no usarlo en proyectos reales.
-
-## Actualización Manual
-
-Para actualizar el framework:
-
-1. Comparar la nueva carpeta `framework/` con `<workspace>/.csdd/`.
-2. Revisar los cambios metodológicos antes de aplicarlos.
-3. Reemplazar únicamente archivos propiedad del framework: `CSDD.md`, `core/`, `heuristics/`, `protocols/` y `templates/`.
-4. No aplicar plantillas sobre documentos existentes del producto.
-5. Verificar que los documentos del producto en `docs/` y la documentación local no hayan cambiado.
-
-Si la actualización modifica el significado o las reglas del producto, tratarlo como una evolución separada y no como parte de la instalación.
+Para actualizar, revisar primero los cambios metodológicos y volver a ejecutar `install.py` sobre el mismo workspace. Reemplaza los archivos instalados que no se modificaron en el proyecto, retira los que dejaron de formar parte de CSDD y actualiza los hooks; no aplica plantillas sobre documentos existentes del producto. Si la actualización modifica el significado o las reglas del producto, tratarlo como una evolución separada y no como parte de la instalación.
 
 ## Transición Desde El Scaffold Anterior
 

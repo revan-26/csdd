@@ -29,16 +29,17 @@ Entradas: proyecto en blanco, nuevo con referencia anterior y ya trabajado (cont
 ## Estructura Fuente
 
 - framework/: metodología, protocolos y plantillas; se instala como .csdd/.
-- La integración objetivo es un plugin de Claude Code, todavía no disponible; sus herramientas deterministas usarán Python 3 con biblioteca estándar.
-- integration/claude-code/: prototipo de etapa 1 para probar Genesis; se instala como .claude/.
-- tools/: herramientas deterministas independientes del CLI, con sus pruebas (`python3 -m unittest discover -s tools/tests`).
+- integration/claude-code/: integración con Claude Code, en construcción; se instala en el .claude/ del proyecto, sin componentes globales.
+- tools/: herramientas deterministas independientes del CLI, en Python 3 con biblioteca estándar.
+- install.py: instala y actualiza framework e integración en un proyecto.
+- tests/: pruebas sin modelos (`python3 -m unittest discover -s tests`).
 - AGENTS.md: colaboración; OPERATIONS.md: acuerdos técnicos.
 
 .csdd/ contiene exclusivamente framework; docs/ contiene producto. Antes de Ontology, Genesis y Glossary son las entradas pertinentes; no se exige Specs o Backlog prematuramente. La historia se consulta selectivamente y con motivo.
 
 ## Operativa Y Validación
 
-No hay operativa agentic implementada: el adapter OpenCode fue retirado y la integración con Claude Code está por construir. Los roles se mantienen: Orchestrator conversa y coordina, Canon estructura y escribe, Reviewer revisa independientemente y Explorer investiga solo cuando aporta valor. Una revisión semántica del candidato y Glossary precede a la aprobación; el código comprueba administración y cierre, sin segunda revisión LLM obligatoria.
+La operativa agentic con Claude Code está en construcción; el adapter OpenCode fue retirado. Los roles se mantienen: Orchestrator conversa y coordina, Canon estructura y escribe, Reviewer revisa independientemente y Explorer investiga solo cuando aporta valor. Una revisión semántica del candidato y Glossary precede a la aprobación; el código comprueba administración y cierre, sin segunda revisión LLM obligatoria.
 
 Canon es responsable editorial de docs/. Explorer investiga para Orchestrator o Canon, en fuentes locales y web, con objetivo y límites, y guarda sus informes en docs/support/. No se incorporan agentes adicionales.
 
@@ -50,7 +51,7 @@ La validación usa pruebas deterministas para controles y una conversación huma
 | --- | --- |
 | Macrofases y componentes | Definidos con contratos y protocolos; los posteriores a Genesis, sin operativa de aprobación y cierre ejercitada |
 | Plantillas | Esqueletos Markdown; estructura a cargo del código |
-| Integración Claude Code | Prototipo de etapa 1 para Genesis, sin guarda ni esqueletos por código: Orchestrator como rol de la sesión principal con skills y subagentes; herramientas en Python 3 con biblioteca estándar |
+| Integración Claude Code | En construcción para Genesis, dentro del `.claude/` del proyecto: Orchestrator como rol de la sesión principal con skills, subagentes y hooks; todavía sin guarda ni cierre por código |
 | Implementation | Protocolo existente; modos `construction` y `evolution` definidos por la declaración de First Release |
 
 El trabajo pendiente está en [BACKLOG.md](BACKLOG.md): es el Backlog del proyecto fuente, no de un adoptante ni parte del payload instalable, y sigue la plantilla del framework; `fr` designa la primera versión usable de la integración Claude Code. Pruebas verdes no demuestran calidad semántica ni madurez global.
