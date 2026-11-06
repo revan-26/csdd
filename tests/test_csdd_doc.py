@@ -167,7 +167,22 @@ class DocTest(unittest.TestCase):
     def test_approve_refuses_empty_sections(self):
         csdd_doc.new(self.project, "Demo")
         self.record_review()
-        self.assert_refused("secciones vacías")
+        self.assert_refused("secciones obligatorias vacías")
+
+    def test_empty_sections_follow_the_template(self):
+        self.write_candidate()
+        genesis = self.genesis().replace("Contenido de Readiness De La IA.", "").replace(
+            "## Incertidumbres Y Riesgos", "## Investigación\n\n## Incertidumbres Y Riesgos")
+        template = (self.project / ".csdd" / "templates" / csdd_check.TEMPLATES["genesis"]).read_text(encoding="utf-8")
+        self.assertEqual(csdd_doc.empty_sections(genesis, template), (["Readiness De La IA"], ["Investigación"]))
+
+    def test_approve_allows_empty_optional_section(self):
+        self.write_candidate()
+        (self.project / GENESIS).write_text(self.genesis().replace(
+            "## Incertidumbres Y Riesgos", "## Investigación\n\n## Incertidumbres Y Riesgos"), encoding="utf-8")
+        self.assertEqual(self.errors(), [])
+        self.record_review()
+        self.assertIn("aprobado por Ana", csdd_doc.approve(self.project, "Ana"))
 
     def test_approve_requires_name(self):
         self.candidate()

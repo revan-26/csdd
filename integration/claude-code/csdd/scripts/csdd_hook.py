@@ -1,8 +1,9 @@
 """Hooks UserPromptSubmit, Stop y PostToolUse de CSDD.
 
 UserPromptSubmit registra el mensaje de la persona y ejecuta /csdd-approve y /csdd-reject
-sin intervención del modelo. Stop registra el último texto del asistente. PostToolUse
-asigna los IDs del glosario. Un error aquí no detiene el trabajo de la persona, salvo
+sin intervención del modelo; el mensaje sigue su curso y el resultado se muestra a la
+persona y llega al modelo en el mismo turno. Stop registra el último texto del asistente.
+PostToolUse asigna los IDs del glosario. Un error aquí no detiene el trabajo de la persona, salvo
 en los comandos de decisión, que muestran el motivo.
 """
 import datetime
@@ -18,7 +19,6 @@ import csdd_doc
 from csdd_doc import GLOSSARY, STATE, DocError
 
 MESSAGES = STATE / "messages.jsonl"
-NOTICE = STATE / "notice"
 COMMAND = re.compile(r"^/(csdd-approve|csdd-reject)(?:\s+(.*))?$", re.DOTALL)
 
 
@@ -41,44 +41,41 @@ def run_decision(project, command, arguments, payload):
     return csdd_doc.reject(project, name, reason, session_id, prompt_id)
 
 
+def prompt_output(context, system_message=None):
+    output = {"hookSpecificOutput": {"hookEventName": "UserPromptSubmit", "additionalContext": context}}
+    if system_message:
+        output["systemMessage"] = system_message
+    return output
+
+
 def on_command(project, command, arguments, payload):
-    """Ejecuta la decisión y bloquea el mensaje: el modelo no interviene ni lo recibe."""
+    """Ejecuta la decisión antes de que el modelo reciba el mensaje y le entrega el resultado."""
     try:
         if csdd_doc.pending_id(project) is not None:
-            message = "Se completó una decisión interrumpida: " + csdd_doc.recover(project)
+            message = ("Se completó una decisión interrumpida y este comando no se ejecutó: "
+                       + csdd_doc.recover(project))
         else:
-            message = run_decision(project, command, arguments, payload)
-        csdd_doc.write_atomic(project / NOTICE, message + "\n")
+            message = "Registrado: " + run_decision(project, command, arguments, payload)
     except DocError as error:
         message = f"No se registró la decisión. {error}"
     except Exception as error:
         message = f"No se registró la decisión: error inesperado {error!r}."
-    return {"decision": "block", "reason": f"CSDD: {message}"}
+    context = (f"CSDD ejecutó por hook el comando /{command} de la persona. Resultado: {message} "
+               "Este es el único resultado válido del comando.")
+    return prompt_output(context, f"CSDD: {message}")
 
 
 def on_regular_prompt(project):
-    """Completa una decisión interrumpida e informa al modelo de lo decidido por hook."""
-    context = []
-    system_message = None
-    if csdd_doc.pending_id(project) is not None:
-        try:
-            message = "Se completó una decisión interrumpida: " + csdd_doc.recover(project)
-            context.append(f"CSDD: {message}")
-        except DocError as error:
-            message = f"Decisión interrumpida sin completar. {error}"
-            context.append(f"CSDD: {message} No continúes con Genesis; informa a la persona.")
-        system_message = f"CSDD: {message}"
-    notice = project / NOTICE
-    if notice.exists():
-        context.append("CSDD registró por hook, a pedido de la persona: " + notice.read_text(encoding="utf-8").strip())
-        notice.unlink()
-    if not context:
+    """Completa una decisión interrumpida e informa a la persona y al modelo."""
+    if csdd_doc.pending_id(project) is None:
         return None
-    output = {"hookSpecificOutput": {"hookEventName": "UserPromptSubmit",
-                                     "additionalContext": "\n".join(context)}}
-    if system_message:
-        output["systemMessage"] = system_message
-    return output
+    try:
+        message = "Se completó una decisión interrumpida: " + csdd_doc.recover(project)
+        context = f"CSDD: {message}"
+    except DocError as error:
+        message = f"Decisión interrumpida sin completar. {error}"
+        context = f"CSDD: {message} No continúes con Genesis; informa a la persona."
+    return prompt_output(context, f"CSDD: {message}")
 
 
 def on_prompt(project, payload):

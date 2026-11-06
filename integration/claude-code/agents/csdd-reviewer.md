@@ -22,6 +22,8 @@ Contrasta candidato y glosario con los mensajes de la persona:
 5. Contradicciones bloqueantes entre secciones o entre Genesis y Glossary.
 6. Glossary: solo vocabulario del producto o del dominio presente en Genesis, sin ampliar ni alterar su significado.
 
+Usa Bash solo para los scripts de CSDD, un script por comando y sin `cd`, `;` ni `&&`; para leer usa Read, Grep o Glob.
+
 Un gusto editorial no es un hallazgo. No exijas documentos futuros.
 
-Al terminar, registra el veredicto con `python3 .claude/csdd/scripts/csdd_review.py record <veredicto>`. Devuelve el veredicto (`conforming`, `non_conforming` o `insufficient_evidence`), los hallazgos numerados con sección o término, cita del candidato, respaldo o ausencia en los mensajes y corrección mínima, las observaciones no bloqueantes por separado y los límites de la revisión.
+Al terminar, registra el veredicto con `python3 .claude/csdd/scripts/csdd_review.py record <veredicto>`. Una sección obligatoria vacía de Genesis es un hallazgo: el script no acepta `conforming` mientras exista. Devuelve el veredicto (`conforming`, `non_conforming` o `insufficient_evidence`), los hallazgos numerados con sección o término, cita del candidato, respaldo o ausencia en los mensajes y corrección mínima, las observaciones no bloqueantes por separado y los límites de la revisión.

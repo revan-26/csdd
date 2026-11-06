@@ -23,6 +23,7 @@ sys.dont_write_bytecode = True
 
 import csdd_check
 from csdd_hash import GENESIS, GLOSSARY, body_of, sha
+from csdd_review import empty_sections
 from csdd_review import load as load_review
 
 STATE = pathlib.Path(".claude/csdd/state")
@@ -220,17 +221,6 @@ def require_open_block(project, genesis):
         raise DocError(f"Genesis ya tiene una decisión registrada (status: {status}).")
 
 
-def empty_sections(genesis):
-    title = document(genesis)
-    sections = []
-    for child in title.children:
-        if child.title == DECISION:
-            break
-        if not child.text_lines() and not child.children:
-            sections.append(child.title)
-    return sections
-
-
 def pending_id(project):
     path = project / STATE / "pending"
     return path.read_text(encoding="utf-8").strip() if path.exists() else None
@@ -261,9 +251,9 @@ def approve(project, name, session_id=None, prompt_id=None):
     require_open_block(project, genesis)
     require_valid(project, GENESIS, genesis, "genesis")
     require_valid(project, GLOSSARY, glossary, "glossary")
-    empty = empty_sections(genesis)
+    empty, _ = empty_sections(genesis, template(project, csdd_check.TEMPLATES["genesis"]))
     if empty:
-        raise DocError("Genesis tiene secciones vacías: " + ", ".join(empty) + ".")
+        raise DocError("Genesis tiene secciones obligatorias vacías: " + ", ".join(empty) + ".")
     review = load_review(project)
     if review is None:
         raise DocError("No hay revisión registrada: encarga la revisión antes de aprobar.")
