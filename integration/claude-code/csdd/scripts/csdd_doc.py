@@ -246,7 +246,7 @@ def utc_now():
 def approve(project, name, session_id=None, prompt_id=None):
     name = one_line(name)
     if not name:
-        raise DocError("Indica tu nombre: /csdd-approve <nombre>.")
+        raise DocError("Indica tu nombre: /csdd-approve <tu nombre>.")
     genesis, glossary = read_documents(project)
     require_open_block(project, genesis)
     require_valid(project, GENESIS, genesis, "genesis")
@@ -280,7 +280,7 @@ def approve(project, name, session_id=None, prompt_id=None):
 def reject(project, name, reason, session_id=None, prompt_id=None):
     name, reason = one_line(name), one_line(reason)
     if not name or not reason:
-        raise DocError("Indica nombre y motivo: /csdd-reject <nombre>: <motivo>.")
+        raise DocError("Indica nombre y motivo: /csdd-reject <tu nombre>: <motivo>.")
     genesis, glossary = read_documents(project)
     require_open_block(project, genesis)
     require_valid(project, GENESIS, genesis, "genesis")

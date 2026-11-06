@@ -2,7 +2,7 @@
 name: csdd-approve
 description: Registra la aprobación humana del candidato de Genesis. Un hook la ejecuta sin intervención del modelo.
 disable-model-invocation: true
-argument-hint: "<nombre>"
+argument-hint: "<tu nombre>"
 ---
 
 El hook de CSDD ejecuta este comando antes de que llegue al modelo y te entrega el resultado en un aviso de contexto que empieza con «CSDD ejecutó por hook el comando /csdd-approve». La persona ya ve ese resultado.
