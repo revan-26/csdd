@@ -2,14 +2,6 @@
 
 ## Ítems
 
-### Hechos de Claude Code no verificados
-[B-003 · propuesto · fr]
-
-Comprobar en una sesión real que, sin bloquear `/csdd-approve` ni `/csdd-reject`, la persona ve el `systemMessage` del hook y el modelo recibe su `additionalContext` junto con la skill expandida. Comprobar también si una skill con `disable-model-invocation` puede precargarse en un subagente, qué límite de longitud tienen las descripciones de skills, si `MultiEdit` existe como herramienta y si la asignación de IDs obliga a Canon a releer sin fricción. Cierra con el resultado observado de cada uno.
-
-- Fuentes: B-002
-- Depende de: B-002
-
 ### Lanzador de Python en Windows
 [B-004 · propuesto · fr]
 
@@ -72,6 +64,13 @@ Reducir el contexto que reciben los agentes, por ejemplo entregando solo los té
 - Razón: OPERATIONS la pospone; se reconsidera con el consumo observado en B-005.
 
 ## Cerrados Y Descartados
+
+### Hechos de Claude Code no verificados
+[B-003 · cerrado]
+
+Comprobar en una sesión real que, sin bloquear `/csdd-approve` ni `/csdd-reject`, la persona ve el `systemMessage` del hook y el modelo recibe su `additionalContext` junto con la skill expandida. Comprobar también si una skill con `disable-model-invocation` puede precargarse en un subagente, qué límite de longitud tienen las descripciones de skills, si `MultiEdit` existe como herramienta y si la asignación de IDs obliga a Canon a releer sin fricción. Cierra con el resultado observado de cada uno.
+
+- Cierre: los hooks reciben `agent_type` dentro de los subagentes; `UserPromptSubmit` recibe `/csdd-approve` antes que su skill y, sin bloquearlo, entrega `systemMessage` a la persona y `additionalContext` al modelo en el mismo turno (`8296208`); `Stop` entrega `last_assistant_message`; la asignación de IDs exige una sola relectura. No se observó `MultiEdit`, que la guarda cubre igual. La precarga de skills en subagentes y el límite de longitud de las descripciones no intervienen en este corte.
 
 ### Verificador de esqueletos
 [B-001 · cerrado]
