@@ -301,14 +301,22 @@ class HookTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return json.loads(result.stdout) if result.stdout else None
 
+    def decide(self, text, prompt_id="m1"):
+        """Envía un comando de decisión: el mensaje sigue su curso y el resultado llega a ambos."""
+        output = self.prompt(text, prompt_id)
+        self.assertNotIn("decision", output)
+        message = output["systemMessage"]
+        self.assertTrue(message.startswith("CSDD: "))
+        self.assertIn(message[len("CSDD: "):], output["hookSpecificOutput"]["additionalContext"])
+        return message
+
     def status(self):
         return next(line for line in self.text(GENESIS).split("\n") if line.startswith("status:"))
 
     def test_approve_command_runs_without_model(self):
         self.candidate()
-        output = self.prompt("/csdd-approve Ana Pérez")
-        self.assertEqual(output["decision"], "block")
-        self.assertIn("aprobado por Ana Pérez", output["reason"])
+        message = self.decide("/csdd-approve Ana Pérez")
+        self.assertRegex(message, "^CSDD: Registrado: Genesis aprobado por Ana Pérez")
         self.assertEqual(self.status(), "status: approved")
         self.assertIn("stage: closed", self.text(GENESIS))
         self.assertIn("[G-001 · acordado · dominio]", self.text(GLOSSARY))
@@ -317,8 +325,7 @@ class HookTest(unittest.TestCase):
 
     def test_reject_command_parses_name_and_reason(self):
         self.candidate()
-        output = self.prompt("/csdd-reject Ana Pérez: no cubre: el caso")
-        self.assertEqual(output["decision"], "block")
+        self.assertIn("Registrado:", self.decide("/csdd-reject Ana Pérez: no cubre: el caso"))
         self.assertEqual(self.status(), "status: rejected")
         self.assertIn("Motivo: no cubre: el caso", self.text(GENESIS))
 
@@ -328,12 +335,12 @@ class HookTest(unittest.TestCase):
         for prompt, pattern in (("/csdd-approve", "nombre"), ("/csdd-approve Ana\nvarias", "solo tu nombre"),
                                 ("/csdd-reject", "motivo"), ("/csdd-reject Ana sin motivo", "motivo")):
             with self.subTest(prompt=prompt):
-                output = self.prompt(prompt)
-                self.assertEqual(output["decision"], "block")
-                self.assertRegex(output["reason"], pattern)
+                message = self.decide(prompt)
+                self.assertIn("No se registró", message)
+                self.assertRegex(message, pattern)
                 self.assertEqual(self.text(GENESIS), before)
         self.put(GENESIS, before.replace("Contenido de Resumen", "Otro"))
-        self.assertIn("cambió después de la revisión", self.prompt("/csdd-approve Ana")["reason"])
+        self.assertIn("cambió después de la revisión", self.decide("/csdd-approve Ana"))
         self.assertEqual(self.status(), "status: pending")
 
     def test_quoted_command_is_not_a_decision(self):
@@ -342,12 +349,10 @@ class HookTest(unittest.TestCase):
             self.assertIsNone(self.prompt(prompt))
         self.assertEqual(self.status(), "status: pending")
 
-    def test_model_learns_decision_once_on_next_prompt(self):
+    def test_result_reaches_model_in_the_same_turn_only(self):
         self.candidate()
-        self.prompt("/csdd-approve Ana")
-        context = self.prompt("seguimos")["hookSpecificOutput"]["additionalContext"]
-        self.assertIn("aprobado por Ana", context)
-        self.assertIsNone(self.prompt("otra cosa"))
+        self.assertIn("aprobado por Ana", self.decide("/csdd-approve Ana"))
+        self.assertIsNone(self.prompt("seguimos"))
 
     def interrupt_decision(self):
         """Deja constancia y señal, como una aprobación cortada antes de escribir documentos."""
@@ -373,8 +378,7 @@ class HookTest(unittest.TestCase):
 
     def test_command_completes_interrupted_decision_without_new_decision(self):
         self.interrupt_decision()
-        output = self.prompt("/csdd-reject Otra: cambio de idea")
-        self.assertIn("Se completó una decisión interrumpida", output["reason"])
+        self.assertIn("este comando no se ejecutó", self.decide("/csdd-reject Otra: cambio de idea"))
         self.assertEqual(self.status(), "status: approved")
 
     def test_unrecoverable_decision_warns_and_lets_person_talk(self):
@@ -408,17 +412,33 @@ class HookTest(unittest.TestCase):
         self.apply_edit(GLOSSARY, "## Términos Deprecados", TERM + "## Términos Deprecados")
         self.assertIn("[G-001 · propuesto · dominio]", self.text(GLOSSARY))
         self.review("non_conforming")
-        self.assertIn("non_conforming", self.prompt("/csdd-approve Ana")["reason"])
+        self.assertIn("non_conforming", self.decide("/csdd-approve Ana"))
         self.review("conforming")
         self.apply_edit(GENESIS, "Contenido de Primer Slice.", "Ciclo de crédito.")
-        self.assertIn("cambió después", self.prompt("/csdd-approve Ana")["reason"])
+        self.assertIn("cambió después", self.decide("/csdd-approve Ana"))
         self.review("conforming")
-        self.assertIn("aprobado por Ana", self.prompt("/csdd-approve Ana")["reason"])
+        self.assertIn("aprobado por Ana", self.decide("/csdd-approve Ana"))
         self.assertIn("[G-001 · acordado · dominio]", self.text(GLOSSARY))
         self.cli("csdd_check.py", "docs")
         self.cli("csdd_doc.py", "status")
-        self.assertEqual(self.prompt("/csdd-approve Ana")["decision"], "block")
+        self.assertIn("ya tiene una decisión", self.decide("/csdd-approve Ana"))
         self.assert_denied(self.edit(GENESIS, "Ciclo de crédito.", "Otro."), "ya tiene una decisión")
+
+    def run_review(self, *args):
+        return subprocess.run([sys.executable, str(self.scripts / "csdd_review.py"), *args], cwd=self.project,
+                              env=self.environment, capture_output=True, text=True)
+
+    def test_review_reports_empty_sections_and_refuses_conforming(self):
+        self.candidate()
+        self.put(GENESIS, self.text(GENESIS).replace("Contenido de Readiness De La IA.", ""))
+        status = self.run_review("status")
+        self.assertIn("Secciones obligatorias vacías: Readiness De La IA.", status.stdout)
+        before = self.text(".claude/csdd/state/review/review.json")
+        refused = self.run_review("record", "conforming")
+        self.assertNotEqual(refused.returncode, 0)
+        self.assertIn("No se registró el veredicto", refused.stderr)
+        self.assertEqual(self.text(".claude/csdd/state/review/review.json"), before)
+        self.assertEqual(self.run_review("record", "non_conforming").returncode, 0)
 
     # Registro de mensajes
 

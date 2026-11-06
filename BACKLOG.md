@@ -5,7 +5,7 @@
 ### Hechos de Claude Code no verificados
 [B-003 · propuesto · fr]
 
-Comprobar en el prototipo si los hooks reciben `agent_id` y `agent_type`, si una skill con `disable-model-invocation` puede precargarse en un subagente y qué límite de longitud tienen las descripciones de skills. Comprobar también si `UserPromptSubmit` entrega el texto de la persona y si algún hook (por ejemplo `Stop`) permite obtener el último texto del asistente, para registrar los mensajes humanos con su pregunta en un archivo del proyecto en lugar de leer el transcript: `human_messages.py` depende de un formato interno, solo ve la sesión más reciente y pierde lo dicho antes de un `/clear` o en sesiones anteriores. Observar también en una prueba manual si la persona ve el mensaje cuando un hook bloquea un comando, si `/csdd-approve` llega al hook antes que su skill, si `MultiEdit` existe como herramienta y si la asignación de IDs obliga a Canon a releer sin fricción. Cierra con el resultado observado de cada uno.
+Comprobar en una sesión real que, sin bloquear `/csdd-approve` ni `/csdd-reject`, la persona ve el `systemMessage` del hook y el modelo recibe su `additionalContext` junto con la skill expandida. Comprobar también si una skill con `disable-model-invocation` puede precargarse en un subagente, qué límite de longitud tienen las descripciones de skills, si `MultiEdit` existe como herramienta y si la asignación de IDs obliga a Canon a releer sin fricción. Cierra con el resultado observado de cada uno.
 
 - Fuentes: B-002
 - Depende de: B-002
@@ -33,6 +33,13 @@ Operativa por código para añadir un bloque de revisión después de uno cerrad
 
 - Fuentes: `framework/protocols/genesis.md`
 - Depende de: B-002
+
+### Términos de investigación en el glosario
+[B-012 · propuesto · fr]
+
+Decidir si los términos que Genesis toma de una investigación, sin que la persona confirme cada uno, entran al glosario como `supuesto` en lugar de `propuesto`, para que la aprobación de Genesis no los convierta en acordados. Cierra con la regla registrada en `framework/protocols/genesis.md` o descartada con su razón.
+
+- Fuentes: `framework/protocols/genesis.md`
 
 ### Aprobación y cierre de los componentes posteriores a Genesis
 [B-006 · propuesto · fr]
@@ -85,4 +92,4 @@ Primer corte limitado a Genesis. Parte del prototipo de etapa 1 en `integration/
 
 Conversación real de Genesis sin plugin, siguiendo `framework/protocols/genesis.md`, con revisión semántica independiente y aprobación anotada por la persona. Evalúa utilidad y fidelidad, no la operativa mecánica. Cierra con el registro de observaciones y los ajustes de método que resulten.
 
-- Cierre: investigación «Prueba del método Genesis» (2026-10-29), dos conversaciones con el prototipo de etapa 1; ajustes en `e486803`, `c2c115a` y `docs(genesis): precisa glosario y verificacion de informes`.
+- Cierre: dos conversaciones de prueba con el prototipo de etapa 1; ajustes en `e486803`, `c2c115a` y `345e276`.
