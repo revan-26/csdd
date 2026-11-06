@@ -35,7 +35,7 @@ def run_decision(project, command, arguments, payload):
     session_id, prompt_id = payload.get("session_id"), payload.get("prompt_id")
     if command == "csdd-approve":
         if "\n" in arguments.strip():
-            raise DocError("Indica solo tu nombre: /csdd-approve <nombre>.")
+            raise DocError("Indica solo tu nombre: /csdd-approve <tu nombre>.")
         return csdd_doc.approve(project, arguments, session_id, prompt_id)
     name, _, reason = arguments.partition(":")
     return csdd_doc.reject(project, name, reason, session_id, prompt_id)

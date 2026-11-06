@@ -2,7 +2,7 @@
 name: csdd-reject
 description: Registra el rechazo humano del candidato de Genesis. Un hook lo ejecuta sin intervención del modelo.
 disable-model-invocation: true
-argument-hint: "<nombre>: <motivo>"
+argument-hint: "<tu nombre>: <motivo>"
 ---
 
 El hook de CSDD ejecuta este comando antes de que llegue al modelo y te entrega el resultado en un aviso de contexto que empieza con «CSDD ejecutó por hook el comando /csdd-reject». La persona ya ve ese resultado.
