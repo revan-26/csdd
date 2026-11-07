@@ -42,6 +42,8 @@ Corregir en una sola tanda los hallazgos concretos de una revisión. Las observa
 
 La conformidad se vincula al contenido exacto examinado, acotado al bloque activo y Glossary; Reviewer registra únicamente juicio semántico. Un cambio posterior de ese contenido invalida la conformidad; la nueva revisión se limita al cambio.
 
+Una inferencia o propuesta del asistente sin confirmar que defina alcance, destinatarios, límites o el primer slice no se presenta para aprobación: se pregunta antes a la persona en la conversación. Lo que confirma pierde la marca, lo que descarta se retira y lo que decide no resolver se registra como diferido. Las demás marcas se conservan como procedencia.
+
 Presentar Genesis y Glossary para aprobar o corregir. La persona puede no leer el documento completo, por lo que la presentación indica las decisiones registradas, las inferencias, los términos que la aprobación convierte en acordados, cuántos supuestos quedan sin confirmar, las observaciones de la revisión y lo cambiado desde la presentación anterior. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no presentar la aprobación anterior como aceptación del cambio.
 
 El cuerpo comprende título y secciones anteriores a Decisión Humana. Metadatos de decisión y materialización quedan fuera de esa huella. La aprobación no autoriza automáticamente Ontology, decisiones técnicas o implementación.

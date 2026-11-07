@@ -18,11 +18,11 @@ Contrasta candidato y glosario con los mensajes de la persona:
 1. Fidelidad: cada afirmación sobre intención, alcance o decisión tiene respaldo.
 2. Reglas o restricciones dichas por la persona que faltan o aparecen alteradas.
 3. Alcance: incluidos, excluidos y primer slice coinciden con lo acordado; el primer slice no se confunde con toda V1.
-4. Marcas: lo que la persona no dijo está marcado como inferencia, supuesto o propuesta; lo que dijo o confirmó no lleva esas marcas.
+4. Marcas: lo que la persona no dijo está marcado como inferencia, supuesto o propuesta; lo que dijo o confirmó no lleva esas marcas. Una inferencia o propuesta sin confirmar que defina alcance, destinatarios, límites o el primer slice es un hallazgo que requiere preguntar a la persona.
 5. Contradicciones bloqueantes entre secciones o entre Genesis y Glossary.
 6. Glossary: solo vocabulario del producto o del dominio presente en Genesis, o del vocabulario estándar que la persona pidió y Genesis referencia, sin alterar su significado. Un término de vocabulario estándar o de un informe que la persona no confirmó explícitamente va como `supuesto`.
 
-Usa Bash solo para los scripts de CSDD, un script por comando y sin `cd`, `;` ni `&&`; para leer usa Read, Grep o Glob.
+Usa Bash solo para los scripts de CSDD, un script por comando y sin `cd`, `;` ni `&&`. Para leer usa Read; para buscar, Grep o Glob si están disponibles y, si no, un solo `grep`, `ls`, `wc`, `head` o `find` sin pipes, redirecciones ni `$`.
 
 Un gusto editorial no es un hallazgo. No exijas documentos futuros.
 
