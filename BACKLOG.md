@@ -18,14 +18,6 @@ Ejecutar el prototipo sobre una copia de un proyecto existente, sin modificar el
 - Fuentes: `OPERATIONS.md`
 - Depende de: B-002
 
-### Revisión fundamental de Genesis
-[B-011 · aceptado · fr]
-
-Operativa por código para revisar un Genesis cerrado según «Revisión y rechazo» de `framework/protocols/genesis.md`: bloque nuevo al final con huella, decisión y cierre acotados a él, cuerpo y bloques anteriores congelados, glosario conservado al abrir y restaurado si la revisión se rechaza, y cambios de términos acordados o supuestos solo dentro del bloque. El rechazo deja de aplicar al Genesis inicial. Cierra cuando sus pruebas deterministas pasan.
-
-- Fuentes: `framework/protocols/genesis.md`
-- Depende de: B-002
-
 ### Aprobación y cierre de los componentes posteriores a Genesis
 [B-006 · propuesto · fr]
 
@@ -57,6 +49,13 @@ Reducir el contexto que reciben los agentes, por ejemplo entregando solo los té
 - Razón: OPERATIONS la pospone; se reconsidera con el consumo observado en B-005.
 
 ## Cerrados Y Descartados
+
+### Revisión fundamental de Genesis
+[B-011 · cerrado]
+
+Operativa por código para revisar un Genesis cerrado según «Revisión y rechazo» de `framework/protocols/genesis.md`: bloque nuevo al final con huella, decisión y cierre acotados a él, cuerpo y bloques anteriores congelados, glosario conservado al abrir y restaurado si la revisión se rechaza, y cambios de términos acordados o supuestos solo dentro del bloque. El rechazo deja de aplicar al Genesis inicial. Cierra cuando sus pruebas deterministas pasan.
+
+- Cierre: `csdd_hash.py`, `csdd_review.py` y `csdd_doc.py` operan por bloques (`revise`, decisión, cierre, restauración del glosario y recuperación por bloque) y `csdd_guard.py` limita la escritura al bloque activo y aplica las reglas del glosario dentro de una revisión, con pruebas sin modelos en `tests/`; ramas `feat/bloques-genesis` y `feat/guarda-revision`. Falta observar una revisión con Claude Code real.
 
 ### Términos de investigación en el glosario
 [B-012 · cerrado]
