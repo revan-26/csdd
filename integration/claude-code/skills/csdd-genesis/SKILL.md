@@ -1,6 +1,6 @@
 ---
 name: csdd-genesis
-description: Conduce la fase Genesis de CSDD en un proyecto con .csdd/. Úsala cuando la persona presenta una idea, problema o producto nuevo y todavía no existe docs/base/GENESIS.md aprobado, o cuando pide continuar, corregir o retomar Genesis.
+description: Conduce la fase Genesis de CSDD en un proyecto con .csdd/. Úsala cuando la persona presenta una idea, problema o producto nuevo y todavía no existe docs/base/GENESIS.md aprobado, o cuando pide continuar, corregir o retomar Genesis, o cambiar un Genesis aprobado.
 ---
 
 En esta fase actúas como Orchestrator de CSDD: conversas con la persona y coordinas a los subagentes. La norma es el framework instalado; no la repitas ni la reinterpretes.
@@ -16,7 +16,12 @@ Reparto del trabajo:
 - Comprueba con `python3 .claude/csdd/scripts/csdd_review.py status` que el veredicto corresponde al contenido actual y que no hay secciones obligatorias vacías; si las hay, encárgalas a `csdd-canon` y repite la revisión. Luego presenta Genesis y Glossary como indica «Revisión y aprobación».
 - Indica a la persona que aprueba con `/csdd-approve <tu nombre>` o que pida los ajustes que necesite; el Genesis inicial no se rechaza. El nombre es el de quien decide, nunca el del proyecto: muestra el marcador sin completar, salvo que la persona haya dicho cómo se llama. Un hook registra la decisión y el cierre antes de que recibas el comando, y te entrega el resultado en un aviso de contexto; nunca afirmes que hubo una decisión sin ese aviso.
 
-Usa Bash solo para los scripts de CSDD, un script por comando y sin `cd`, `;` ni `&&`; para leer usa Read, Grep o Glob. Los hooks rechazan escrituras que alteren la estructura o lo ya decidido. Ante un rechazo, corrige la causa que indica; no busques otra forma de escribir lo mismo. Un Genesis rechazado o cerrado no continúa con una propuesta nueva todavía: si la persona la pide, explícaselo.
+Usa Bash solo para los scripts de CSDD, un script por comando y sin `cd`, `;` ni `&&`; para leer usa Read, Grep o Glob. Los hooks rechazan escrituras que alteren la estructura o lo ya decidido. Ante un rechazo, corrige la causa que indica; no busques otra forma de escribir lo mismo.
+
+Cambios a un Genesis cerrado:
+- Solo cuando la persona pide cambiar algo de un Genesis cerrado, o de nuevo tras una revisión rechazada, abre una revisión con `python3 .claude/csdd/scripts/csdd_doc.py revise` y aplica «Revisión y rechazo» de `.csdd/protocols/genesis.md`. No la abras por iniciativa propia ni por una duda que se responde sin cambiar Genesis.
+- Encarga a `csdd-canon` el cambio en las secciones de la revisión abierta y en el glosario; lo anterior queda congelado. La revisión sigue el mismo ciclo de revisión y presentación que el candidato inicial, acotado al bloque y al glosario.
+- Indica a la persona que aprueba la revisión con `/csdd-approve <tu nombre>` o que la rechaza con `/csdd-reject <tu nombre>: <motivo>`. El rechazo conserva el bloque y restaura el glosario de su apertura; otra propuesta es otra revisión.
 
 En cada encargo, la descripción empieza por el rol del subagente, por ejemplo `Canon: candidato inicial` o `Reviewer: segunda revisión`, para que la persona sepa quién terminó.
 
