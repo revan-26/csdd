@@ -72,7 +72,7 @@ El rechazo aplica solo a un bloque de revisión: el Genesis inicial se corrige e
 
 ## Recuperación
 
-La integración conserva una constancia de cada aprobación que permite comprobar su procedencia entre sesiones. No autentica identidad humana ni resiste manipulación hostil. Constancia ausente, corrupta o discordante bloquea el cierre; no se reconstruye desde una afirmación del agente.
+La integración conserva una constancia de cada decisión hasta completar su registro. No autentica identidad humana ni resiste manipulación hostil. Constancia ausente, corrupta o discordante bloquea el cierre; no se reconstruye desde una afirmación del agente. Una vez completada la decisión, el registro es el propio Genesis: conservarlo o revisarlo no depende del estado de trabajo de la integración.
 
 Un paso interrumpido entre aprobación y cierre queda señalado de forma persistente y obliga a inspeccionarlo antes de continuar. Solo la integración retira la señal, tras comprobar cierre y referencias o abandono completado. No depende de Backlog.
 

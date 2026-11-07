@@ -422,20 +422,23 @@ class DocTest(unittest.TestCase):
 
     # Estado
 
-    def test_status_detects_decision_without_record(self):
+    def test_closed_genesis_does_not_need_working_state(self):
+        # Un clon sin .claude/csdd/state/ conserva un Genesis válido y admite revisiones.
         self.candidate()
         csdd_doc.approve(self.project, "Ana")
-        record = next(self.state("decisions").glob("*.json"))
-        data = json.loads(record.read_text(encoding="utf-8"))
-        data["by"] = "Otra"
-        record.write_text(json.dumps(data), encoding="utf-8")
+        shutil.rmtree(self.project / ".claude/csdd/state")
+        self.assertEqual(csdd_doc.status_report(self.project), ("Genesis approved, stage closed.", False))
+        self.assertIn("Abierta la revisión R-001", csdd_doc.revise(self.project))
+
+    def test_status_detects_changes_after_approval(self):
+        self.candidate()
+        csdd_doc.approve(self.project, "Ana")
+        (self.project / GENESIS).write_text(self.genesis().replace("Contenido de Resumen", "Otro"), encoding="utf-8")
         text, problem = csdd_doc.status_report(self.project)
         self.assertTrue(problem)
-        self.assertIn("no concuerda", text)
-        record.unlink()
-        text, problem = csdd_doc.status_report(self.project)
-        self.assertTrue(problem)
-        self.assertIn("no comprobable", text)
+        self.assertIn("cambió después de su aprobación", text)
+        with self.assertRaisesRegex(csdd_doc.DocError, "No se abre una revisión"):
+            csdd_doc.revise(self.project)
 
     def test_status_reports_malformed_genesis(self):
         self.candidate()

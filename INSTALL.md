@@ -35,7 +35,7 @@ python3 <CSDD>/install.py <workspace>
         └── scripts/            verificador y scripts de la integración
 ```
 
-El estado que la integración genera durante el trabajo (constancias y registros) se guarda en `.claude/csdd/state/`. `messages.jsonl` conserva el texto de la conversación: decidir si esa carpeta se versiona según lo que el proyecto pueda publicar.
+El estado que la integración genera durante el trabajo (constancias de decisiones, revisiones en curso y el registro de mensajes) se guarda en `.claude/csdd/state/`. Es estado de trabajo, no registro del proyecto: una decisión completada queda en Genesis y Glossary, que se comprueban por sí mismos. La carpeta no se versiona, porque `messages.jsonl` conserva el texto de la conversación; un clon sin ella conserva un Genesis válido y puede revisarlo. Solo se pierde lo que estaba en curso: una revisión semántica pendiente se repite y una revisión de Genesis abierta no puede rechazarse sin el glosario conservado al abrirla.
 
 ## Reglas De Instalación
 

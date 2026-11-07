@@ -3,7 +3,7 @@
 new NOMBRE  crea docs/base/GENESIS.md y docs/glossary.md desde sus plantillas.
 revise      abre al final de un Genesis cerrado un bloque «Revisión De GENESIS» nuevo y
             conserva el glosario vigente para restaurarlo si la revisión se rechaza.
-status      muestra el estado del bloque activo y comprueba las constancias.
+status      muestra el estado del bloque activo y comprueba cada decisión contra Genesis.
 recover     completa una decisión interrumpida a partir de su constancia.
 
 approve() y reject() no tienen línea de comandos: los invoca el hook que recibe
@@ -12,7 +12,10 @@ Actúan sobre el bloque activo: el cuerpo inicial o la última revisión. El cue
 no se rechaza; se corrige en la conversación hasta aprobarlo.
 
 Una decisión primero guarda su constancia en .claude/csdd/state/decisions/ y la señal
-.claude/csdd/state/pending, luego escribe los documentos y al final retira la señal.
+.claude/csdd/state/pending, luego escribe los documentos y al final retira la señal. La
+constancia solo se usa para completar una decisión interrumpida: una decisión completada se
+comprueba contra el propio Genesis, de modo que .claude/csdd/state/ es estado de trabajo y un
+clon sin esa carpeta conserva un Genesis válido.
 """
 import collections
 import datetime
@@ -520,25 +523,19 @@ def recover(project):
     return complete(project, decision_id)
 
 
-def decision_problem(project, genesis, block):
-    """Compara la decisión de un bloque con su constancia; devuelve el problema o None."""
-    decision = node_admin(block.decision)
+def decision_problem(genesis, block):
+    """Comprueba una decisión completada contra el propio Genesis; devuelve el problema o None."""
+    decision, materialization = node_admin(block.decision), node_admin(block.materialization)
     status = decision.get("status")
-    if status not in ("approved", "rejected"):
-        return f"«status: {status}» no es una decisión válida."
-    by, reference_key = {"approved": ("approved_by", "approval_reference"),
-                         "rejected": ("rejected_by", "rejection_reference")}[status]
-    reference = decision.get(reference_key, "")
-    decision_id = decision_id_of(reference.split(" ")[-1], block.id)
-    try:
-        record = load_decision(project, decision_id)
-    except DocError as error:
-        return str(error)
-    if record.get("decision") != status or record.get("reference") != reference \
-            or record.get("by") != decision.get(by) or record.get("block") != block.id \
-            or record.get("genesis_body") != sha(block_body(genesis, block.id)):
-        return f"La constancia {decision_id} no concuerda con Genesis."
-    return None
+    if status == "approved":
+        if decision.get("approved_content_reference") != sha(block_body(genesis, block.id)):
+            return "El contenido cambió después de su aprobación."
+        if materialization.get("stage") != "closed":
+            return "Está aprobado pero sin cerrar."
+        return None
+    if status == "rejected":
+        return None if materialization.get("disposition") == "abandoned" else "Está rechazado pero sin abandonar."
+    return f"«status: {status}» no es una decisión válida."
 
 
 def status_report(project):
@@ -552,24 +549,23 @@ def status_report(project):
     if decision_id is not None:
         return f"Decisión {decision_id} interrumpida: complétala con csdd_doc.py recover.", True
     found = blocks(genesis)
-    for block in found[:-1]:
-        problem = decision_problem(project, genesis, block)
+    for block in found:
+        if block is found[-1] and node_admin(block.decision).get("status") == "pending":
+            break
+        problem = decision_problem(genesis, block)
         if problem:
             return f"Bloque {block_label(block.id)}: {problem}", True
     block = found[-1]
-    problem = prefix_problem(project, genesis, block.id)
-    if problem:
-        return problem, True
     status = node_admin(block.decision).get("status")
     stage = node_admin(block.materialization).get("stage")
     suffix = f" (revisión {block.id})" if block.id else ""
     if status == "pending":
+        problem = prefix_problem(project, genesis, block.id)
+        if problem:
+            return problem, True
         if block.id:
             return f"Revisión {block.id} de Genesis en curso, sin decisión.", False
         return "Genesis candidato, sin decisión.", False
-    problem = decision_problem(project, genesis, block)
-    if problem:
-        return f"Aprobación no comprobable. {problem}" if status == "approved" else problem, True
     return f"Genesis {status}, stage {stage}{suffix}.", False
 
 
