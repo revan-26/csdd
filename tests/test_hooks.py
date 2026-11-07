@@ -311,7 +311,23 @@ class HookTest(unittest.TestCase):
         return message
 
     def status(self):
-        return next(line for line in self.text(GENESIS).split("\n") if line.startswith("status:"))
+        """status del bloque activo: el último de Genesis."""
+        return [line for line in self.text(GENESIS).split("\n") if line.startswith("status:")][-1]
+
+    def open_revision(self):
+        """Aprueba el candidato, abre R-001, redacta sus secciones y registra un veredicto conforme."""
+        self.candidate()
+        self.decide("/csdd-approve Ana")
+        self.cli("csdd_doc.py", "revise")
+        head, marker, tail = self.text(GENESIS).partition("## Revisión De GENESIS: R-001")
+        before, decision, after = tail.partition("\n### Decisión Humana")
+        lines = []
+        for line in before.split("\n"):
+            lines.append(line)
+            if line.startswith("### "):
+                lines.extend(["", f"Cambio en {line[4:]}."])
+        self.put(GENESIS, head + marker + "\n".join(lines) + decision + after)
+        self.cli("csdd_review.py", "record", "conforming")
 
     def test_approve_command_runs_without_model(self):
         self.candidate()
@@ -323,9 +339,14 @@ class HookTest(unittest.TestCase):
         record = json.loads(next((self.state / "decisions").glob("*.json")).read_text(encoding="utf-8"))
         self.assertEqual((record["session_id"], record["prompt_id"]), ("s1", "m1"))
 
-    def test_reject_command_parses_name_and_reason(self):
+    def test_initial_genesis_is_not_rejected_by_command(self):
         self.candidate()
-        self.assertIn("Registrado:", self.decide("/csdd-reject Ana Pérez: no cubre: el caso"))
+        self.assertIn("inicial no se rechaza", self.decide("/csdd-reject Ana: no"))
+        self.assertEqual(self.status(), "status: pending")
+
+    def test_reject_command_parses_name_and_reason(self):
+        self.open_revision()
+        self.assertIn("Registrado: Revisión R-001", self.decide("/csdd-reject Ana Pérez: no cubre: el caso"))
         self.assertEqual(self.status(), "status: rejected")
         self.assertIn("Motivo: no cubre: el caso", self.text(GENESIS))
 
@@ -439,6 +460,27 @@ class HookTest(unittest.TestCase):
         self.assertIn("No se registró el veredicto", refused.stderr)
         self.assertEqual(self.text(".claude/csdd/state/review/review.json"), before)
         self.assertEqual(self.run_review("record", "non_conforming").returncode, 0)
+
+    def test_review_follows_the_active_block(self):
+        self.candidate()
+        self.decide("/csdd-approve Ana")
+        self.cli("csdd_doc.py", "revise")
+        status = self.run_review("status")
+        self.assertIn("Sin revisión registrada del bloque R-001.", status.stdout)
+        self.assertIn("Secciones obligatorias vacías: Motivo Y Alcance", status.stdout)
+        self.put(GLOSSARY, self.text(GLOSSARY).replace("Préstamo a un cliente.", "Préstamo otorgado."))
+        diff = self.run_review("diff").stdout
+        self.assertIn("revisar el bloque completo", diff)
+        self.assertIn("+Préstamo otorgado.", diff)
+        self.assertNotEqual(self.run_review("record", "conforming").returncode, 0)
+
+    def test_revision_approval_by_command(self):
+        self.open_revision()
+        self.assertIn("block: R-001", self.run_review("status").stdout)
+        self.assertIn("Registrado: Revisión R-001 de Genesis aprobada por Bea", self.decide("/csdd-approve Bea"))
+        self.assertEqual(self.status(), "status: approved")
+        self.cli("csdd_check.py", "docs")
+        self.cli("csdd_doc.py", "status")
 
     # Registro de mensajes
 

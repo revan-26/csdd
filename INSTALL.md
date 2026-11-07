@@ -67,7 +67,7 @@ Durante la discusión puede aparecer:
 <workspace>/docs/base/GENESIS.md
 ```
 
-Ese archivo permanece como propuesta hasta que la persona decide con `/csdd-approve <tu nombre>` o `/csdd-reject <tu nombre>: <motivo>`, con su propio nombre y no el del proyecto. Un hook registra la decisión antes de que el mensaje llegue al modelo; identifica tanto el contenido exacto presentado como la intervención humana, y la aprobación además cierra Genesis por código. El resultado, registrado o no con su motivo, se muestra a la persona y llega al modelo en el mismo turno. La aprobación exige una revisión conforme del contenido actual y ninguna sección obligatoria vacía: obligatorias son las que trae el esqueleto; las opcionales, marcadas así en la plantilla, pueden faltar. Un Genesis rechazado o cerrado todavía no puede continuar con una propuesta nueva (B-011).
+Ese archivo permanece como propuesta hasta que la persona lo aprueba con `/csdd-approve <tu nombre>`, con su propio nombre y no el del proyecto; si no le convence, pide ajustes en la conversación. El Genesis inicial no se rechaza: `/csdd-reject <tu nombre>: <motivo>` aplica a una revisión. Un hook registra la decisión antes de que el mensaje llegue al modelo; identifica tanto el contenido exacto presentado como la intervención humana, y la aprobación además cierra Genesis por código. El resultado, registrado o no con su motivo, se muestra a la persona y llega al modelo en el mismo turno. La aprobación exige una revisión conforme del contenido actual y ninguna sección obligatoria vacía: obligatorias son las que trae el esqueleto; las opcionales, marcadas así en la plantilla, pueden faltar. Un Genesis cerrado todavía no puede continuar con una revisión desde la conversación (B-011).
 
 ## Cierre De Génesis
 

@@ -3,10 +3,12 @@
 record <veredicto>  guarda el veredicto, las huellas y una copia del contenido revisado;
                     no acepta conforming mientras haya secciones obligatorias vacías.
 status              indica si el contenido actual es el que recibió el último veredicto
-                    y qué secciones de Genesis están vacías.
-diff                muestra lo cambiado desde la última revisión registrada.
+                    y qué secciones del bloque activo están vacías.
+diff                muestra lo cambiado desde la última revisión registrada del bloque
+                    activo; en una revisión sin veredicto, el glosario desde que se abrió.
 
-La constancia vive en .claude/csdd/state/review/, fuera de docs/.
+El veredicto cubre el bloque activo de Genesis (el cuerpo inicial o la última revisión)
+y el Glossary. La constancia vive en .claude/csdd/state/review/, fuera de docs/.
 """
 import datetime
 import difflib
@@ -17,18 +19,32 @@ import sys
 sys.dont_write_bytecode = True
 
 import csdd_check
-from csdd_hash import GENESIS, GLOSSARY, genesis_body, sha
+from csdd_hash import GENESIS, GLOSSARY, active_block, genesis_text, sha
 
 STATE = pathlib.Path(".claude/csdd/state/review")
-GENESIS_TEMPLATE = pathlib.Path(".csdd/templates") / csdd_check.TEMPLATES["genesis"]
+REVISIONS = pathlib.Path(".claude/csdd/state/revisions")
+TEMPLATES = pathlib.Path(".csdd/templates")
+GENESIS_TEMPLATE = TEMPLATES / csdd_check.TEMPLATES["genesis"]
+REVISION_TEMPLATE = TEMPLATES / csdd_check.REVISION_TEMPLATE
 VERDICTS = ("conforming", "non_conforming", "insufficient_evidence")
 
 
-def empty_sections(genesis, template_text):
-    """Secciones del cuerpo de Genesis sin contenido, como (obligatorias, opcionales).
+def snapshot_path(block_id):
+    """Glosario vigente al abrir una revisión; el rechazo lo restaura."""
+    return REVISIONS / f"{block_id}-glossary.md"
 
-    La plantilla define cuáles son opcionales: su guía empieza con «<Opcional».
+
+def empty_sections(genesis, template_text, revision_text=None):
+    """Secciones del bloque activo sin contenido, como (obligatorias, opcionales).
+
+    La plantilla define cuáles son opcionales: su guía empieza con «<Opcional». Una
+    revisión se compara con la plantilla de revisión.
     """
+    block_id, body = active_block(genesis)
+    if block_id is not None:
+        if revision_text is None:
+            raise ValueError("falta la plantilla de revisión")
+        template_text, genesis = revision_text, body
     document = csdd_check.parse(genesis).children
     template = csdd_check.load_template(template_text).children
     if not document or not template:
@@ -48,10 +64,12 @@ def empty_sections(genesis, template_text):
 def current_empty_sections(root=pathlib.Path(".")):
     if not (root / GENESIS).exists():
         return [], []
-    if not (root / GENESIS_TEMPLATE).exists():
-        raise SystemExit(f"No existe {GENESIS_TEMPLATE}: instala CSDD en este proyecto.")
-    genesis = (root / GENESIS).read_text(encoding="utf-8")
-    return empty_sections(genesis, (root / GENESIS_TEMPLATE).read_text(encoding="utf-8"))
+    texts = []
+    for path in (GENESIS_TEMPLATE, REVISION_TEMPLATE):
+        if not (root / path).exists():
+            raise SystemExit(f"No existe {path}: instala CSDD en este proyecto.")
+        texts.append((root / path).read_text(encoding="utf-8"))
+    return empty_sections(genesis_text(root), *texts)
 
 
 def empty_report(required, optional):
@@ -64,7 +82,13 @@ def empty_report(required, optional):
 
 
 def current():
-    return {"genesis_body": genesis_body(), "glossary": GLOSSARY.read_text(encoding="utf-8")}
+    """Devuelve (bloque activo, {nombre: texto revisable})."""
+    block_id, body = active_block(genesis_text())
+    return block_id, {"genesis_body": body, "glossary": GLOSSARY.read_text(encoding="utf-8")}
+
+
+def block_label(block_id):
+    return block_id or "genesis"
 
 
 def load(root=pathlib.Path(".")):
@@ -81,11 +105,12 @@ def record(verdict):
     if verdict == "conforming" and required:
         raise SystemExit("No se registró el veredicto. " + " ".join(empty_report(required, optional)))
     STATE.mkdir(parents=True, exist_ok=True)
-    texts = current()
+    block_id, texts = current()
     for name, text in texts.items():
         (STATE / f"{name}.md").write_text(text, encoding="utf-8")
     data = {
         "verdict": verdict,
+        "block": block_id,
         "reviewed_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         **{name: sha(text) for name, text in texts.items()},
     }
@@ -100,8 +125,13 @@ def status():
         for line in empty_report(*current_empty_sections()):
             print(line)
         return
-    texts = current()
-    print(f"verdict: {data['verdict']}\nreviewed_at: {data['reviewed_at']}")
+    block_id, texts = current()
+    if data.get("block") != block_id:
+        print(f"Sin revisión registrada del bloque {block_label(block_id)}.")
+        for line in empty_report(*current_empty_sections()):
+            print(line)
+        return
+    print(f"block: {block_label(block_id)}\nverdict: {data['verdict']}\nreviewed_at: {data['reviewed_at']}")
     for name, text in texts.items():
         state = "igual" if sha(text) == data[name] else "cambiado"
         print(f"{name}: {state} ({data[name]})")
@@ -109,16 +139,25 @@ def status():
         print(line)
 
 
+def print_diff(before, after, before_label, after_label):
+    sys.stdout.writelines(difflib.unified_diff(
+        before.splitlines(keepends=True), after.splitlines(keepends=True),
+        fromfile=before_label, tofile=after_label))
+
+
 def diff():
-    if load() is None:
-        print("Sin revisión registrada: revisar el contenido completo.")
+    data = load()
+    block_id, texts = current()
+    if data is None or data.get("block") != block_id:
+        print(f"Sin revisión registrada del bloque {block_label(block_id)}: revisar el bloque completo.")
+        if block_id is not None and snapshot_path(block_id).exists():
+            print("Cambios del glosario desde que se abrió la revisión:")
+            print_diff(snapshot_path(block_id).read_text(encoding="utf-8"), texts["glossary"],
+                       "glossary al abrir", "glossary actual")
         return
-    for name, text in current().items():
+    for name, text in texts.items():
         before = (STATE / f"{name}.md").read_text(encoding="utf-8")
-        lines = difflib.unified_diff(
-            before.splitlines(keepends=True), text.splitlines(keepends=True),
-            fromfile=f"{name} revisado", tofile=f"{name} actual")
-        sys.stdout.writelines(lines)
+        print_diff(before, text, f"{name} revisado", f"{name} actual")
 
 
 def main():
