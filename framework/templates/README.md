@@ -35,7 +35,8 @@ Cada término es una entrada con título, una línea administrativa `[<ID> · <f
 
 - El ID tiene la forma `G-NNN`, lo asigna el código, sobrevive a cambios de nombre y nunca se reutiliza.
 - La fuerza indica la firmeza del término: `acordado` (confirmado por la persona), `propuesto` (aporte pendiente de decisión), `supuesto` (hipótesis de trabajo que requiere validación) o `diferido` (decisión humana de no resolverlo ahora).
-- Un término se registra como `propuesto`. La aprobación del componente pasa a `acordado` los términos propuestos en esa revisión, salvo los marcados `supuesto` o `diferido`; ninguna edición puede hacerlo.
+- Un término se registra como `propuesto`, o como `supuesto` si proviene de vocabulario estándar o de una investigación sin confirmación de la persona. La aprobación del componente pasa a `acordado` los términos propuestos en esa revisión, salvo los marcados `supuesto` o `diferido`; ninguna edición puede hacerlo.
+- Fuera del candidato inicial, un término solo cambia dentro de una revisión aprobable: corregir la definición conserva título e ID; un concepto que cambió se depreca y se reemplaza; un supuesto pasa a `propuesto` cuando la persona lo confirma.
 - La categoría es texto libre e indica qué tipo de concepto es, no su firmeza.
 - Un término deprecado se traslada a `Términos Deprecados` con su ID, indicando qué lo reemplaza y por qué dejó de usarse.
 
