@@ -16,7 +16,7 @@ sys.path[:0] = [str(ROOT / "tools"), str(SCRIPTS)]
 
 import csdd_check  # noqa: E402
 import csdd_doc  # noqa: E402
-from csdd_hash import GENESIS, GLOSSARY, body_of, sha  # noqa: E402
+from csdd_hash import GENESIS, GLOSSARY, active_block, body_of, block_body, prefix_of, sha  # noqa: E402
 
 TERMS = """### Crédito
 [G-001 · propuesto · dominio]
@@ -72,10 +72,12 @@ class DocTest(unittest.TestCase):
         (self.project / GLOSSARY).write_text(glossary, encoding="utf-8")
 
     def record_review(self, verdict="conforming"):
+        """Registra un veredicto del bloque activo, como csdd_review.py record."""
+        block_id, body = active_block(self.genesis())
         self.state("review").mkdir(parents=True, exist_ok=True)
         self.state("review", "review.json").write_text(json.dumps({
-            "verdict": verdict, "reviewed_at": "2026-10-31T10:00:00Z",
-            "genesis_body": sha(body_of(self.genesis())), "glossary": sha(self.glossary())}), encoding="utf-8")
+            "verdict": verdict, "block": block_id, "reviewed_at": "2026-10-31T10:00:00Z",
+            "genesis_body": sha(body), "glossary": sha(self.glossary())}), encoding="utf-8")
 
     def candidate(self):
         self.write_candidate()
@@ -134,10 +136,13 @@ class DocTest(unittest.TestCase):
 
     def assert_refused(self, pattern):
         genesis, glossary = self.genesis(), self.glossary()
+        records = sorted(self.state("decisions").glob("*")) if self.state("decisions").exists() else []
         with self.assertRaisesRegex(csdd_doc.DocError, pattern):
             csdd_doc.approve(self.project, "Ana")
         self.assertEqual((self.genesis(), self.glossary()), (genesis, glossary))
-        self.assertFalse(self.state("decisions").exists())
+        after = sorted(self.state("decisions").glob("*")) if self.state("decisions").exists() else []
+        self.assertEqual(after, records)
+        self.assertFalse(self.state("pending").exists())
 
     def test_approve_requires_review(self):
         self.write_candidate()
@@ -197,46 +202,143 @@ class DocTest(unittest.TestCase):
         with self.assertRaisesRegex(csdd_doc.DocError, "ya tiene una decisión"):
             csdd_doc.reject(self.project, "Ana", "no")
 
-    def test_revision_blocks_have_no_operation_yet(self):
+    def test_incomplete_revision_block_is_refused(self):
         self.candidate()
         (self.project / GENESIS).write_text(self.genesis() + "\n## Revisión De GENESIS: R-1\n", encoding="utf-8")
-        with self.assertRaisesRegex(csdd_doc.DocError, "revisiones fundamentales"):
+        with self.assertRaisesRegex(csdd_doc.DocError, "no tiene Decisión Humana y Materialización"):
             csdd_doc.approve(self.project, "Ana")
+
+    # Revisión
+
+    def closed(self):
+        self.candidate()
+        csdd_doc.approve(self.project, "Ana")
+
+    def revision(self, term=True):
+        """Abre R-001 sobre un Genesis cerrado y redacta sus secciones y un término nuevo."""
+        self.closed()
+        csdd_doc.revise(self.project)
+        head, marker, tail = self.genesis().partition("## Revisión De GENESIS: R-001")
+        before, decision, after = tail.partition("\n### Decisión Humana")
+        lines = []
+        for line in before.split("\n"):
+            lines.append(line)
+            if line.startswith("### "):
+                lines.extend(["", f"Cambio en {line[4:]}."])
+        (self.project / GENESIS).write_text(head + marker + "\n".join(lines) + decision + after, encoding="utf-8")
+        if term:
+            (self.project / GLOSSARY).write_text(self.glossary().replace(
+                "## Términos Deprecados\n", "### Agencia\n[G-004 · propuesto · operación]\n\nOficina de atención.\n\n"
+                "## Términos Deprecados\n"), encoding="utf-8")
+
+    def test_revise_requires_closed_genesis(self):
+        self.candidate()
+        with self.assertRaisesRegex(csdd_doc.DocError, "Genesis cerrado"):
+            csdd_doc.revise(self.project)
+
+    def test_revise_opens_block_and_keeps_glossary(self):
+        self.closed()
+        prefix, glossary = self.genesis(), self.glossary()
+        self.assertIn("R-001", csdd_doc.revise(self.project))
+        text = self.genesis()
+        self.assertTrue(text.startswith(prefix.rstrip("\n")))
+        self.assertIn("## Revisión De GENESIS: R-001\n\n### Motivo Y Alcance\n", text)
+        self.assertIn("### Decisión Humana\n\nstatus: pending\n", text)
+        self.assertIn("### Materialización\n\nstage: pending\n", text)
+        self.assertIn("#### Verificación", text)
+        self.assertEqual(self.errors(), [])
+        self.assertEqual(self.state("revisions", "R-001-glossary.md").read_text(encoding="utf-8"), glossary)
+        self.assertEqual(csdd_doc.status_report(self.project), ("Revisión R-001 de Genesis en curso, sin decisión.", False))
+        with self.assertRaisesRegex(csdd_doc.DocError, "Genesis cerrado"):
+            csdd_doc.revise(self.project)
+
+    def test_approve_revision_closes_only_its_block(self):
+        self.revision()
+        self.record_review()
+        prefix = prefix_of(self.genesis(), "R-001")
+        body = block_body(self.genesis(), "R-001")
+        self.assertIn("Revisión R-001 de Genesis aprobada por Bea", csdd_doc.approve(self.project, "Bea"))
+        text = self.genesis()
+        self.assertEqual(self.errors(), [])
+        self.assertEqual(prefix_of(text, "R-001"), prefix)
+        self.assertEqual(block_body(text, "R-001"), body)
+        self.assertEqual(csdd_doc.admin_values(text, "Decisión Humana")["approved_by"], "Bea")
+        self.assertEqual(csdd_doc.admin_values(text, "Materialización")["genesis_reference"], sha(body))
+        self.assertIn("contenido anterior coincide con el de su apertura", text)
+        self.assertIn("[G-004 · acordado · operación]", self.glossary())
+        self.assertEqual(csdd_doc.status_report(self.project), ("Genesis approved, stage closed (revisión R-001).", False))
+        self.assertIn("R-002", csdd_doc.revise(self.project))
+
+    def test_revision_needs_its_own_review(self):
+        self.revision()
+        self.assert_refused("No hay revisión registrada de este bloque")
+        self.record_review("non_conforming")
+        self.assert_refused("non_conforming")
+
+    def test_revision_refuses_empty_sections_and_changed_prefix(self):
+        self.revision()
+        (self.project / GENESIS).write_text(self.genesis().replace("Cambio en Motivo Y Alcance.", ""), encoding="utf-8")
+        self.record_review()
+        self.assert_refused("vacías: Motivo Y Alcance")
+        self.revision_restart()
+        (self.project / GENESIS).write_text(self.genesis().replace("Contenido de Resumen", "Otro"), encoding="utf-8")
+        self.record_review()
+        self.assert_refused("contenido anterior a R-001 cambió")
+        self.assertTrue(csdd_doc.status_report(self.project)[1])
+
+    def revision_restart(self):
+        self.tearDown()
+        self.setUp()
+        self.revision()
+
+    def test_reject_revision_restores_glossary(self):
+        self.revision()
+        snapshot = self.state("revisions", "R-001-glossary.md").read_text(encoding="utf-8")
+        candidate = self.glossary()
+        body = block_body(self.genesis(), "R-001")
+        message = csdd_doc.reject(self.project, "Bea", "# no\ncubre  el caso", "sesion", "mensaje")
+        self.assertIn("Revisión R-001 de Genesis rechazada por Bea", message)
+        self.assertEqual(self.errors(), [])
+        text = self.genesis()
+        self.assertEqual(block_body(text, "R-001"), body)
+        self.assertEqual(csdd_doc.admin_values(text, "Decisión Humana")["status"], "rejected")
+        self.assertEqual(csdd_doc.admin_values(text, "Materialización")["disposition"], "abandoned")
+        self.assertIn("#### Notas De La Decisión\n\nMotivo: # no cubre el caso\n", text)
+        self.assertEqual(self.glossary(), snapshot)
+        self.assertEqual(next(self.state("rejected").glob("*")).read_text(encoding="utf-8"), candidate)
+        self.assertEqual(csdd_doc.status_report(self.project), ("Genesis rejected, stage pending (revisión R-001).", False))
+        self.assertIn("R-002", csdd_doc.revise(self.project))
+
+    def test_reject_revision_requires_kept_glossary(self):
+        self.revision()
+        self.state("revisions", "R-001-glossary.md").unlink()
+        with self.assertRaisesRegex(csdd_doc.DocError, "glosario conservado"):
+            csdd_doc.reject(self.project, "Bea", "motivo")
+        self.assertFalse(self.state("pending").exists())
+
+    def test_recover_completes_interrupted_revision_approval(self):
+        self.revision()
+        self.record_review()
+        self.interrupted(3)
+        self.assertIn("Revisión R-001 de Genesis aprobada", csdd_doc.recover(self.project))
+        self.assertEqual(self.errors(), [])
+        self.assertIn("[G-004 · acordado · operación]", self.glossary())
 
     # Rechazo
 
-    def test_reject_abandons_and_restores_glossary(self):
+    def test_initial_genesis_is_not_rejected(self):
         self.write_candidate()
-        body, candidate = body_of(self.genesis()), self.glossary()
-        csdd_doc.reject(self.project, "Ana", "# no\ncubre  el caso", "sesion", "mensaje")
-        self.assertEqual(self.errors(), [])
-        text = self.genesis()
-        self.assertEqual(body_of(text), body)
-        self.assertEqual(csdd_doc.admin_values(text, "Decisión Humana")["status"], "rejected")
-        self.assertEqual(csdd_doc.admin_values(text, "Materialización")["disposition"], "abandoned")
-        self.assertEqual(csdd_doc.admin_values(text, "Materialización")["stage"], "pending")
-        self.assertIn("### Notas De La Decisión\n\nMotivo: # no cubre el caso\n", text)
-        self.assertNotIn("Crédito", self.glossary())
-        self.assertEqual(next(self.state("rejected").glob("*")).read_text(encoding="utf-8"), candidate)
-        self.assertEqual(csdd_doc.status_report(self.project), ("Genesis rejected, stage pending.", False))
+        genesis, glossary = self.genesis(), self.glossary()
+        with self.assertRaisesRegex(csdd_doc.DocError, "inicial no se rechaza"):
+            csdd_doc.reject(self.project, "Ana", "motivo")
+        self.assertEqual((self.genesis(), self.glossary()), (genesis, glossary))
 
-    def test_reject_replaces_broken_glossary(self):
-        self.write_candidate()
-        (self.project / GLOSSARY).write_text("sin título\n\n### Vacío\n", encoding="utf-8")
-        csdd_doc.reject(self.project, "Ana", "motivo")
-        self.assertEqual(self.errors(), [])
 
     def test_reject_requires_name_and_reason(self):
         self.write_candidate()
         for name, reason in (("", "motivo"), ("Ana", " ")):
             with self.assertRaises(csdd_doc.DocError):
                 csdd_doc.reject(self.project, name, reason)
-
-    def test_reject_stops_when_glossary_has_agreed_terms(self):
-        self.write_candidate()
-        (self.project / GLOSSARY).write_text(self.glossary().replace("G-001 · propuesto", "G-001 · acordado"), encoding="utf-8")
-        with self.assertRaisesRegex(csdd_doc.DocError, "términos acordados"):
-            csdd_doc.reject(self.project, "Ana", "motivo")
 
     # Recuperación
 
@@ -305,7 +407,7 @@ class DocTest(unittest.TestCase):
             csdd_doc.recover(self.project)
 
     def test_recover_completes_interrupted_rejection(self):
-        self.write_candidate()
+        self.revision()
         original = csdd_doc.write_atomic
 
         def failing(path, text):
@@ -314,7 +416,7 @@ class DocTest(unittest.TestCase):
             original(path, text)
         with mock.patch.object(csdd_doc, "write_atomic", failing), self.assertRaises(OSError):
             csdd_doc.reject(self.project, "Ana", "motivo")
-        self.assertIn("rechazado", csdd_doc.recover(self.project))
+        self.assertIn("rechazada", csdd_doc.recover(self.project))
         self.assertEqual(csdd_doc.admin_values(self.genesis(), "Decisión Humana")["status"], "rejected")
         self.assertEqual(self.errors(), [])
 

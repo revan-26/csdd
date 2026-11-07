@@ -1,6 +1,6 @@
 ---
 name: csdd-reject
-description: Registra el rechazo humano del candidato de Genesis. Un hook lo ejecuta sin intervención del modelo.
+description: Registra el rechazo humano de una revisión de Genesis. Un hook lo ejecuta sin intervención del modelo.
 disable-model-invocation: true
 argument-hint: "<tu nombre>: <motivo>"
 ---
