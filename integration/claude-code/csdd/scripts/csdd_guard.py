@@ -19,7 +19,8 @@ sys.dont_write_bytecode = True
 try:
     import csdd_check
     import csdd_doc
-    from csdd_doc import DECISION, GENESIS, GLOSSARY, MATERIALIZATION, document
+    from csdd_doc import GENESIS, GLOSSARY, document
+    from csdd_hash import revision_start
     IMPORT_ERROR = None
 except Exception as error:  # el arranque también debe rechazar, no dejar pasar
     IMPORT_ERROR = error
@@ -39,6 +40,7 @@ READ_SCRIPTS = {
     "csdd_doc.py": re.compile(r"^(status|recover|new .+)$"),
 }
 RECORD_REVIEW = re.compile(r"^record (conforming|non_conforming|insufficient_evidence)$")
+REVISE = ("csdd_doc.py", "revise")
 NEW_STRENGTHS = ("propuesto", "supuesto", "diferido")
 UNASSIGNED_LINE = re.compile(r"^\[G-NNN · (\S+) · .+\]$")
 Term = collections.namedtuple("Term", "title section admin strength raw")
@@ -65,15 +67,38 @@ def title_of(text):
     return node.title if node is not None else None
 
 
-def check_genesis(project, before, after):
-    if not csdd_doc.has_block(before):
-        return f"{GENESIS} no tiene Decisión Humana y Materialización: no se edita."
-    decision = csdd_doc.admin_values(before, DECISION).get("status")
-    stage = csdd_doc.admin_values(before, MATERIALIZATION).get("stage")
+def open_block(genesis):
+    """Bloque activo de Genesis si admite cambios, o el motivo por el que no los admite."""
+    if not csdd_doc.has_block(genesis):
+        return None, f"{GENESIS} no tiene Decisión Humana y Materialización en todos sus bloques: no se edita."
+    block = csdd_doc.active(genesis)
+    decision = csdd_doc.node_admin(block.decision).get("status")
+    stage = csdd_doc.node_admin(block.materialization).get("stage")
     if decision != "pending" or stage != "pending":
-        return "Genesis ya tiene una decisión registrada: su contenido no se edita."
-    marker = "\n## Decisión Humana"
-    if marker not in after or after.partition(marker)[2] != before.partition(marker)[2]:
+        return None, ("Genesis ya tiene una decisión registrada: para cambiarlo, la persona pide una revisión "
+                      "y se abre con python3 .claude/csdd/scripts/csdd_doc.py revise.")
+    return block, None
+
+
+def frozen_parts(genesis, block_id):
+    """Lo que una edición no puede tocar: lo anterior al contenido del bloque y lo posterior."""
+    if block_id is None:
+        _, marker, tail = genesis.partition("\n## Decisión Humana")
+        return None, marker + tail
+    start = revision_start(genesis, block_id)
+    heading_end = genesis.index("\n", start)
+    _, marker, tail = genesis[heading_end:].partition("\n### Decisión Humana")
+    return genesis[:heading_end], marker + tail
+
+
+def check_genesis(project, before, after):
+    block, problem = open_block(before)
+    if problem:
+        return problem
+    head, tail = frozen_parts(before, block.id)
+    if block.id is not None and not after.startswith(head):
+        return f"Lo anterior a la revisión {block.id} no se edita: los cambios van en sus secciones."
+    if not tail or not after.endswith(tail) or len(after) < len(head or "") + len(tail):
         return "Decisión Humana y Materialización las escribe solo el código."
     if title_of(after) != title_of(before):
         return "El título del documento no se cambia."
@@ -107,21 +132,46 @@ def glossary_entries(text):
     return assigned, unassigned
 
 
+def entry_problem(entry_id, term, kept, revision):
+    """Comprueba el cambio de una entrada existente; devuelve el problema o None."""
+    label = f"«{term.title}» ({entry_id})"
+    if kept is None:
+        if term.strength == "acordado":
+            hint = " ni se elimina; si su concepto cambió, trasládalo a Términos Deprecados" if revision else " y no se elimina"
+            return f"{label} está acordado{hint}."
+        return None
+    if term.section == "Términos Deprecados" and kept.raw != term.raw:
+        return f"{label} está deprecado y no se edita."
+    deprecated = revision and term.section == "Términos" and kept.section == "Términos Deprecados"
+    confirmed = (revision and term.strength == "supuesto" and kept.strength == "propuesto"
+                 and kept.admin == term.admin.replace("· supuesto ·", "· propuesto ·"))
+    if kept.title != term.title or (kept.section != term.section and not deprecated) or (
+            kept.admin != term.admin and not confirmed):
+        if revision:
+            return (f"El título y el ID de {entry_id} no se cambian; dentro de una revisión su fuerza solo pasa "
+                    "de supuesto a propuesto y solo se traslada a Términos Deprecados.")
+        return f"El título, la sección y la línea administrativa de {entry_id} no se cambian."
+    if term.strength == "acordado" and kept.raw != term.raw and not revision:
+        return (f"{label} está acordado y no se edita: tras aprobar Genesis, un término cambia "
+                "dentro de una revisión.")
+    return None
+
+
 def check_glossary(project, before, after):
+    genesis_path = pathlib.Path(project) / GENESIS
+    if not genesis_path.exists():
+        return f"{GLOSSARY} se edita junto a {GENESIS}, que no existe."
+    block, problem = open_block(genesis_path.read_text(encoding="utf-8"))
+    if problem:
+        return problem.replace("para cambiarlo", "para cambiar el glosario")
     if title_of(after) != title_of(before):
         return "El título del documento no se cambia."
     previous, _ = glossary_entries(before)
     current, unassigned = glossary_entries(after)
     for entry_id, term in previous.items():
-        kept = current.get(entry_id)
-        if kept is None:
-            if term.strength == "acordado":
-                return f"«{term.title}» ({entry_id}) está acordado y no se elimina."
-            continue
-        if (kept.title, kept.section, kept.admin) != (term.title, term.section, term.admin):
-            return f"El título, la sección y la línea administrativa de {entry_id} no se cambian."
-        if term.strength == "acordado" and kept.raw != term.raw:
-            return f"«{term.title}» ({entry_id}) está acordado y no se edita."
+        problem = entry_problem(entry_id, term, current.get(entry_id), block.id is not None)
+        if problem:
+            return problem
     for entry_id in current:
         if entry_id not in previous:
             return f"{entry_id} no existe: una entrada nueva lleva [G-NNN · propuesto · categoría] y el código asigna el ID."
@@ -190,6 +240,8 @@ def allowed_script(command, agent, project):
     script, arguments = match.group(1), match.group(2) or ""
     if script == "csdd_review.py" and RECORD_REVIEW.match(arguments):
         return agent == REVIEWER
+    if (script, arguments) == REVISE:
+        return agent is None
     allowed = READ_SCRIPTS.get(script)
     return bool(allowed and allowed.match(arguments))
 

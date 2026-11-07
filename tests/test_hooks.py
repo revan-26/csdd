@@ -186,12 +186,74 @@ class HookTest(unittest.TestCase):
             with self.subTest(old=old, new=new):
                 self.assert_denied(self.edit(GLOSSARY, old, new), "no se cambian|el código asigna")
 
-    def test_agreed_term_is_immutable(self):
+    def test_closed_genesis_freezes_the_glossary(self):
         self.agreed_term()
-        self.assert_denied(self.edit(GLOSSARY, "Préstamo a un cliente", "Otro"), "acordado y no se edita")
-        self.assert_denied(self.edit(GLOSSARY, TERM.replace("G-NNN", "G-001").replace("propuesto", "acordado"), ""),
-                           "acordado y no se elimina")
+        agreed = TERM.replace("G-NNN", "G-001").replace("propuesto", "acordado")
+        for result in (self.edit(GLOSSARY, "Préstamo a un cliente", "Otro"), self.edit(GLOSSARY, agreed, ""),
+                       self.add_term(TERM.replace("Crédito", "Cartera"))):
+            self.assert_denied(result, "csdd_doc.py revise")
+
+    def opened_revision(self):
+        """Genesis aprobado con un acordado (G-001) y un supuesto (G-002), y la revisión R-001 abierta."""
+        self.candidate()
+        supposed = TERM.replace("G-NNN", "G-002").replace("Crédito", "Cuota").replace("propuesto", "supuesto")
+        self.put(GLOSSARY, self.text(GLOSSARY).replace("## Términos Deprecados", supposed + "## Términos Deprecados"))
+        self.put(".claude/csdd/state/review/review.json", json.dumps({
+            "verdict": "conforming", "reviewed_at": "2026-10-31T10:00:00Z",
+            "genesis_body": sha(body_of(self.text(GENESIS))), "glossary": sha(self.text(GLOSSARY))}))
+        self.decide("/csdd-approve Ana")
+        self.cli("csdd_doc.py", "revise")
+
+    def test_revision_edits_only_its_own_sections(self):
+        self.opened_revision()
+        self.assert_allowed(self.edit(GENESIS, "### Motivo Y Alcance\n", "### Motivo Y Alcance\n\nNuevo motivo.\n"))
+        self.assert_denied(self.edit(GENESIS, "Contenido de Resumen Ejecutivo.", "Otro."), "anterior a la revisión R-001")
+        self.assert_denied(self.edit(GENESIS, "approved_by: Ana", "approved_by: Eva"), "anterior a la revisión R-001")
+        revision_status = self.text(GENESIS).rpartition("status: pending")
+        self.assert_denied(self.guard("Write", {"file_path": str(self.project / GENESIS),
+                                                "content": "status: approved".join(revision_status[::2])}, CANON),
+                           "solo el código")
+        self.assert_denied(self.edit(GENESIS, "## Revisión De GENESIS: R-001", "## Revisión De GENESIS: R-009"),
+                           "anterior a la revisión R-001")
+
+    def test_revision_rules_for_existing_terms(self):
+        self.opened_revision()
+        self.assert_allowed(self.edit(GLOSSARY, "Préstamo a un cliente", "Préstamo otorgado a un cliente"))
+        self.assert_allowed(self.edit(GLOSSARY, "G-002 · supuesto", "G-002 · propuesto"))
         self.assert_allowed(self.add_term(TERM.replace("Crédito", "Cartera")))
+        agreed = TERM.replace("G-NNN", "G-001").replace("propuesto", "acordado")
+        self.assert_denied(self.edit(GLOSSARY, agreed, ""), "trasládalo a Términos Deprecados")
+        for old, new in (("G-001 · acordado", "G-001 · propuesto"), ("G-002 · supuesto", "G-002 · diferido"),
+                         ("### Crédito", "### Préstamo"), ("G-001 · acordado · dominio", "G-001 · acordado · otra")):
+            with self.subTest(old=old, new=new):
+                self.assert_denied(self.edit(GLOSSARY, old, new), "no se cambian")
+        deprecated = agreed.rstrip("\n") + "\n- Reemplazado por: ninguno\n- Motivo: Ya no se usa.\n"
+        text = self.text(GLOSSARY).replace(agreed, "").rstrip("\n") + "\n\n" + deprecated
+        self.assert_allowed(self.guard("Write", {"file_path": str(self.project / GLOSSARY), "content": text}, CANON))
+        self.put(GLOSSARY, text)
+        self.assert_denied(self.edit(GLOSSARY, "Ya no se usa.", "Otro motivo."), "deprecado y no se edita")
+
+    def test_revision_flow_through_the_guard(self):
+        self.opened_revision()
+        head = self.text(GENESIS).partition("## Revisión De GENESIS: R-001")[2].partition("\n### Decisión Humana")[0]
+        for line in head.split("\n"):
+            if line.startswith("### "):
+                self.apply_edit(GENESIS, line + "\n", f"{line}\n\nCambio en {line[4:]}.\n")
+        self.apply_edit(GLOSSARY, "G-002 · supuesto", "G-002 · propuesto")
+        self.apply_edit(GLOSSARY, "Préstamo a un cliente", "Préstamo otorgado a un cliente")
+        self.review("conforming")
+        self.assertIn("Revisión R-001 de Genesis aprobada por Ana", self.decide("/csdd-approve Ana"))
+        self.assertIn("[G-002 · acordado · dominio]", self.text(GLOSSARY))
+        self.assertIn("Préstamo otorgado a un cliente", self.text(GLOSSARY))
+        self.cli("csdd_check.py", "docs")
+        self.cli("csdd_doc.py", "status")
+        self.assert_denied(self.edit(GENESIS, "Cambio en Motivo Y Alcance.", "Otro."), "csdd_doc.py revise")
+
+    def test_only_orchestrator_opens_revisions(self):
+        command = "python3 .claude/csdd/scripts/csdd_doc.py revise"
+        self.assert_allowed(self.bash(command))
+        self.assert_denied(self.bash(command, CANON), "solo ejecuta")
+        self.assert_denied(self.bash(command + " x"), "ruta protegida")
 
     # Asignación de IDs
 
