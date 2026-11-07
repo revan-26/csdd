@@ -53,6 +53,7 @@ La instalación y la adopción del proyecto son operaciones distintas. La primer
 La guarda protege contra errores del agente, no contra manipulación deliberada:
 
 - En Bash busca rutas protegidas en el texto del comando; no detecta una ruta construida de otra forma.
+- Deja al orquestador usar git sin escribir archivos del proyecto (`status`, `diff`, `log`, `show`, `blame`, `ls-files`, `add` y `commit`), para no interferir con el flujo de git de cada persona.
 - También protege `.claude/settings.json` y `.claude/settings.local.json`, para que el agente no retire los hooks: esos archivos se editan a mano.
 - Si `python3` no está disponible, Claude Code no bloquea la herramienta y la guarda no actúa.
 - Las constancias no autentican a la persona ni resisten edición manual.
