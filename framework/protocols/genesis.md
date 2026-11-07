@@ -58,8 +58,6 @@ Tras aprobación comprobable y revisión semántica conforme de las versiones ac
 
 El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, decisiones bloqueantes resueltas y persistencia comprobada. Se registra stage closed. No se crea Backlog para señalarlo; no se declara V1 implementada ni First Release.
 
-La reparación admite una entrega inicial y hasta cuatro correcciones agrupadas; repetición inválida, agotamiento o modificación protegida detienen la operación. No se elude el límite mediante otra sesión.
-
 ## Revisión y rechazo
 
 Contrastar primero las fuentes vigentes disponibles. Antes de Ontology, Genesis es la fuente pertinente de intención; después se consultan dominios, contratos y otras fuentes actuales. Una feature compatible no obliga a releer historia.

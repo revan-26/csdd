@@ -10,7 +10,7 @@ La estructura de los documentos CSDD pertenece al código: los scripts de la int
 
 - El texto entre `< >` es guía de la plantilla: el documento se crea con los títulos y sin esa guía.
 - `<Opcional. …>` marca una sección que solo existe cuando tiene contenido aplicable.
-- Las líneas `clave: valor` y `[ … ]` son administración: solo las escribe el código.
+- Las líneas `clave: valor` y `[ … ]` son administración: solo las escribe el código, salvo lo que cada documento permite al agente.
 - Las referencias de contenido tienen la forma `sha256:<64 caracteres hexadecimales>`.
 
 ### Decisión Humana
@@ -33,7 +33,7 @@ Cada término es una entrada con título, una línea administrativa `[<ID> · <f
 
 - El glosario registra vocabulario del producto y de su dominio. Decisiones, alcance y conceptos de CSDD residen en sus fuentes, no en el glosario.
 
-- El ID tiene la forma `G-NNN`, lo asigna el código, sobrevive a cambios de nombre y nunca se reutiliza.
+- El ID tiene la forma `G-NNN`, lo asigna el código, sobrevive a cambios de nombre y nunca se reutiliza. El agente escribe la línea de un término nuevo con `G-NNN` literal y solo cambia una fuerza de `supuesto` a `propuesto`, dentro de una revisión.
 - La fuerza indica la firmeza del término: `acordado` (confirmado por la persona), `propuesto` (aporte pendiente de decisión), `supuesto` (hipótesis de trabajo que requiere validación) o `diferido` (decisión humana de no resolverlo ahora).
 - Un término se registra como `propuesto`, o como `supuesto` si proviene de vocabulario estándar o de una investigación sin confirmación de la persona. La aprobación del componente pasa a `acordado` los términos propuestos en esa revisión, salvo los marcados `supuesto` o `diferido`; ninguna edición puede hacerlo.
 - Fuera del candidato inicial, un término solo cambia dentro de una revisión aprobable: corregir la definición conserva título e ID; un concepto que cambió se depreca y se reemplaza; un supuesto pasa a `propuesto` cuando la persona lo confirma.

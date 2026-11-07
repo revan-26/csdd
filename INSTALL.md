@@ -72,7 +72,7 @@ Ese archivo permanece como propuesta hasta que la persona lo aprueba con `/csdd-
 
 ## Cierre De Génesis
 
-Genesis cierra con Genesis y Glossary revisados y aprobación comprobable. Sus resultados informan a cualquier componente pertinente. Specs y Backlog no son proyecciones exigidas para cerrar Genesis: CONSOLIDATION confirma su contenido después del trabajo de Definición. Pueden recibir aportes pendientes antes, sin aprobación ni cierre implícitos.
+Genesis cierra con Genesis y Glossary revisados y aprobación comprobable. Sus resultados informan a cualquier componente pertinente. Specs y Backlog no son resultados exigidos para cerrar Genesis: CONSOLIDATION confirma su contenido después del trabajo de Definición. Pueden recibir aportes pendientes antes, sin aprobación ni cierre implícitos.
 
 Resultados propios de Genesis:
 
@@ -81,7 +81,7 @@ Resultados propios de Genesis:
 <workspace>/docs/glossary.md
 ```
 
-La proyección no puede introducir significado nuevo. Si necesita una decisión adicional, se detiene y se consulta a la persona; el cambio se trata como evolución separada de las fuentes vivas, no como una reescritura de Genesis aprobado.
+Lo que se derive de Genesis aprobado no puede introducir significado nuevo. Si necesita una decisión adicional, se detiene y se consulta a la persona; el cambio se trata como evolución separada de las fuentes vivas, no como una reescritura de Genesis aprobado.
 
 El cierre de Genesis se comprueba en su registro y evidencia local, sin depender de Backlog. Ontology mantiene glosario, dominios y contratos aplicables, y registra su trabajo en `docs/base/ONTOLOGY.md`. Topology mantiene arquitectura y `docs/base/TOPOLOGY.md`. Mapping permanece junto a cada repositorio. CONSOLIDATION integra Specs/Backlog; implementar requiere autorización explícita. Los aportes preservan historia y decisiones anteriores.
 
@@ -103,7 +103,7 @@ No es parte de una instalación nueva ni se ejecuta automáticamente. Requiere a
 2. Verificar que los destinos no colisionen con documentos existentes. Mantener intacto el cuerpo aprobado; actualizar solo referencias administrativas/editoriales sin cambiar decisiones.
 3. Trasladar `.csdd/GENESIS.md`, `ONTOLOGY.md` y `TOPOLOGY.md` a `docs/base/`; Specs y Glossary a `docs/specs.md` y `docs/glossary.md`; un Roadmap anterior se convierte en `docs/backlog.md` conservando secuencia y diferidos; dominios, contratos y ADR a sus carpetas bajo `docs/`.
 4. Extraer la arquitectura vigente de Topology a `docs/architecture.md` conservando estado, decisiones y pendientes. Transferir cualquier significado operativo exclusivo de un registro base a su fuente vigente; no copiar propuestas como decisiones.
-5. Actualizar enlaces, consumidores y configuración del adapter. Un traslado sin cambio de cuerpo no requiere nueva aprobación semántica, pero si cambian las proyecciones se recalculan sus huellas y se verifica nuevamente el cierre afectado.
+5. Actualizar enlaces, consumidores y configuración del adapter. Un traslado sin cambio de cuerpo no requiere nueva aprobación semántica, pero si cambia el contenido de un documento se recalculan sus huellas y se verifica nuevamente el cierre afectado.
 6. Registrar evidencia de cierre en el registro base del componente afectado y verificar integridad y autoridad. No retirar los originales antes de comprobar la transición; conservar historia recuperable sin mantener dos fuentes vigentes paralelas.
 
 Esta entrega documenta el procedimiento; no migra proyectos existentes ni modifica Lunes o CSDD Legacy.

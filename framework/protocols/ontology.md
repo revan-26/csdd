@@ -21,7 +21,7 @@ La invocación requiere:
 - incremento o cambio activo, alcance, riesgos y asuntos diferidos identificados; en la primera invocación corresponden al primer slice;
 - decisiones vigentes y, si existe, declaración de First Release con sus activos protegidos. Specs y Backlog no se exigen antes del cierre de definición.
 
-Si estas condiciones no se cumplen, la IA debe identificar qué falta. Un borrador vuelve a la conversación de Genesis; una aprobación comprobable con proyección pendiente requiere recuperación según `genesis.md`, no reapertura semántica del snapshot.
+Si estas condiciones no se cumplen, la IA debe identificar qué falta. Un borrador vuelve a la conversación de Genesis; una aprobación con registro incompleto requiere recuperación según `genesis.md`, no reapertura semántica del contenido aprobado.
 
 ## Responsabilidades
 

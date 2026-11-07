@@ -206,7 +206,7 @@ Implementation puede provocar reentrada selectiva en componentes anteriores. Las
 
 | Cambio | Consumidores principales | Impacto |
 | --- | --- | --- |
-| Recuperación de proyecciones de Genesis | Fuentes derivadas y entrada a Ontology | Completar o reparar sin cambiar el snapshot ni sobrescribir fuentes ya evolucionadas. |
+| Recuperación de una decisión de Genesis interrumpida | Entrada a Ontology | Completar el registro sin cambiar el contenido aprobado ni sobrescribir fuentes ya evolucionadas. |
 | Cambio de canon | Ontology, Mapping e Implementation | Revisar obligaciones y mappings afectados. |
 | Revisión de Ontology | Topology, Mapping e Implementation | Evaluar fronteras, responsabilidades y realizaciones. |
 | Cambio de Topology | Mapping e Implementation | Revisar unidades, destinos y dependencias. |
