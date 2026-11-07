@@ -6,9 +6,6 @@ aprobación del usuario.
 
 ## Automatización y contratos
 
-- Antes de implementar, consultar el scaffold y los estándares locales y comprobar
-  su cumplimiento. Consultar cualquier cambio de una decisión vigente fuera del
-  alcance autorizado.
 - Reservar el LLM para interpretación y juicio semántico: intención, fidelidad,
   contradicciones, hallazgos, razones y límites de evidencia. Usar código
   determinista para preparación, partición, serialización, estructura, validación
@@ -16,96 +13,60 @@ aprobación del usuario.
 - Obtener del runtime IDs de sesión/mensaje y fechas; generar por código referencias
   administrativas y vínculos entre revisiones. No encargar esos valores al LLM para
   después validar su formato o gastar llamadas reparándolos.
-- Vincular el juicio a los archivos o snapshots efectivamente revisados y calcular
-  sus huellas. Una huella posterior no acredita qué se revisó si el contenido cambió.
-- Genesis utiliza una revisión semántica independiente de Genesis y Glossary
-  candidatos antes de aprobación. Administración y cierre se comprueban por código,
-  sin segunda revisión administrativa obligatoria por modelo. Si cambia significado,
-  se revisa el cambio antes de reutilizar conformidad.
+- Vincular el juicio a los archivos efectivamente revisados y calcular sus huellas.
+  Una huella posterior no acredita qué se revisó si el contenido cambió.
+- Cada componente usa una revisión semántica independiente de sus documentos
+  candidatos antes de la aprobación. Administración y cierre se comprueban por
+  código, sin una segunda revisión administrativa por modelo. Si cambia significado,
+  se revisa el cambio antes de reutilizar la conformidad.
 - Exigir exactitud administrativa y evaluar narrativa por significado: sin frases
   obligatorias ni clasificadores de palabras clave. No admitir aliases de claves
   administrativas; sí paráfrasis narrativas fieles.
 - La estructura de los documentos CSDD pertenece al código: los scripts crean el
   esqueleto desde la plantilla; el LLM edita solo el contenido de las secciones y una
   guarda rechaza, antes de escribir, cambios en títulos, IDs o cuerpos aprobados.
-  Glosario, decisiones y hallazgos se escriben mediante comandos con campos planos.
   La administración la escriben solo los scripts.
 - Separar framework, herramientas e integración: el framework define qué se exige
   sin depender de un CLI; las herramientas deterministas son scripts independientes
   del CLI; la integración solo conecta esas piezas con el harness. No poner en la
   integración lógica que pueda vivir en un script.
-- Canon es responsable editorial de toda salida en docs/. Los aportes entre
-  componentes y los informes usan escritura controlada sin reinterpretar ni
-  sobrescribir cuerpos o decisiones protegidos. Explorer investiga y solo escribe
-  su propio informe en docs/support/.
 - Reconciliar contratos, validadores, guardas y evaluadores antes de ejecutar: todas
   las capas deben aplicar el mismo contrato, incluido el cierre.
 
 ## Preservación y recuperación
 
-- Conservar exactamente cuerpos, decisiones e historia protegidos. La libertad de
-  paráfrasis de una proyección no autoriza reescribir contenido aprobado.
+- Conservar exactamente cuerpos, decisiones e historia protegidos. Una paráfrasis
+  fiel no autoriza reescribir contenido aprobado.
 - Recuperar solo el paso incompleto tras inspeccionar las fuentes existentes;
   preservar evolución ajena al cambio, sin regenerar el proyecto desde la historia.
 - La procedencia de aprobación debe provenir de una intervención realmente
   registrada; no inventar aprobaciones ni transcripts.
-- Permitir una entrega inicial y hasta cuatro reparaciones; detenerse por repetición,
-  agotamiento o cambio protegido. No reiniciar sesiones o runtimes para eludirlo.
 
-## Ensayos, recursos y evidencia
+## Pruebas y evidencia
 
-- Definir fixtures, decisiones simuladas, aclaraciones y criterios antes de gastar
-  llamadas. Resolver preguntas solo con esas decisiones; ante una situación no
-  prevista, detenerse y consultar sin improvisar para conseguir el cierre.
 - Probar primero sin modelos lo comprobable mediante código, incluidos acceso a
-  evidencia, contratos y controles de interrupción. No usar ensayos LLM para
+  evidencia, contratos y controles de interrupción. No usar ensayos con modelos para
   descubrir incompatibilidades administrativas evitables.
-- Supervisar los checkpoints y conservar solicitud, decisión y evidencia. Un accept
-  requiere invariantes deterministas y evidencia semántica suficientes; no sustituye
-  las comprobaciones posteriores.
+- Una conversación humana real comprueba utilidad y fidelidad. Un ensayo automatizado
+  con modelos fija antes sus criterios y sus límites de llamadas y tiempo; una prueba
+  manual no los requiere.
 - No rebajar criterios ni ajustar ad hoc ante una respuesta inesperada. Diagnosticar
   si se trata de defecto del producto, del experimento, interrupción o evidencia
   insuficiente antes de proponer otra ejecución.
-- Ejecutar recorridos secuencialmente, con parada ante el primer fallo o situación
-  no prevista y sin reintentos automáticos. Una repetición autorizada es un intento
-  nuevo, no una continuación que reinicie el presupuesto. Conservar reportes,
-  snapshots, transcripts y consumo originales, sin sobrescribir ni reclasificar
-  resultados históricos.
-- Estimar entradas, salidas, revisiones y trabajo repetido y fijar límites antes de
-  ensayos LLM. Si la viabilidad es incierta, probar en pequeño y revisar el consumo
-  observado antes de escalar o prometer una corrida extensa.
-- Validar primero por código; los casos de límites, rechazo y recuperación parten
-  de estados preparados. Una conversación humana real comprueba utilidad y fidelidad.
-  Antes de usar modelos fijar límite de llamadas y tiempo activo para ese caso;
-  no ejecutar tandas extensas ni aumentar límites automáticamente.
-- Contrastar timeouts con tiempos y logs reales; distinguir límite configurado de
-  tiempo activo. Investigar suspensión, transporte y runtime antes de atribuir una
-  ausencia de progreso al modelo.
-- Informar consumo parcial o faltante. Uso ausente no significa cero; coste reportado
-  cero no demuestra gratuidad sin tarifa verificable.
-- Estructura válida, huellas coincidentes o verdict conforme no prueban verdad
+- Estructura válida, huellas coincidentes o veredicto conforme no prueban verdad
   semántica. Procedencia registrada y aprobación simulada no autentican autoridad
-  humana. Pruebas técnicas no acreditan calidad semántica ni robustez estadística;
-  tres ejecuciones solo exploran variabilidad.
-- Compactar sin perder evidencia; distinguir ahorro de esfuerzo de cambios en las
-  condiciones del experimento.
+  humana. Pruebas técnicas no acreditan calidad semántica.
 
 ## Entrega y validación
 
 - La integración con Claude Code vive en el `.claude/` del proyecto que adopta CSDD,
   sin componentes globales del usuario; `install.py` instala y actualiza framework
-  e integración. El adapter OpenCode, su ZIP y su BAT fueron retirados; la historia
-  de git los conserva y no se mantienen.
+  e integración.
 - Las herramientas deterministas nuevas usan Python 3 con biblioteca estándar, sin
   dependencias de terceros.
 - Usar fixtures y runtimes aislados, sin modificar instalaciones globales o proyectos
   adoptantes para facilitar pruebas. Consultar ampliaciones de permisos o cambios
   de condiciones del entorno.
-- Identificar candidatos distribuibles por SHA-256. Si cambia producción, reconstruir
-  el candidato y comprobar instalación y regresiones afectadas, sin heredar
-  aprobaciones anteriores.
-  No es obligatorio repetir siete recorridos con modelos. Repetir un recorrido
-  completo solo si cambia sustancialmente su flujo; conservar evidencia histórica.
 
 ## Alcance autorizado
 
@@ -130,12 +91,11 @@ aprobación del usuario.
   incluso del repositorio actual. Son evidencia, no decisiones. Apoyan toda
   Definición y quedan históricos tras CONSOLIDATION; ninguna decisión o
   justificación indispensable puede residir exclusivamente allí al cerrar.
-- Mantener cuatro agentes: Orchestrator conversa/coordina, Canon interpreta/escribe,
-  Reviewer verifica independientemente y Explorer investiga para Orchestrator
-  o Canon. Encargos acotados, fuentes autorizadas y lectura local/web; Explorer
-  persiste los informes relevantes, bajo responsabilidad editorial de Canon, sin
-  mantenerlos como especificación paralela.
+- Mantener cuatro agentes: Orchestrator conversa y coordina, Canon interpreta y es
+  responsable editorial de toda salida en docs/, Reviewer verifica
+  independientemente y Explorer investiga para Orchestrator o Canon y solo escribe
+  su propio informe en docs/support/. Encargos acotados, fuentes autorizadas y
+  lectura local/web; los informes no se mantienen como especificación paralela.
 - No incorporar Architect, Implementer, coordinador, MCP, ledger ni maquinaria
   Legacy sin cambio explícito de alcance aprobado.
-- No modificar CSDD Legacy, Lunes, Stalwart ni proyectos adoptantes. La
-  optimización de tokens queda pospuesta.
+- No modificar CSDD Legacy, Lunes, Stalwart ni proyectos adoptantes.
