@@ -92,7 +92,7 @@ Para cada candidato elegir una disposición:
 
 Modelar solo lo necesario para el incremento o cambio activo, riesgos visibles y relaciones que puedan cambiar el diseño. Un dominio activo puede declarar reglas, invariantes, estados y transiciones; las secciones no aplicables se omiten.
 
-Cada estado o transición debe tener intención y procedencia. Cada obligación crítica debe declarar disposición, mecanismo, evidencia, responsable y limitaciones.
+Cada regla, invariante, estado o transición debe tener intención y procedencia. Cómo se hace cumplir o se verifica una invariante (mecanismo, evidencia y responsable) es realización técnica y se decide en Topology o después.
 
 ## 5. Relacionar Modelos
 

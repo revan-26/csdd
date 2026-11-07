@@ -2,23 +2,11 @@
 
 status: proposed
 domain_type: domain / subdomain / bounded_context / responsibility
-strategic_classification: core / supporting / generic / undecided
 ontology_revision:
 
 ## Propósito
 
 <Capacidad o responsabilidad de negocio de la que este dominio es dueño.>
-
-## Evidencia De Activación
-
-| Criterio | Evidencia | Procedencia | Confianza |
-| --- | --- | --- | --- |
-| Propósito propio | <evidence> | <reference> | high / medium / low |
-| Lenguaje y conceptos coherentes | <evidence> | <reference> | high / medium / low |
-| Reglas o invariantes propias | <evidence> | <reference> | high / medium / low |
-| Frontera y exclusiones | <evidence> | <reference> | high / medium / low |
-
-No activar desde UI, tablas, servicios, equipos, repositorios o tecnología.
 
 ## Lenguaje Local
 
@@ -42,9 +30,9 @@ No activar desde UI, tablas, servicios, equipos, repositorios o tecnología.
 
 ## Invariantes
 
-| ID | Invariante | Criticidad | Responsable | Disposición | Mecanismo | Evidencia o limitación |
-| --- | --- | --- | --- | --- | --- | --- |
-| `INV-01` | <must remain true> | low / medium / critical | <owner> | enforced / automated_check / manual_check / not_checked | <mechanism> | <evidence or limitation> |
+| ID | Invariante | Procedencia |
+| --- | --- | --- |
+| `INV-01` | <must remain true> | <Genesis, Glossary o decisión de la persona> |
 
 ## Objetos Con Ciclo De Vida
 
@@ -63,12 +51,6 @@ No activar desde UI, tablas, servicios, equipos, repositorios o tecnología.
 ## Contratos Aplicables
 
 <Referencias a contratos semánticos o explicación de por qué no aplican.>
-
-## Evaluación Heurística
-
-| Heurística o prueba | Resultado | Evidencia | Limitación |
-| --- | --- | --- | --- |
-| <heuristic> | supports / weakens / inconclusive / not_applicable | <reference> | <limitation> |
 
 ## Riesgos Y Revisión
 
