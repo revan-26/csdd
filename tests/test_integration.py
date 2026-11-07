@@ -130,6 +130,15 @@ class HumanMessagesTest(unittest.TestCase):
         self.write_log(("human", "uno"), ("human", "dos"))
         self.assertIn("sin el texto del asistente", self.run_script().stdout)
 
+    def test_log_with_one_interrupted_turn_stays_primary(self):
+        self.write_transcript()
+        self.write_log(("human", "hola"), ("assistant", "¿qué necesitas?"), ("human", "un simulador"),
+                       ("human", "para clase"))
+        output = self.run_script().stdout
+        self.assertIn("Fuente: registro de hooks; 1 mensaje(s) sin el texto del asistente", output)
+        self.assertIn("para clase", output)
+        self.assertNotIn("del transcript", output)
+
     def test_no_source_fails(self):
         result = self.run_script()
         self.assertEqual(result.returncode, 1)

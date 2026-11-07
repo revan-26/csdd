@@ -1,9 +1,10 @@
 """Imprime los mensajes de la persona en este proyecto.
 
-La fuente principal es .claude/csdd/state/messages.jsonl, que escriben los hooks. Si falta o
-no trae el texto del asistente, usa como respaldo el transcript .jsonl más reciente de
-~/.claude/projects cuyo cwd es el directorio actual, y lo indica: su formato es interno de
-Claude Code y solo cubre la sesión más reciente.
+La fuente principal es .claude/csdd/state/messages.jsonl, que escriben los hooks. Si a algunos
+mensajes les falta el texto del asistente, por ejemplo tras un turno interrumpido, lo sigue
+usando y lo indica. Si falta o no trae ningún texto del asistente, usa como respaldo el
+transcript .jsonl más reciente de ~/.claude/projects cuyo cwd es el directorio actual, y lo
+indica: su formato es interno de Claude Code y solo cubre la sesión más reciente.
 
 Cada mensaje va precedido del último texto del asistente al que responde, para que respuestas
 como «A» o «justo lo que describes» puedan interpretarse.
@@ -66,30 +67,33 @@ def human_messages(path):
 
 
 def logged_messages(path):
-    """Devuelve los mensajes del registro y si trae el texto del asistente que necesitan."""
-    messages, context, complete = [], "", True
+    """Devuelve los mensajes del registro y cuántos, salvo el primero, no traen texto del asistente."""
+    messages, context, missing = [], "", 0
     for entry in entries(path):
         text = (entry.get("text") or "").strip()
         if entry.get("role") == "assistant":
             context = text or context
         elif entry.get("role") == "human" and text and not NOT_INTENT.match(text):
-            complete = complete and (bool(context) or not messages)
+            missing += bool(messages) and not context
             messages.append((entry.get("at", ""), context, text))
             context = ""
-    return messages, complete
+    return messages, missing
 
 
 def select_messages(log, cwd):
     """Elige la fuente. Devuelve (descripción de la fuente, mensajes)."""
-    logged, complete = logged_messages(log) if log.exists() else ([], False)
-    if logged and complete:
+    logged, missing = logged_messages(log) if log.exists() else ([], 0)
+    if logged and not missing:
         return "registro de hooks", logged
+    note = f"registro de hooks; {missing} mensaje(s) sin el texto del asistente al que responden"
+    if any(context for _, context, _ in logged):
+        return note, logged
     transcript = latest_transcript(cwd)
     if transcript is not None:
         return (f"transcript {transcript.name} (respaldo: formato interno de Claude Code, "
                 "solo la sesión más reciente)"), list(human_messages(transcript))
     if logged:
-        return "registro de hooks, sin el texto del asistente de algunos mensajes", logged
+        return note, logged
     raise SystemExit("No hay registro de mensajes ni transcript de este proyecto")
 
 
