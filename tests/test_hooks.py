@@ -344,8 +344,27 @@ class HookTest(unittest.TestCase):
         self.assert_denied(self.bash(record), "Solo Reviewer")
         self.assert_denied(self.bash("python3 .claude/csdd/scripts/csdd_review.py record otro", REVIEWER), "solo ejecuta")
         self.assert_allowed(self.bash("python3 .claude/csdd/scripts/human_messages.py", REVIEWER))
-        self.assert_denied(self.bash("echo x > a.txt", REVIEWER), "solo ejecuta")
+        self.assert_denied(self.bash("echo x > a.txt", REVIEWER), "solo ejecuta.*solo lectura")
         self.assert_denied(self.bash("ls", CANON), "solo ejecuta")
+
+    def test_read_only_searches_for_orchestrator_and_reviewer(self):
+        allowed = ("ls docs/base", 'grep -n -i -E "DSEER|declaración" "docs/support/informe con espacios.md"',
+                   "grep -rn '^## Mensaje' .claude/csdd/state", "wc -c docs/glossary.md", "head -50 docs/base/GENESIS.md",
+                   "find docs -name '*.md' -type f")
+        for command in allowed:
+            for agent in (None, REVIEWER):
+                with self.subTest(command=command, agent=agent):
+                    self.assert_allowed(self.bash(command, agent))
+        denied = ("grep x docs/glossary.md | tee docs/glossary.md", "ls docs/base; rm docs/glossary.md",
+                  "grep x docs/glossary.md > docs/base/GENESIS.md", 'grep "$(rm docs/glossary.md)" docs',
+                  "grep `rm docs/glossary.md` docs", "find docs/base -delete", "find docs/base -exec rm {} +",
+                  "cat docs/glossary.md", "head docs/glossary.md && rm docs/glossary.md", "grep 'sin cerrar docs/base")
+        for command in denied:
+            with self.subTest(command=command):
+                self.assertEqual(self.bash(command).returncode, 2)
+                self.assertEqual(self.bash(command, REVIEWER).returncode, 2)
+        self.assert_denied(self.bash("grep x docs/glossary.md", CANON), "solo ejecuta")
+        self.assert_denied(self.bash("ls docs", EXPLORER), "solo ejecuta")
 
     def test_guard_fails_closed(self):
         result = subprocess.run([sys.executable, str(self.scripts / "csdd_guard.py")], input="{no es json",

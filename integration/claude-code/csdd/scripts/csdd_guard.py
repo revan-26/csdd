@@ -5,13 +5,15 @@ permiso normal. Ante un error propio rechaza: una guarda rota no autoriza escrit
 
 Sobre Genesis y Glossary simula el resultado de la edición. Sobre Bash es una defensa
 parcial: busca rutas protegidas en el texto del comando y no detecta una ruta construida
-de otra forma.
+de otra forma. Al orquestador y a Reviewer les permite además búsquedas de solo lectura,
+porque Claude Code no les da Grep ni Glob cuando tienen Bash.
 """
 import collections
 import json
 import os
 import pathlib
 import re
+import shlex
 import sys
 
 sys.dont_write_bytecode = True
@@ -41,6 +43,9 @@ READ_SCRIPTS = {
 }
 RECORD_REVIEW = re.compile(r"^record (conforming|non_conforming|insufficient_evidence)$")
 REVISE = ("csdd_doc.py", "revise")
+READ_COMMANDS = ("grep", "ls", "wc", "head", "find")
+FIND_ACTIONS = ("-exec", "-execdir", "-ok", "-okdir", "-delete", "-fprint", "-fprint0", "-fprintf", "-fls")
+EXPANSION = re.compile(r"[$`\\\n]")
 NEW_STRENGTHS = ("propuesto", "supuesto", "diferido")
 UNASSIGNED_LINE = re.compile(r"^\[G-NNN · (\S+) · .+\]$")
 Term = collections.namedtuple("Term", "title section admin strength raw")
@@ -246,16 +251,37 @@ def allowed_script(command, agent, project):
     return bool(allowed and allowed.match(arguments))
 
 
+def read_only(command):
+    """Indica si el comando es una sola búsqueda de solo lectura, sin operadores de shell."""
+    if EXPANSION.search(command):
+        return False
+    try:
+        lexer = shlex.shlex(command, posix=True, punctuation_chars=";&|<>()")
+        lexer.whitespace_split = True
+        tokens = list(lexer)
+    except ValueError:
+        return False
+    if not tokens or tokens[0] not in READ_COMMANDS:
+        return False
+    if any(token and all(c in ";&|<>()" for c in token) for token in tokens):
+        return False
+    return tokens[0] != "find" or not any(token in FIND_ACTIONS for token in tokens)
+
+
 def check_bash(project, command, agent):
     if allowed_script(command, agent, project):
         return None
+    if agent in (None, REVIEWER) and read_only(command):
+        return None
     if agent in (CANON, REVIEWER, EXPLORER):
-        return f"{agent} solo ejecuta los scripts de CSDD, como un único comando python3 .claude/csdd/scripts/<script>.py."
+        searches = " o una búsqueda de solo lectura (grep, ls, wc, head o find, sin operadores de shell)" if agent == REVIEWER else ""
+        return f"{agent} solo ejecuta los scripts de CSDD, como un único comando python3 .claude/csdd/scripts/<script>.py{searches}."
     if "record" in command and "csdd_review" in command:
         return "Solo Reviewer registra veredictos."
     folded = command.casefold()
     if any(token in folded for token in BASH_PROTECTED):
-        return ("Este comando menciona una ruta protegida de CSDD. Lee con Read y encarga los cambios a Canon; "
+        return ("Este comando menciona una ruta protegida de CSDD. Para leer usa Read o una búsqueda de solo lectura "
+                "(grep, ls, wc, head o find, sin operadores de shell) y encarga los cambios a Canon; "
                 "los scripts de CSDD se ejecutan como un único comando python3 .claude/csdd/scripts/<script>.py.")
     return None
 
