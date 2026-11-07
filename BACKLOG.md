@@ -26,13 +26,6 @@ Operativa de aprobación y cierre de Ontology, Topology, Mapping y CONSOLIDATION
 - Fuentes: `framework/protocols/`
 - Depende de: B-005
 
-### Revisión de la historia de git
-[B-007 · propuesto · fr]
-
-Decidir si la historia requiere limpieza antes de publicar el repositorio.
-
-- Fuentes: `OPERATIONS.md`
-
 ### Flujo de evolution
 [B-008 · propuesto · posterior]
 
@@ -48,7 +41,37 @@ Reducir el contexto que reciben los agentes, por ejemplo entregando solo los té
 - Fuentes: `OPERATIONS.md`
 - Razón: OPERATIONS la pospone; se reconsidera con el consumo observado en B-005.
 
+### Comandos de Bash que no nombran una ruta protegida
+[B-013 · propuesto · fr]
+
+La guarda bloquea un comando de Bash del orquestador solo si su texto nombra una ruta protegida, así que uno que la alcanza sin nombrarla, como `rm -rf docs` o `git checkout -- .`, pasa y solo lo frenan los permisos de Claude Code. Decidir si basta la limitación ya documentada en `INSTALL.md` o si se añade una defensa. Cierra con la decisión registrada.
+
+- Fuentes: `integration/claude-code/csdd/scripts/csdd_guard.py`, `INSTALL.md`
+
+### Aprobación contra el veredicto de Reviewer
+[B-014 · diferido · fr]
+
+Decidir si la persona puede aprobar Genesis cuando Reviewer no da conformidad, dejando registradas las observaciones que acepta, ya que hoy la aprobación exige un veredicto conforme. Cierra con la regla registrada o descartada con su razón.
+
+- Fuentes: `framework/CSDD.md`, `integration/claude-code/csdd/scripts/csdd_doc.py`
+- Razón: no se ha observado que Reviewer bloquee una aprobación por error; se reconsidera si ocurre en un caso real.
+
+### Operación de git según el proyecto
+[B-015 · diferido · posterior]
+
+Diseñar cómo registra CSDD en control de versiones los puntos que lo requieran sin imponer un flujo: delegar en el mecanismo del proyecto, como sus convenciones o skills propias, o en uno clásico, y considerar un agente que lo opere solo si los casos reales lo exigen. Cierra con el diseño probado en un caso de Implementation.
+
+- Fuentes: `framework/protocols/implementation.md`
+- Razón: la persona lo difiere hasta trabajar Implementation; mientras tanto la guarda solo evita interferir con el git de cada proyecto.
+
 ## Cerrados Y Descartados
+
+### Revisión de la historia de git
+[B-007 · descartado]
+
+Decidir si la historia requiere limpieza antes de publicar el repositorio.
+
+- Razón: la publicación se hace como una instantánea sin historial, así que la historia de trabajo no se publica.
 
 ### Revisión fundamental de Genesis
 [B-011 · cerrado]
@@ -76,7 +99,7 @@ Comprobar en una sesión real que, sin bloquear `/csdd-approve` ni `/csdd-reject
 
 Script en Python 3 con biblioteca estándar que comprueba los documentos contra sus plantillas: títulos, secciones obligatorias, líneas administrativas, condiciones de Decisión Humana y Materialización, y entradas de Glosario y Backlog. Cierra con pruebas unitarias sobre casos válidos e inválidos preparados.
 
-- Cierre: `tools/csdd_check.py` con 34 pruebas sin modelos en `tools/tests/`, commit `feat(tools): agrega verificador de esqueletos con pruebas`. Las plantillas posteriores a Genesis solo se verifican en estructura hasta normalizar sus convenciones (B-006).
+- Cierre: `tools/csdd_check.py` con 34 pruebas sin modelos, hoy en `tests/test_csdd_check.py`, commit `feat(tools): agrega verificador de esqueletos con pruebas`. Las plantillas posteriores a Genesis solo se verifican en estructura hasta normalizar sus convenciones (B-006).
 
 ### Prototipo mínimo de la integración Claude Code: Genesis
 [B-002 · cerrado]
