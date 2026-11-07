@@ -6,7 +6,9 @@ permiso normal. Ante un error propio rechaza: una guarda rota no autoriza escrit
 Sobre Genesis y Glossary simula el resultado de la edición. Sobre Bash es una defensa
 parcial: busca rutas protegidas en el texto del comando y no detecta una ruta construida
 de otra forma. Al orquestador y a Reviewer les permite además búsquedas de solo lectura,
-porque Claude Code no les da Grep ni Glob cuando tienen Bash.
+porque Claude Code no les da Grep ni Glob cuando tienen Bash. Al orquestador le permite los
+comandos de git que no escriben archivos del proyecto, para no interferir con el flujo de git
+de la persona, cualquiera que sea.
 """
 import collections
 import json
@@ -46,6 +48,7 @@ REVISE = ("csdd_doc.py", "revise")
 READ_COMMANDS = ("grep", "ls", "wc", "head", "find")
 FIND_ACTIONS = ("-exec", "-execdir", "-ok", "-okdir", "-delete", "-fprint", "-fprint0", "-fprintf", "-fls")
 EXPANSION = re.compile(r"[$`\\\n]")
+GIT_SAFE = ("status", "diff", "log", "show", "blame", "ls-files", "add", "commit")
 NEW_STRENGTHS = ("propuesto", "supuesto", "diferido")
 UNASSIGNED_LINE = re.compile(r"^\[G-NNN · (\S+) · .+\]$")
 Term = collections.namedtuple("Term", "title section admin strength raw")
@@ -251,27 +254,42 @@ def allowed_script(command, agent, project):
     return bool(allowed and allowed.match(arguments))
 
 
-def read_only(command):
-    """Indica si el comando es una sola búsqueda de solo lectura, sin operadores de shell."""
+def single_command(command):
+    """Devuelve los tokens de un comando simple, o None si usa operadores o expansiones de shell."""
     if EXPANSION.search(command):
-        return False
+        return None
     try:
         lexer = shlex.shlex(command, posix=True, punctuation_chars=";&|<>()")
         lexer.whitespace_split = True
         tokens = list(lexer)
     except ValueError:
-        return False
-    if not tokens or tokens[0] not in READ_COMMANDS:
-        return False
-    if any(token and all(c in ";&|<>()" for c in token) for token in tokens):
+        return None
+    if not tokens or any(token and all(c in ";&|<>()" for c in token) for token in tokens):
+        return None
+    return tokens
+
+
+def read_only(command):
+    """Indica si el comando es una sola búsqueda de solo lectura, sin operadores de shell."""
+    tokens = single_command(command)
+    if tokens is None or tokens[0] not in READ_COMMANDS:
         return False
     return tokens[0] != "find" or not any(token in FIND_ACTIONS for token in tokens)
+
+
+def safe_git(command):
+    """Indica si el comando es un solo git que no escribe archivos del proyecto."""
+    tokens = single_command(command)
+    return (tokens is not None and len(tokens) > 1 and tokens[0] == "git" and tokens[1] in GIT_SAFE
+            and not any(token.startswith("--output") for token in tokens))
 
 
 def check_bash(project, command, agent):
     if allowed_script(command, agent, project):
         return None
     if agent in (None, REVIEWER) and read_only(command):
+        return None
+    if agent is None and safe_git(command):
         return None
     if agent in (CANON, REVIEWER, EXPLORER):
         searches = " o una búsqueda de solo lectura (grep, ls, wc, head o find, sin operadores de shell)" if agent == REVIEWER else ""

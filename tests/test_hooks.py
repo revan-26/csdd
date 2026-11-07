@@ -366,6 +366,21 @@ class HookTest(unittest.TestCase):
         self.assert_denied(self.bash("grep x docs/glossary.md", CANON), "solo ejecuta")
         self.assert_denied(self.bash("ls docs", EXPLORER), "solo ejecuta")
 
+    def test_git_that_writes_no_project_files_for_orchestrator(self):
+        for command in ("git add docs/base/GENESIS.md docs/glossary.md", "git diff docs/glossary.md",
+                        "git log --oneline -- docs/base", "git show HEAD:docs/base/GENESIS.md",
+                        'git commit -m "docs: aprueba genesis.md" docs/base/GENESIS.md'):
+            with self.subTest(command=command):
+                self.assert_allowed(self.bash(command))
+        for command in ("git checkout -- docs/base/GENESIS.md", "git restore docs/glossary.md",
+                        "git diff --output=docs/glossary.md", "git add docs/glossary.md && rm docs/glossary.md",
+                        "git -C . checkout docs/base"):
+            with self.subTest(command=command):
+                self.assertEqual(self.bash(command).returncode, 2)
+        for agent in (CANON, REVIEWER, EXPLORER):
+            with self.subTest(agent=agent):
+                self.assert_denied(self.bash("git add docs/glossary.md", agent), "solo ejecuta")
+
     def test_guard_fails_closed(self):
         result = subprocess.run([sys.executable, str(self.scripts / "csdd_guard.py")], input="{no es json",
                                 cwd=self.project, env=self.environment, capture_output=True, text=True)

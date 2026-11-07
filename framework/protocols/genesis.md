@@ -58,8 +58,6 @@ Tras aprobación comprobable y revisión semántica conforme de las versiones ac
 
 El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, decisiones bloqueantes resueltas y persistencia comprobada. Se registra stage closed. No se crea Backlog para señalarlo; no se declara V1 implementada ni First Release.
 
-La reparación admite una entrega inicial y hasta cuatro correcciones agrupadas; repetición inválida, agotamiento o modificación protegida detienen la operación. No se elude el límite mediante otra sesión.
-
 ## Revisión y rechazo
 
 Contrastar primero las fuentes vigentes disponibles. Antes de Ontology, Genesis es la fuente pertinente de intención; después se consultan dominios, contratos y otras fuentes actuales. Una feature compatible no obliga a releer historia.
@@ -72,7 +70,7 @@ El rechazo aplica solo a un bloque de revisión: el Genesis inicial se corrige e
 
 ## Recuperación
 
-La integración conserva una constancia de cada aprobación que permite comprobar su procedencia entre sesiones. No autentica identidad humana ni resiste manipulación hostil. Constancia ausente, corrupta o discordante bloquea el cierre; no se reconstruye desde una afirmación del agente.
+La integración conserva una constancia de cada decisión hasta completar su registro. No autentica identidad humana ni resiste manipulación hostil. Constancia ausente, corrupta o discordante bloquea el cierre; no se reconstruye desde una afirmación del agente. Una vez completada la decisión, el registro es el propio Genesis: conservarlo o revisarlo no depende del estado de trabajo de la integración.
 
 Un paso interrumpido entre aprobación y cierre queda señalado de forma persistente y obliga a inspeccionarlo antes de continuar. Solo la integración retira la señal, tras comprobar cierre y referencias o abandono completado. No depende de Backlog.
 
