@@ -19,19 +19,12 @@ Ejecutar el prototipo sobre una copia de un proyecto existente, sin modificar el
 - Depende de: B-002
 
 ### Revisión fundamental de Genesis
-[B-011 · propuesto · fr]
+[B-011 · aceptado · fr]
 
-Operativa por código para añadir un bloque de revisión después de uno cerrado o rechazado, con huella, decisión y cierre acotados al bloque activo y restauración del glosario vigente. Mientras no exista, un Genesis rechazado o cerrado no puede continuar con una propuesta nueva. Cierra cuando sus pruebas deterministas pasan.
+Operativa por código para revisar un Genesis cerrado según «Revisión y rechazo» de `framework/protocols/genesis.md`: bloque nuevo al final con huella, decisión y cierre acotados a él, cuerpo y bloques anteriores congelados, glosario conservado al abrir y restaurado si la revisión se rechaza, y cambios de términos acordados o supuestos solo dentro del bloque. El rechazo deja de aplicar al Genesis inicial. Cierra cuando sus pruebas deterministas pasan.
 
 - Fuentes: `framework/protocols/genesis.md`
 - Depende de: B-002
-
-### Términos de investigación en el glosario
-[B-012 · propuesto · fr]
-
-Decidir si los términos que Genesis toma de una investigación, sin que la persona confirme cada uno, entran al glosario como `supuesto` en lugar de `propuesto`, para que la aprobación de Genesis no los convierta en acordados. Cierra con la regla registrada en `framework/protocols/genesis.md` o descartada con su razón.
-
-- Fuentes: `framework/protocols/genesis.md`
 
 ### Aprobación y cierre de los componentes posteriores a Genesis
 [B-006 · propuesto · fr]
@@ -64,6 +57,13 @@ Reducir el contexto que reciben los agentes, por ejemplo entregando solo los té
 - Razón: OPERATIONS la pospone; se reconsidera con el consumo observado en B-005.
 
 ## Cerrados Y Descartados
+
+### Términos de investigación en el glosario
+[B-012 · cerrado]
+
+Decidir si los términos que Genesis toma de una investigación, sin que la persona confirme cada uno, entran al glosario como `supuesto` en lugar de `propuesto`, para que la aprobación de Genesis no los convierta en acordados. Cierra con la regla registrada en `framework/protocols/genesis.md` o descartada con su razón.
+
+- Cierre: regla en `framework/protocols/genesis.md` («Candidato») y en las convenciones de `framework/templates/README.md`: el vocabulario estándar que pide la persona entra como `supuesto` salvo confirmación explícita, y un supuesto pasa a `propuesto` solo dentro de una revisión (B-011).
 
 ### Hechos de Claude Code no verificados
 [B-003 · cerrado]

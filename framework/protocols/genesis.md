@@ -30,7 +30,7 @@ Lo que no lleva marca lo dijo o decidió la persona. Se marcan en línea solo la
 
 Genesis y Glossary describen el producto y su vocabulario, no el estado del proceso ni la conversación: el cuerpo se congela al aprobar y no debe quedar escrito como candidato, pendiente o en revisión, ni depender de etiquetas de la conversación.
 
-Preparar Glossary como candidato: términos y definiciones presentes en Genesis, sin ampliación por inferencia. Mientras Genesis esté pendiente, el glosario candidato no constituye aprobación de significado. Antes de modificar un glosario vigente, conservar su versión previa para poder abandonar únicamente el cambio candidato.
+Preparar Glossary como candidato: términos y definiciones presentes en Genesis, sin ampliación por inferencia. La persona puede pedir además el vocabulario estándar del dominio dentro del alcance discutido: Explorer lo propone en un informe y sus términos entran como `supuesto`, salvo los que la persona confirme explícitamente. Genesis registra esa decisión y la referencia al informe sin repetir cada término. La aprobación no vuelve acordado un supuesto; se confirma cuando un componente lo necesita y la persona lo valida. Mientras Genesis esté pendiente, el glosario candidato no constituye aprobación de significado. Antes de modificar un glosario vigente, conservar su versión previa para poder abandonar únicamente el cambio candidato.
 
 Los informes de exploración local/web pueden mantenerse en docs/support/ como insumos de toda Definición, sin autoridad propia sobre el alcance. Incorporar las decisiones y su justificación suficiente a las fuentes competentes antes de cerrar CONSOLIDATION; los informes conservan lo observado como antecedente. Los diferidos del proyecto permanecen en Genesis y fuentes competentes, no en support/.
 
@@ -42,7 +42,7 @@ Corregir en una sola tanda los hallazgos concretos de una revisión. Las observa
 
 La conformidad se vincula al contenido exacto examinado, acotado al bloque activo y Glossary; Reviewer registra únicamente juicio semántico. Un cambio posterior de ese contenido invalida la conformidad; la nueva revisión se limita al cambio.
 
-Presentar Genesis y Glossary para aprobar, corregir o rechazar. La persona puede no leer el documento completo, por lo que la presentación indica las decisiones registradas, las inferencias y términos que la aprobación convierte en acordados, las observaciones de la revisión y lo cambiado desde la presentación anterior. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no presentar la aprobación anterior como aceptación del cambio.
+Presentar Genesis y Glossary para aprobar o corregir. La persona puede no leer el documento completo, por lo que la presentación indica las decisiones registradas, las inferencias, los términos que la aprobación convierte en acordados, cuántos supuestos quedan sin confirmar, las observaciones de la revisión y lo cambiado desde la presentación anterior. La aprobación identifica persona declarada, intervención humana y revisión exacta del cuerpo de Genesis; el vocabulario presentado se vincula a esa revisión y al reporte de sus versiones. Si cambia el candidato o el glosario, no presentar la aprobación anterior como aceptación del cambio.
 
 El cuerpo comprende título y secciones anteriores a Decisión Humana. Metadatos de decisión y materialización quedan fuera de esa huella. La aprobación no autoriza automáticamente Ontology, decisiones técnicas o implementación.
 
@@ -50,7 +50,7 @@ La aprobación debe provenir de una intervención humana registrada mediante un 
 
 ## Escritura y cierre
 
-La estructura del documento pertenece al código: el esqueleto se crea desde la plantilla y el agente redacta solo el contenido de las secciones. Títulos, IDs, fechas, procedencia administrativa (sesión, mensaje y aprobación) y referencias los genera y protege la integración; un cambio que los altere se rechaza antes de escribirse. Las entradas de Glossary se registran una a una, sin afectar las no mencionadas. Una revisión fundamental se añade como bloque nuevo, sin reescribir los anteriores.
+La estructura del documento pertenece al código: el esqueleto se crea desde la plantilla y el agente redacta solo el contenido de las secciones. Títulos, IDs, fechas, procedencia administrativa (sesión, mensaje y aprobación) y referencias los genera y protege la integración; un cambio que los altere se rechaza antes de escribirse. Las entradas de Glossary se registran una a una, sin afectar las no mencionadas. Todo cambio a un Genesis cerrado se añade como bloque de revisión, sin reescribir los anteriores.
 
 Tras aprobación comprobable y revisión semántica conforme de las versiones actuales, el código completa Materialización con referencias de Genesis/Glossary, reporte real y límites. La escritura de administración no obliga a otra revisión LLM.
 
@@ -58,13 +58,15 @@ El cierre exige cuerpo aprobado intacto, glosario fiel, revisión suficiente, de
 
 La reparación admite una entrega inicial y hasta cuatro correcciones agrupadas; repetición inválida, agotamiento o modificación protegida detienen la operación. No se elude el límite mediante otra sesión.
 
-## Revisión fundamental y rechazo
+## Revisión y rechazo
 
 Contrastar primero las fuentes vigentes disponibles. Antes de Ontology, Genesis es la fuente pertinente de intención; después se consultan dominios, contratos y otras fuentes actuales. Una feature compatible no obliga a releer historia.
 
-Cambios de propósito, destinatarios o límites fundamentales requieren nueva propuesta y aprobación propia. Añadir un bloque Revisión de GENESIS con identidad generada desde el runtime, después de un bloque cerrado o rechazado y abandonado. Preservar completos cuerpo y decisión anteriores. No regenerar fuentes posteriores ni reiniciar el proyecto.
+Todo cambio a un Genesis cerrado, fundamental o no, es una propuesta con aprobación propia; los cambios de propósito, destinatarios o límites fundamentales son su caso principal. El código añade al final un bloque Revisión De GENESIS con identidad propia, después de un bloque cerrado o de una revisión abandonada. El bloque registra motivo, acuerdos sustituidos, impactos y pendientes, con Decisión Humana y Materialización propias. Cuerpo, bloques y decisiones anteriores se preservan intactos: el Genesis vigente es el cuerpo con sus revisiones aprobadas, en orden. No regenerar fuentes posteriores ni reiniciar el proyecto.
 
-El rechazo registra intervención real y disposition abandoned sin aprobar. Conserva el bloque, restaura exclusivamente el candidato de Glossary cuando corresponda y no altera canon vigente. Una propuesta posterior tiene identidad propia. Si hay evolución ajena que impide restauración segura, detenerse y consultar.
+Al abrir el bloque se conserva el glosario vigente. Dentro de la revisión pueden añadirse términos, corregirse la definición de un término acordado manteniendo título e ID, deprecarse uno cuyo concepto cambió para reemplazarlo por otro, y pasar a propuesto un supuesto que la persona confirmó. La revisión semántica y la aprobación se acotan al bloque activo y al glosario; la aprobación pasa a acordado los términos propuestos.
+
+El rechazo aplica solo a un bloque de revisión: el Genesis inicial se corrige en la conversación hasta que la persona lo aprueba. Registra intervención real y disposition abandoned sin aprobar, conserva el bloque, restaura el glosario conservado y no altera canon vigente. Una propuesta posterior es otro bloque. Si hay evolución ajena que impide restaurar con seguridad, detenerse y consultar.
 
 ## Recuperación
 
