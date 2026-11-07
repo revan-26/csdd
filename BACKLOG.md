@@ -2,6 +2,21 @@
 
 ## Ítems
 
+### Prueba del método Ontology
+[B-016 · aceptado · fr]
+
+Conversación real de Ontology sobre una copia de un Genesis aprobado de prueba, con skill y agentes provisionales, sin guarda ni hooks, siguiendo `framework/protocols/ontology.md`. Evalúa utilidad, fidelidad al Genesis y proporción del paquete, no la operativa mecánica. Cierra con el registro de observaciones y los ajustes de protocolo y plantillas que resulten.
+
+- Fuentes: `framework/protocols/ontology.md`, `framework/templates/`
+
+### Integración de Ontology
+[B-017 · propuesto · fr]
+
+Operativa por código de Ontology en la integración Claude Code: `ONTOLOGY.md` como registro por bloques y dominios y contratos como documentos vivos, creados desde sus plantillas; aprobación y rechazo del paquete con huellas, restaurando dominios, contratos y glosario al rechazar; guarda que limita su escritura a Canon con un bloque abierto y abre el glosario mientras haya un bloque en curso; agentes por rol que leen los criterios en el protocolo de la fase activa; y scripts generalizados en lugar de duplicados. Cierra cuando sus pruebas deterministas pasan y una sesión real con Claude Code completa un bloque.
+
+- Fuentes: `framework/protocols/ontology.md`, `integration/claude-code/`
+- Depende de: B-016
+
 ### Lanzador de Python en Windows
 [B-004 · propuesto · fr]
 
@@ -18,10 +33,10 @@ Ejecutar el prototipo sobre una copia de un proyecto existente, sin modificar el
 - Fuentes: `OPERATIONS.md`
 - Depende de: B-002
 
-### Aprobación y cierre de los componentes posteriores a Genesis
+### Aprobación y cierre de los componentes posteriores a Ontology
 [B-006 · propuesto · fr]
 
-Operativa de aprobación y cierre de Ontology, Topology, Mapping y CONSOLIDATION, incluido el uso de contratos en un caso material y la normalización de sus plantillas a las convenciones de `framework/templates/README.md`.
+Ítem provisional que agrupa la operativa de aprobación y cierre de Topology, Mapping y CONSOLIDATION, incluida la normalización de sus plantillas a las convenciones de `framework/templates/README.md`. Cada fase se abre como ítems propios cuando se trabaja y sale de este. Cierra cuando no le queda ninguna fase.
 
 - Fuentes: `framework/protocols/`
 - Depende de: B-005
@@ -38,8 +53,8 @@ Diseñar la unidad de cambio, la revisión previa a la integración y la políti
 
 Reducir el contexto que reciben los agentes, por ejemplo entregando solo los términos pertinentes del glosario.
 
-- Fuentes: `OPERATIONS.md`
-- Razón: OPERATIONS la pospone; se reconsidera con el consumo observado en B-005.
+- Fuentes: `integration/claude-code/agents/`
+- Razón: se pospone hasta observar el consumo real; se reconsidera con el consumo observado en B-005.
 
 ### Comandos de Bash que no nombran una ruta protegida
 [B-013 · propuesto · fr]
