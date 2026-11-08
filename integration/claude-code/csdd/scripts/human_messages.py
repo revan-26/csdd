@@ -15,7 +15,6 @@ import pathlib
 import re
 
 LOG = pathlib.Path(".claude/csdd/state/messages.jsonl")
-CONTEXT_LIMIT = 4000
 NOT_INTENT = re.compile(r"^/(csdd-approve|csdd-reject)\b|^/\S+$")
 SKIPPED_PREFIXES = ("<command-", "<local-command", "<task-notification")
 
@@ -103,8 +102,6 @@ def main():
     for n, (stamp, context, text) in enumerate(messages, 1):
         print(f"## Mensaje {n} ({stamp})\n")
         if context:
-            if len(context) > CONTEXT_LIMIT:
-                context = context[:CONTEXT_LIMIT] + " […]"
             print(f"### Responde a (asistente)\n\n{context}\n")
         print(f"### Persona\n\n{text}\n")
 
