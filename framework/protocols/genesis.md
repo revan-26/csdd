@@ -38,7 +38,7 @@ Los informes de exploración local/web pueden mantenerse en docs/support/ como i
 
 Una revisión semántica independiente contrasta el candidato y Glossary con la intención y decisiones humanas: fidelidad, reglas preservadas, alcance, inferencias explícitas y ausencia de contradicciones bloqueantes. No requiere documentos futuros ni aprobación previa del candidato.
 
-Corregir en una sola tanda los hallazgos concretos de una revisión. Las observaciones no bloqueantes se presentan a la persona con el candidato, sin abrir otra ronda; un gusto editorial no bloquea. La revisión no sustituye autoridad humana ni demuestra implementación.
+Corregir en una sola tanda los hallazgos concretos de una revisión. Las observaciones no bloqueantes se presentan a la persona con el candidato, sin abrir otra ronda; un gusto editorial no bloquea. Un hallazgo se pregunta a la persona solo si su corrección cambia significado; el resto lo corrige Canon y se informa en la presentación. La revisión no sustituye autoridad humana ni demuestra implementación.
 
 La conformidad se vincula al contenido exacto examinado, acotado al bloque activo y Glossary; Reviewer registra únicamente juicio semántico. Un cambio posterior de ese contenido invalida la conformidad; la nueva revisión se limita al cambio.
 

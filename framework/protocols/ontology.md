@@ -92,7 +92,7 @@ Para cada candidato elegir una disposición:
 
 Modelar solo lo necesario para el incremento o cambio activo, riesgos visibles y relaciones que puedan cambiar el diseño. Un dominio activo puede declarar reglas, invariantes, estados y transiciones; las secciones no aplicables se omiten.
 
-Cada regla, invariante, estado o transición debe tener intención y procedencia. Cómo se hace cumplir o se verifica una invariante (mecanismo, evidencia y responsable) es realización técnica y se decide en Topology o después.
+Cada regla, invariante, estado o transición debe tener respaldo en Genesis, Glossary o una decisión de la persona. Lo que no lleva marca lo tiene; se marcan en línea solo las propuestas del asistente y las inferencias, estas con referencia a su informe. El paquete describe el modelo, no el estado del proceso ni la conversación: no queda escrito como candidato, pendiente o en revisión. Cómo se hace cumplir o se verifica una invariante (mecanismo, evidencia y responsable) es realización técnica y se decide en Topology o después.
 
 ## 5. Relacionar Modelos
 
@@ -124,7 +124,11 @@ Comprobar que dominios y contratos respeten la intención aprobada y no contradi
 
 Una evolución compatible no requiere leer ni actualizar Genesis. Si cambia fundamentos o falta procedencia necesaria, Canon activa la consulta selectiva según `../CSDD.md`; una nueva revisión preserva decisiones anteriores.
 
-Formalizar reglas de Genesis en dominios o contratos sin reescribir el registro aprobado. El paquete identifica procedencia y destino normativo vigente. Specs se consolidará al cierre mediante síntesis y referencias, no como catálogo paralelo. En reentradas conservar significado y referencias al transferir una regla; cambios semánticos necesitan decisión humana.
+Formalizar reglas de Genesis en dominios o contratos sin reescribir el registro aprobado. `ONTOLOGY.md` registra el destino normativo de las reglas de Genesis, con referencias y sin repetirlas, y cada contradicción con su clasificación, la fuente que cambia y la decisión; no registra confirmaciones de la persona. Specs se consolidará al cierre mediante síntesis y referencias, no como catálogo paralelo. En reentradas conservar significado y referencias al transferir una regla; cambios semánticos necesitan decisión humana.
+
+## Revisión
+
+La revisión semántica independiente del paquete sigue «Revisión y aprobación» de `genesis.md`, aplicada a `ONTOLOGY.md`, dominios, contratos y Glossary, con los criterios de Readiness.
 
 ## Readiness
 
