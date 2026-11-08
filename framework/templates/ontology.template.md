@@ -17,10 +17,6 @@ prepared_by:
 
 ### Excluye
 
-## Síntesis Conceptual
-
-<Conceptos, relaciones, capacidades y límites que deben conservar un significado coherente.>
-
 ## Candidatos Evaluados
 
 | Candidato | Tipo propuesto | Disposición | Evidencia | Limitación o decisión pendiente |
@@ -51,9 +47,9 @@ Si no existen dominios activos, declarar por qué el alcance se explica con el m
 
 ## Restricciones Transferidas A Topology
 
-| Restricción o pregunta | Consecuencia | Procedencia | Disposición | Fuente |
-| --- | --- | --- | --- | --- |
-| <restriction> | <consequence> | <source> | pendiente / diferida | <reference> |
+| Restricción o pregunta | Consecuencia | Disposición | Fuente |
+| --- | --- | --- | --- |
+| <restriction> | <consequence> | pendiente / diferida | <reference> |
 
 ## Evaluación Heurística
 
@@ -61,7 +57,7 @@ Si no existen dominios activos, declarar por qué el alcance se explica con el m
 
 ## Reconciliación
 
-<Formalización de la intención aprobada y cambios de Glossary, dominios y contratos. Identificar ubicación vigente de reglas y obligaciones; no duplicar catálogos en el registro base ni exigir Specs/Backlog prematuros.>
+<Destino normativo de las reglas de Genesis, con referencias y sin repetirlas. Cada contradicción con Genesis, Glossary o decisiones vigentes: clasificación (deriva, deuda o cambio_intencional), fuente que cambia y decisión. No registrar confirmaciones ni exigir Specs/Backlog prematuros.>
 
 ## Riesgos Y Asuntos Diferidos
 

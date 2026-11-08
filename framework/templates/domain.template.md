@@ -10,6 +10,8 @@ ontology_revision:
 
 ## Lenguaje Local
 
+<Solo términos con un matiz propio de este dominio; la definición vive en el glosario.>
+
 | Término | Significado en este dominio | Contraste o límite | Referencia global |
 | --- | --- | --- | --- |
 | <term> | <meaning> | <contrast> | <GLOSSARY entry> |
@@ -26,13 +28,13 @@ ontology_revision:
 
 ## Reglas
 
-- `RULE-01`: <regla observable y su procedencia>.
+- `RULE-01`: <regla observable>.
 
 ## Invariantes
 
-| ID | Invariante | Procedencia |
-| --- | --- | --- |
-| `INV-01` | <must remain true> | <Genesis, Glossary o decisión de la persona> |
+| ID | Invariante |
+| --- | --- |
+| `INV-01` | <must remain true> |
 
 ## Objetos Con Ciclo De Vida
 

@@ -2,20 +2,20 @@
 
 ## Ítems
 
-### Prueba del método Ontology
-[B-016 · aceptado · fr]
-
-Conversación real de Ontology sobre una copia de un Genesis aprobado de prueba, con skill y agentes provisionales, sin guarda ni hooks, siguiendo `framework/protocols/ontology.md`. Evalúa utilidad, fidelidad al Genesis y proporción del paquete, no la operativa mecánica. Cierra con el registro de observaciones y los ajustes de protocolo y plantillas que resulten.
-
-- Fuentes: `framework/protocols/ontology.md`, `framework/templates/`
-
 ### Integración de Ontology
 [B-017 · propuesto · fr]
 
-Operativa por código de Ontology en la integración Claude Code: `ONTOLOGY.md` como registro por bloques y dominios y contratos como documentos vivos, creados desde sus plantillas; aprobación y rechazo del paquete con huellas, restaurando dominios, contratos y glosario al rechazar; guarda que limita su escritura a Canon con un bloque abierto y abre el glosario mientras haya un bloque en curso; agentes por rol que leen los criterios en el protocolo de la fase activa; y scripts generalizados en lugar de duplicados. Cierra cuando sus pruebas deterministas pasan y una sesión real con Claude Code completa un bloque.
+Operativa por código de Ontology en la integración Claude Code: `ONTOLOGY.md` como registro por bloques y dominios y contratos como documentos vivos, creados desde sus plantillas; aprobación y rechazo del paquete con huellas, restaurando dominios, contratos y glosario al rechazar; guarda que limita su escritura a Canon con un bloque abierto y abre el glosario mientras haya un bloque en curso; agentes por rol que leen los criterios en el protocolo de la fase activa; y scripts generalizados en lugar de duplicados, incluido `csdd_review.py` con constancia, huella y diff para que una nueva revisión se limite al cambio. Cierra cuando sus pruebas deterministas pasan y una sesión real con Claude Code completa un bloque, registrando cuántas rondas de revisión y cuánto tiempo requiere.
 
 - Fuentes: `framework/protocols/ontology.md`, `integration/claude-code/`
 - Depende de: B-016
+
+### Lectura de PDF en Explorer
+[B-018 · propuesto · fr]
+
+Explorer no puede leer las fuentes primarias publicadas en PDF, como el Manual de Contabilidad de la SBS, y sus informes quedan basados en resúmenes de búsqueda. Decidir cómo obtiene el texto sin instalar herramientas en el equipo de la persona sin su autorización. Cierra con la lectura comprobada de un PDF real o la limitación documentada.
+
+- Fuentes: `integration/claude-code/agents/csdd-explorer.md`, `framework/protocols/entry.md`
 
 ### Lanzador de Python en Windows
 [B-004 · propuesto · fr]
@@ -80,6 +80,13 @@ Diseñar cómo registra CSDD en control de versiones los puntos que lo requieran
 - Razón: la persona lo difiere hasta trabajar Implementation; mientras tanto la guarda solo evita interferir con el git de cada proyecto.
 
 ## Cerrados Y Descartados
+
+### Prueba del método Ontology
+[B-016 · cerrado]
+
+Conversación real de Ontology sobre una copia de un Genesis aprobado de prueba, con skill y agentes provisionales, sin guarda ni hooks, siguiendo `framework/protocols/ontology.md`. Evalúa utilidad, fidelidad al Genesis y proporción del paquete, no la operativa mecánica. Cierra con el registro de observaciones y los ajustes de protocolo y plantillas que resulten.
+
+- Cierre: una conversación de prueba sobre el Genesis del ERP de microfinanzas, aprobada tras seis revisiones; ajustes en `b7affa6`: marcas solo en las excepciones, paquete sin estado del proceso, `ONTOLOGY.md` sin síntesis ni registro de confirmaciones, lenguaje local con matiz propio y revisión según `genesis.md`, que pregunta a la persona solo los hallazgos que cambian significado.
 
 ### Revisión de la historia de git
 [B-007 · descartado]
