@@ -57,6 +57,19 @@ aprobación del usuario.
   semántica. Procedencia registrada y aprobación simulada no autentican autoridad
   humana. Pruebas técnicas no acreditan calidad semántica.
 
+## Avance por componente
+
+- Cada componente avanza en dos pasos: una prueba del método con integración
+  provisional y los ajustes del framework que resulten; después, su integración por
+  código con pruebas deterministas y una sesión real.
+- Al preparar la integración provisional de un componente se aplican las lecciones
+  ya adoptadas en los anteriores.
+- Un componente se congela cuando el trabajo pasa al siguiente; el último merge
+  previo se marca con un tag anotado `hito-<componente>-<n>`, y lo que queda
+  pendiente sigue en el backlog.
+- Volver a un componente congelado no lo reabre: el cambio se hace desde un ítem
+  del backlog o como ajuste explícito del ítem que lo motiva.
+
 ## Entrega y validación
 
 - La integración con Claude Code vive en el `.claude/` del proyecto que adopta CSDD,
