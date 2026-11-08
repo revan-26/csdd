@@ -139,6 +139,13 @@ class HumanMessagesTest(unittest.TestCase):
         self.assertIn("para clase", output)
         self.assertNotIn("del transcript", output)
 
+    def test_long_assistant_text_is_kept_whole(self):
+        question = "contexto " * 600 + "regla f: no impedir un titular grupal"
+        self.write_log(("human", "hola"), ("assistant", question), ("human", "correcto"))
+        output = self.run_script().stdout
+        self.assertIn("regla f: no impedir un titular grupal", output)
+        self.assertNotIn("[…]", output)
+
     def test_no_source_fails(self):
         result = self.run_script()
         self.assertEqual(result.returncode, 1)
